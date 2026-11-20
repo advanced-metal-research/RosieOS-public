@@ -1,0 +1,16 @@
+{
+  "schema": "amr.rosie-winding-entry-distance-result.v1",
+  "verdict": "passed",
+  "verdict_scope": "focused_free_space_suite_only",
+  "source_revision": "262612cdf75b81db409a038f9ecc71324dce87a5",
+  "source_archive_sha256": "a959703e160cbaff983cf4196663233cf1f942a6913290623222f9bb19cb2dd5",
+  "runtime": "agent/thor-sm110-runtime-pin@f352f7913fba570ccebdb4781e0b93fd4e802cd1",
+  "hardware": "thor-a NVIDIA Thor sm_110",
+  "test": "tests/motion_planner/test_freespace.py",
+  "result": "20 passed, 27 warnings in 109.67s",
+  "retained_log": "/home/operator/AMR/.experiments/rosie-winding-262612c/attempt-2.log",
+  "retained_exit": "/home/operator/AMR/.experiments/rosie-winding-262612c/attempt-2.exit",
+  "repair": "Rank each legal whole-turn winding by distance from the seam-entry knot while preserving whole-seam legality and roadmap reachability.",
+  "forbidden_claim": "This focused pass does not establish the complete repository suite or physical motion validity.",
+  "execution_authority": "none"
+}

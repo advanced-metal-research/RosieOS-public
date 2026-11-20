@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OLP scene snapshot</title>
+    <!--
+      Headless scene snapshots (cli/v1/src/lib/snapshot): OLP's own
+      WorkstationRenderer on a bare stage, driven by window.olpSnapshot
+      (src/snapshot.ts). No app shell, no polling, no network beyond the
+      robot assets next to this page.
+    -->
+    <style>
+      html, body { margin: 0; padding: 0; background: #cfd2d5; overflow: hidden; }
+      #workstation-stage { position: relative; width: 1280px; height: 800px; overflow: hidden; }
+      #workstation-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #orbit-pane { position: absolute; inset: 0; }
+      #world-axis-indicator { position: absolute; left: 8px; bottom: 8px; width: 92px; height: 92px; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="workstation-stage" data-snapshot-state="booting">
+      <canvas id="workstation-canvas"></canvas>
+      <div id="orbit-pane"></div>
+      <canvas id="world-axis-indicator"></canvas>
+      <div id="j6-pane" hidden></div>
+      <div id="tcp-pane" hidden></div>
+    </div>
+    <script type="module" src="./src/snapshot.ts"></script>
+  </body>
+</html>

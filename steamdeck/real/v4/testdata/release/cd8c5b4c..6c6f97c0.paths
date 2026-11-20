@@ -1,0 +1,17 @@
+# git diff --name-only cd8c5b4c9a48f7dfd69bce4daf35fde0b41ed1e6 6c6f97c0954cb7f40ad7480aa4b2ad65016fa424
+CLAUDE.md
+docs/EXAMPLE-1430-COMMISSIONING.md
+offline-programming/v1/docs/RT_CORE_EXECUTION.md
+offline-programming/v1/internal/targets/cells_test.go
+rt-core/AGENTS.md
+rt-core/config/cells/example-arm-1420.json
+rt-core/config/machines/example-arm-1430-cartesian-recovery-range-trial.json
+rt-core/config/machines/example-arm-1430-j6-verified-delta-trial.json
+rt-core/config/machines/example-arm-1430.json
+rt-core/config/templates/machine.json
+rt-core/docs/CONTRACTS.md
+rt-core/docs/drives/a6ec/README.md
+rt-core/tools/rtctl/feedforward_test.go
+rt-core/tools/rtctl/render.go
+rt-core/tools/rtctl/robot_definition.go
+steamdeck/real/v5/README.md

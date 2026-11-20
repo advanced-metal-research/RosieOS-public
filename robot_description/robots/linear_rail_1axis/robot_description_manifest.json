@@ -1,0 +1,7 @@
+{
+  "schema": "rosie.robot-manifest.v1",
+  "model_id": "linear_rail_1axis",
+  "files": [
+    "rtcore_definition.json"
+  ]
+}

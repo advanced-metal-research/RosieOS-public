@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "program_id": "robot-v4-tour-collision-rejection-demo",
+  "program_reference_only": true,
+  "rows_omitted_by_client": true,
+  "execution_mode": "dry_run",
+  "simulation_only": true,
+  "samples_per_segment": 5
+}

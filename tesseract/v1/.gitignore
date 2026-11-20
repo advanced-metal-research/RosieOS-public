@@ -1,0 +1,5 @@
+.pixi
+.pixi/
+exports/*
+!exports/
+!exports/rosie_1400_v3_dense_csp.json

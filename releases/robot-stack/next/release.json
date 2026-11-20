@@ -1,0 +1,77 @@
+{
+  "schema": "rosie.robot-stack.release.v1",
+  "release": "robot-stack-next",
+  "platform": "mixed-linux-amd64-arm64-draft",
+  "composition": "DRAFT: native rt-core package only; native Cartesian and pendant releases require separate qualification and pins",
+  "upgrade_policy": "explicit component selection and per-consumer qualification; no automatic fleet upgrade",
+  "deployment_control_plane": "daemon/v1 remains an external installed prerequisite; no daemon/CD artifact or upgrade is bundled",
+  "compatibility": "Native control API only. Historical v0.1.0 qualification does not carry forward; published v4 releases remain rollback artifacts.",
+  "external_references": {
+    "cell_configuration": "required: owner-selected version and content hash at deployment",
+    "home_reference": "required: owner-selected version and content hash at deployment",
+    "rt_core_configuration_digest": {
+      "sha256": "486b450e35121cee77d1983accc086e87ad965e461e964923685cc6d37af917f",
+      "configuration": "rt-core/config/machines/bench/rosie1420-six-motors.json",
+      "status": "Current six-motor LA bench candidate compiled 2026-09-22 with joint limits, speed ratings, coordinate evidence mode and Home policy inherited from the pinned Rosie 1420 definition. This replaces the retired nine-axis configuration reference only; historical package receipts below do not qualify this candidate or an assembled robot. Deployment must use matching compiled artifacts and independently verified live identity."
+    }
+  },
+  "qualification": "Draft only. Inherited qualification files describe the previous v0.1.0 composition and do not qualify this replacement. No robot execution or physical claim.",
+  "qualification_files": [
+    "rosie/ISSUE46-CLOSEOUT.md",
+    "rosie/OPERATOR-RUNBOOK.md"
+  ],
+  "release_files": [
+    "releases/robot-stack/v0.1.0/BUILD-OBSERVATIONS.txt",
+    "releases/robot-stack/v0.1.0/AGENT-HANDOFF.md"
+  ],
+  "components": [
+    {
+      "name": "rosie-rt-core",
+      "role": "realtime-core",
+      "version": "0.1.0",
+      "release_tag": "rt-core-v0.1.0",
+      "wire_family": "control.sock HTTP/JSON application v1 (contract_version=1, rosie.rt-control.request.v1/response.v1); jog.sock datagram and WSS /v1/jog local_jog_update; private native IPC 1.7; EtherCAT PDO/SDO; daemon and adapter have no native NATS subjects; optional observer emits compatibility v4-shape robot.v4.rtcore.status.v1 and robot.v4.rtcore.telemetry.batch.v1 on robot/v4/rtcore.<host>.status and robot/v4/rtcore.<host>.telemetry.batch; no NATS command ingress",
+      "runtime_requirements": "Linux amd64 ELF (EM_X86_64); measured packaged artifacts; backend=live; bin/rosie-rt-core interpreter=/lib64/ld-linux-x86-64.so.2 NEEDED=libc.so.6,libethercat.so.1,libgcc_s.so.1,libm.so.6,libstdc++.so.6 required symbol versions=CXXABI_1.3,CXXABI_1.3.8,CXXABI_1.3.9,GCC_3.0,GLIBCXX_3.4,GLIBCXX_3.4.11,GLIBCXX_3.4.20,GLIBCXX_3.4.21,GLIBCXX_3.4.22,GLIBCXX_3.4.26,GLIBCXX_3.4.29,GLIBCXX_3.4.9,GLIBC_2.10,GLIBC_2.14,GLIBC_2.17,GLIBC_2.2.5,GLIBC_2.25,GLIBC_2.27,GLIBC_2.3.4,GLIBC_2.32,GLIBC_2.33,GLIBC_2.34,GLIBC_2.4,GLIBC_2.6,GLIBC_2.7,LIBETHERCAT_1.5.2,LIBETHERCAT_1.5.3,LIBETHERCAT_1.6; bin/rt-control interpreter=/lib64/ld-linux-x86-64.so.2 NEEDED=libc.so.6 required symbol versions=GLIBC_2.2.5,GLIBC_2.3.2,GLIBC_2.3.4,GLIBC_2.32,GLIBC_2.34; bin/rt-natspublisher interpreter=/lib64/ld-linux-x86-64.so.2 NEEDED=libc.so.6 required symbol versions=GLIBC_2.2.5,GLIBC_2.3.2,GLIBC_2.3.4,GLIBC_2.32,GLIBC_2.34; bin/rt-package no dynamic dependencies; bin/rtctl interpreter=/lib64/ld-linux-x86-64.so.2 NEEDED=libc.so.6 required symbol versions=GLIBC_2.2.5,GLIBC_2.3.2,GLIBC_2.3.4,GLIBC_2.32,GLIBC_2.34; lib/libethercat.so.1 NEEDED=libc.so.6 required symbol versions=GLIBC_2.14,GLIBC_2.2.5,GLIBC_2.3.4,GLIBC_2.4; live operation requires external matching IgH kernel master, PREEMPT_RT and qualified cell wiring; optional publisher requires external NATS authorization/endpoints; target loader and hardware qualification not established",
+      "artifact": "bin/rosie-rt-core",
+      "sha256": "f5c344cadeb83882ac31a201e96075ad8d750e258dff938e29309c270e9b3cdf",
+      "source": "bdc7a73561eaa25adfd932520278f5a172a30337",
+      "toolchain": "go version go1.26.2 linux/amd64; g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+      "source_files": [
+        "rt-core/Makefile",
+        "rt-core/tools/build-igh-userlib.sh",
+        "rt-core/go.mod",
+        "rt-core/go.sum",
+        "rt-core/tools/package-runtime.sh",
+        "rt-core/tools/packageinfo/component.go",
+        "rt-core/tools/packageinfo/main.go",
+        "rt-core/tools/packageinfo/git.sh",
+        "rt-core/tools/verify-package.sh",
+        "rt-core/host/rosie-rt-core.service",
+        "rt-core/host/rosie-rt-control.service",
+        "rt-core/host/rosie-rt-natspublisher.service"
+      ],
+      "receipts": [
+        "build.log",
+        "MANIFEST.json",
+        "verify-package.log",
+        "rosie-rt-core-0.1.0-linux-amd64.tar.gz"
+      ]
+    }
+  ],
+  "receipt_sha256": {
+    "rosie-rt-core": {
+      "build.log": "a4dd5c8f364ab86c87c4bf177cc8764ae76ba871c9a3182b5ec73a54b574e8b5",
+      "MANIFEST.json": "b2a0ca0314917e962cbfa5105dcfea0d95c0ca69099c7c6697a122183a5656b5",
+      "verify-package.log": "796236692726b367ca3f52bd322132d247294e4d64dfc548c26698300a2f68b3",
+      "rosie-rt-core-0.1.0-linux-amd64.tar.gz": "31e2093dfdb6c988a5fe6f3507e1656f4e4e449deb29a19a1a75a87d8e04e9b5"
+    }
+  },
+  "rt_core_artifact_status": {
+    "status": "host-produced-unpublished",
+    "producer": "Windows 11 / WSL Ubuntu-22.04 linux-amd64; no arm64 rt-core output present in this worktree",
+    "backend": "live",
+    "archive": "rosie-rt-core-0.1.0-linux-amd64.tar.gz",
+    "archive_sha256": "31e2093dfdb6c988a5fe6f3507e1656f4e4e449deb29a19a1a75a87d8e04e9b5",
+    "publication": "Primary and archive digests are from this host, not published release assets. The release owner must build on the arm64 producer, retain its receipts, publish the component tag/assets and record a new qualified composition."
+  }
+}

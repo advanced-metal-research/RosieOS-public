@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "dog_box",
+      "name": "dog box",
+      "manifest": "/library/dog_box/cadquery_manifest.json",
+      "source": "Fusion active document"
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+# A6-EC Frame Semantics and Native-Home Verification
+
+Status: active workstream note. This is durable project documentation, but it is intentionally provisional rather than canonical SOP. It captures the validated lessons so far from the current A6-EC frame-semantics investigation and should later be consolidated once the remaining open questions settle.
+
+## Why This Note Exists
+
+The core lesson from this workstream is that the difficult bug class was not "random bad telemetry." It was repeated frame mixing:
+
+- raw absolute encoder counts
+- drive reference and home counts
+- stored software anchors
+
+Treating those as if they were one frame created ambiguous debugging, unsafe command-path reasoning, and misleading operator feedback. This note records the current model so future work starts from the right mental split.
+
+## Why The Probe Exists
+
+`scripts/a6ec_chapter5_probe.py` exists because trial-and-error jogging and single-object spot checks were too ambiguous for this bug class.
+
+We needed one read-only harness that captures all of the following in the same snapshot:
+
+- raw encoder objects
+- drive reference and home objects
+- rotation-mode objects
+- API truth view
+
+The intended comparison is across:
+
+- `boot`
+- `native-home`
+- `power cycle`
+- `restart`
+
+The script header states that purpose directly. The point is to compare the drive's raw, bridged, and controller-visible position families without moving the robot unnecessarily.
+
+## Current Frame Model
+
+The A6-EC exposes at least three distinct position families that must be kept separate.
+
+- Raw absolute encoder motor frame:
+  - `U40.1C`
+  - `U40.1E`
+  - `U40.20/.22`
+- Rotation-mode or mechanical bridge frame:
+  - `U40.28`
+  - `U40.2A/.2C`
+  - `C10.*`
+- CSP or reference or home frame:
+  - `6064`
+  - `607A`
+  - `6063`
+  - `60FC`
+  - `U40.16`
+
+The most important behavioral correction is simple: these are related frames, not interchangeable fields.
+
+## Explicit Equations
+
+### Raw Multi-Turn Reconstruction
+
+The probe makes the Chapter 5 reconstruction explicit:
+
+- `COUNTS_PER_MOTOR_REV = 131072 = 2^17`
+- `single_turn_mod = U40.1C mod 131072`
+- `signed_multiturn_revs = sign_extend_16(U40.1E)`
+- `reconstructed_abs_counts = signed_multiturn_revs * 131072 + single_turn_mod`
+
+Where:
+
+- `sign_extend_16(x) = x` when `x < 32768`
+- `sign_extend_16(x) = x - 65536` when `x >= 32768`
+
+This is the precise math behind the earlier "encoder count plus rotation count times 131072" reasoning.
+
+### Preferred Live Absolute Source
+
+The live A6-EC profile is not limited to the `U40.1E` revolution word. It prefers the full multi-turn pair:
+
+- first choice: `U40.20 / U40.22`
+- second choice: `U40.2A / U40.2C`
+
+The 64-bit combine math is:
+
+- `combined = ((high & 0xffffffff) << 32) | (low & 0xffffffff)`
+- if `high` has bit 31 set, then `combined -= 2^64`
+
+So the preferred absolute source is:
+
+- `absolute_counts = signed_i64(U40.22:U40.20)`
+
+That matters because the live backend is not fundamentally constrained by the standalone `U40.1E` signed-16-bit revolution interpretation.
+
+### Counts To Joint Angle
+
+There are now two relevant host-side scaling postures:
+
+- Legacy host-owned posture:
+  - `counts_per_radian = (encoder_counts_per_rev * gear_ratio) / (2 * pi)`
+  - `axis_q_rad = raw_counts / (sign * counts_per_radian)`
+- Drive-native ratio posture:
+  - the real mechanical ratio is programmed into `C10.18 / C10.19`
+  - the host command/reference path should therefore use `counts_per_radian = encoder_counts_per_rev / (2 * pi)` for the `6064` / `607A` frame, so the gearbox ratio is not applied twice
+
+Equivalently in the legacy posture:
+
+- `axis_q_rad = sign * raw_counts * 2 * pi / (encoder_counts_per_rev * gear_ratio)`
+
+This is why large-ratio joints originally needed a continuous multi-turn motor source for truth reconstruction, but the long-term drive-native posture can instead let the drive expose output-shaft coordinates directly.
+
+### Canonical Truth Math
+
+The A6-EC controller truth contract keeps multi-turn correctness while
+respecting the vendor "6064 authoritative within shaft space" claim.
+
+- Canonical truth source (planner, limits, logical joint space):
+  - `canonical_q = absolute_axis_q (from U40.20/.22) - absolute_home_anchor - software_zero`
+  - `6064` alone is not sufficient because it wraps at `RM` while GradientOS joint
+    limits (J1/J4/J5/J6) can straddle more than one shaft revolution. The
+    anchored multi-turn source is the only drive output that stays continuous
+    across shaft seams and across power cycles (vendor Q1 preserves up to
+    32,767 motor turns).
+- Shaft-frame consistency (Workstream 3 gate):
+  - Before publishing canonical truth, verify that
+    `(canonical_q + master_offset) * sign * counts_per_unit mod RM`
+    agrees with the PAIRED `6064` snapshot `mod RM` within
+    `_SHAFT_FRAME_CONSISTENCY_TOLERANCE_COUNTS` (currently `4096` counts
+    on the A6-EC path, sized for the full-revolution failure class).
+  - The reference `6064` MUST come from `paired_pos_counts` in the
+    `absolute_feedback` JSON payload — RTCore atomically latches that
+    value at the moment of the `U40.20 / U40.22` SDO read so both sides
+    of the comparison are from the same moment. Using live-now `6064`
+    instead of the paired value produces up to `~200 ms × velocity`
+    of motion-induced skew that spuriously trips the gate during jog.
+  - A whole-shaft-turn offset is legitimate (it is what anchors *mean* for a
+    multi-turn axis). A sub-shaft-turn disagreement ABOVE tolerance is a
+    frame bug; truth reads `unavailable` with reason
+    `multi_turn_anchor_inconsistent_with_live_6064` and the stale-anchor
+    diagnostic fields are attached. The diagnostic
+    `shaft_frame_reference_source = "paired_sdo_snapshot" | "live_pdo"`
+    reports which reference the gate used on each evaluation.
+- Fail-closed mode:
+  - verify the startup posture through the `startup_drive_config` readback channel
+  - trust canonical truth only when the drive reports a valid coordinate system
+    (vendor Q9: `6041 bit15 = 1` on restart; vendor Q5/Q6 for fresh HM:
+    `bit12 = 1 AND bit15 = 1 AND bit13 = 0` with no active alarms)
+  - if any of startup verification, drive-native truth validity, the anchored
+    multi-turn source, or the shaft-frame consistency gate is missing, leave
+    truth unavailable instead of synthesizing a host-owned fallback
+
+### Command-Frame Turn Selection
+
+`607A` is written in the `6064` reference frame. For multi-turn joints the
+target must land in the same shaft turn the drive is currently observing, or
+the drive will chase a wrong-turn target and raise `Er47.0` (following error)
+or `Er87.1` (excessive per-cycle increment).
+
+- The host computes `target_counts_raw = round((canonical_q + master_offset) * sign * counts_per_unit)`.
+- It then folds to the nearest shaft turn of the live 6064 reading:
+  - `delta = target_counts_raw - live_6064_counts`
+  - `delta -= round(delta / RM) * RM`
+  - `target_607A = live_6064_counts + delta`
+- `abs(delta) <= RM / 2` by construction; violating that raises
+  `command_frame_oversized_delta` as a regression guard.
+- The selector is **stateless**: no per-axis wrap-lift is cached between
+  writes. Seam-adjacent consecutive jogs cannot lose track of the current
+  shaft turn because each write resolves against live `6064`.
+- The trajectory upload path additionally refuses any queued point whose
+  delivered `607A` step exceeds `0.5 * RM` against the previous point
+  (`command_frame_oversized_step`). This is a host-side sanity fence; the
+  motion clamp itself still lives in RTCore `max_step_counts_per_cycle`.
+- Live 2026-04-17 J6 verification refined that contract: on the current
+  A6-EC firmware, absolute `607A` trajectories that STRADDLE the `0/RM` seam
+  are not safe even when their shortest-angular delta is tiny. A point sequence
+  like `RM-10 -> +140` can still execute the long way by ~one shaft turn. The
+  `a6ec_ds402` profile now fails closed on seam-straddling first points and
+  per-point steps until a seam-biased native-home / wire-frame policy is
+  validated on hardware.
+
+`U40.20/.22` remain the multi-turn truth source; they are NOT demoted to
+diagnostics because pure `6064` truth cannot carry multi-turn continuity for
+our joint set. Single-turn-bounded joints could in principle switch to pure
+`6064`, but the drive-family policy is kept uniform so operators reason about
+one truth model only.
+
+### Restart Trust via Persisted Home Anchor
+
+Vendor Q6/Q9 claims `6041 bit 15` persists through a drive power cycle.
+Empirically this A6-EC firmware clears bit 15 every cycle even though `6064`,
+`U40.20/.22`, and `607C` all restore cleanly. Requiring a re-home after every
+power cycle is operationally untenable, so the controller has a second
+restart trust path built on the objects that **do** persist.
+
+The trust path is file-driven and opt-in per drive profile
+(`accept_persisted_home_anchor_as_restart_trust=True` in
+`POSITION_SEMANTICS_CONFIG`). It does not replace the vendor signature
+path; it runs after it in `derive_drive_native_truth_validity`:
+
+1. If `bit12 ∧ bit15 ∧ ¬bit13` (vendor Q5/Q6 fresh-home signature) → trust
+   via `drive_native_truth_verification_source = "statusword_bits12_15_clear13"`.
+2. Else if `bit15` alone and the profile accepts it → trust via
+   `"statusword_bit15"` (vendor Q9; vestigial on this firmware).
+3. **Else** if the persisted absolute-home anchor exists *and* the live
+   `U40.20/.22` multi-turn reading is valid *and* the shaft-frame
+   consistency check (mod-`RM`, against the paired `6064` snapshot)
+   agrees with the anchor within
+   `_SHAFT_FRAME_CONSISTENCY_TOLERANCE_COUNTS` (currently `4096` counts) →
+   trust via `"persisted_home_anchor_agreement"`.
+4. Else → `coordinate_system_valid = False` with a specific reason:
+   `persisted_home_anchor_missing`, `multi_turn_feedback_invalid`, or
+   `persisted_home_anchor_inconsistent_with_live_6064`.
+
+The third path is invariant under manual rotation while the drive is off,
+because both `absolute_axis_q` (from `U40.20/.22`) and `reference_q` (from
+`6064`) track the motion identically — so the stored anchor
+`home_anchor_rad = absolute_axis_q − reference_q` stays true mod-`2π`. A
+whole-shaft-turn offset is absorbed by the `mod RM`; sub-shaft-turn drift
+(encoder battery death, >32k turn overflow per vendor Q11, or catastrophic
+encoder fault) breaks the mod-`RM` agreement and fails closed.
+
+Operator implications:
+- An **initial HM35 is still required** to establish the anchor file entry
+  (`.gradient_absolute_encoder_anchors.json`). The trust path only reuses
+  that state; it does not manufacture trust out of nothing.
+- After a drive power cycle with the joint unmoved, truth becomes available
+  immediately without any operator action.
+- After a drive power cycle with the joint manually rotated (within the
+  encoder's 32,767-motor-turn budget), truth still becomes available; the
+  canonical joint position reflects the new mechanical pose.
+- If `U40.20/.22` ever reports `valid=0`, or the mod-`RM` gate fails, truth
+  reads `unavailable` and the operator must re-home. That is the
+  well-founded case where persistence has actually been lost.
+
+### Native-Home Precondition
+
+Vendor Q2: "Ensure the motor is stationary and inactive" before HM35.
+
+- [src/gradient_rt_motion/main.cpp](../../src/gradient_rt_motion/main.cpp)
+  splits `MSG_CMD_NATIVE_HOME` into two stages. Stage A clears
+  `axis_enable_mask`, sets `armed=false` if no axes remain enabled, clears
+  motion intent, and then polls `latest_feedback.statusword[axis]` for up to
+  `~500 ms` until the axis has left `OperationEnabled` for several
+  consecutive cycles. Stage B runs the existing HM35 transaction unchanged.
+  On timeout, `native_home_last_abort_code[axis]` is set to
+  `NATIVE_HOME_ABORT_DISARM_PRECONDITION_TIMEOUT` (`0xF1000001`).
+- [src/gradient_os/arm_controller/backends/ethercat_rtcore/backend.py](../../src/gradient_os/arm_controller/backends/ethercat_rtcore/backend.py)
+  `native_home_joint` calls `prepare_for_power_transition` with
+  `require_drive_disarmed=True` and the targeted axis mask. The host-side
+  wait uses `get_power_transition_snapshot().per_axis_drive_disarmed`
+  (derived from each axis's DS402 state) so HM35 is not even dispatched
+  until the drive confirms it has left `OperationEnabled`.
+- Operationally this replaces the old bundled "disarm then HM35 enable"
+  click sequence with a single disarm click followed by the service-mode
+  owned HM35 transaction. If the drive cannot leave OP-enabled in time
+  (e.g. brake stuck on or PDO loop unhealthy), the backend returns
+  `NATIVE_HOME_DISARM_PRECONDITION_TIMEOUT` instead of issuing HM35 into an
+  unsafe state.
+
+## Findings That Look Stable So Far
+
+- The problem was not "just bad telemetry." It was multiple position frames being conflated.
+- `U40.20/.22` really are the raw multi-turn encoder counts we wanted to verify.
+- The Chapter 5 raw composition formula matches live data within normal read jitter.
+- `6064`, `607A`, `U40.16`, and `60FC` are not raw encoder counts. They belong to the drive's reference or home machinery.
+- `60FC` turned out to be a key clue that the drive internally maps reference-unit motion into encoder-unit position reference.
+- `60E6` matters more than it first appeared. The manual text about actual-position calculation after homing aligns closely with the semantic issue we were chasing.
+- `607C` is not a sufficient witness for success or persistence in this workflow.
+- `6041 bit15` is not a sufficient witness for persistence across reboot.
+- `60B0` behaved like a runtime motion-frame object, not the durable semantic-home store we needed.
+- The integrated `F31.10` read/write tail matters for persistence. It was a major breakthrough in making the corrected frame restore across power cycles.
+
+## Manufacturer Clarifications 2026-04-15
+
+The vendor's later 2026-10-09 reply is on gain tuning and vibration suppression, not frames or Home: [a6ec-manufacturer-notes-2026-10-09.md](a6ec-manufacturer-notes-2026-10-09.md).
+
+The vendor reply added several clarifications that materially sharpen this note.
+
+- "Load" and `RM` in rotary mode mean the output or load shaft after the gearbox, not the motor shaft.
+- The vendor's recommended final configuration is to set the real mechanical ratio in `C10.18 / C10.19`.
+- When `C10.1A / C10.1C` are zero, rotary-mode `RM` is calculated from encoder resolution times the mechanical ratio in `C10.18 / C10.19`.
+- The vendor now explicitly says that if `C10.18 / C10.19` are left at `1:1`, then `6064` and `U40.28` remain motor-side rather than output-shaft coordinates, and the host must continue doing the higher-level conversion work itself.
+- That means a `1:1` ratio setup is best understood as a host-conversion/debug posture, not the intended long-term production configuration.
+- The vendor also explicitly distinguishes `C10.18 / C10.19` from `6091`:
+  - `C10.18 / C10.19` govern rotary-mode absolute-position reconstruction and `RM`
+  - `6091` is the electronic gear ratio used for command-unit conversion
+- This does not make the Chapter 11 `6064 * 6091 ~= 6063` bridge checks useless; it means those checks validate the command/reference-unit mapping, not the rotary-mode absolute reconstruction policy by themselves.
+- Changing `C10.18 / C10.19` requires a fresh homing cycle afterward, even though no power cycle is required.
+- The vendor states that manually writing `607C` alone is not sufficient to establish a valid homing/reference state:
+  - `6064` does not jump immediately
+  - bits 12 and 15 do not become valid merely from the write
+  - HM Method 35 is still required
+- That exactly matches our bench result that direct nonzero `607C` writes did not selectively rebase `6064` or API truth on their own.
+- The vendor now says negative `607C` values in rotary mode are semantically invalid even if the implementation permits them to be written and read back.
+- Their recommendation is to keep `607C` in `0 .. RM-1` and, for seam-adjacent homes, use a positive value near `RM-1` rather than a negative offset.
+- The vendor confirms `0x9650` as the expected good post-HM state:
+  - bit 12 = 1
+  - bit 15 = 1
+  - bit 13 = 0
+  - no active alarms
+- The vendor also frames `F31.10` as a recovery tool for encoder battery/multi-turn failure cases, not as a routine commissioning step. After `F31.10 = 4`, physical homing is required again.
+
+## Integration Implications From That Reply
+
+- The strongest newly-supported implementation direction is to reintroduce actual `C10.18 / C10.19` startup configuration in the drive profile/runtime path and then re-home once to seed the corrected coordinate system.
+- That should be treated as a deliberate migration, not a casual config tweak, because the vendor explicitly warns that changing the ratio changes the coordinate system immediately.
+- The code now programs `C00.07` plus `C10.18 / C10.19` at startup from robot-config mechanics, and the startup-validity gate now requires all three startup descriptors to read back coherently before the drive posture is treated as verified.
+- The host canonical truth path now treats the drive reference/output-shaft frame as the only A6-EC truth source, but it only becomes available when both conditions hold:
+  - startup posture is verified
+  - live statusword still carries the vendor-confirmed HM-valid signature with no active alarms
+- If either condition is missing, the controller deliberately leaves truth unavailable rather than pretending a host-side reconstruction is trustworthy.
+- The write-path guardrail still stands: once the drive owns the mechanical ratio, the host command/reference conversion must not multiply by the gearbox ratio again.
+- A live `start-stack.sh` validation on 2026-04-15 confirmed the active runtime env now carries:
+  - `GRADIENT_RT_GEAR_RATIO="1,1,1,1,1,1"`
+  - `GRADIENT_RT_DRIVE_STARTUP_SDO_CONFIG` with `C00.07`, `C10.18`, and `C10.19`
+- That same live run also confirmed the current hardware state is still pre-trust rather than code-broken:
+  - all six axes reported `drive_native_startup_valid = true`
+  - all six axes reported `drive_native_truth_valid = false`
+  - every axis statusword was `0x1650`, so the coordinate system was still invalid until a fresh HM35 re-home re-establishes the vendor-confirmed `0x9650` state
+
+## Motion And Safety Lessons
+
+- The multi-axis jog regression was a command-frame math bug, not just a display bug.
+- The bad change was re-applying `absolute_home_anchor_rad` on the write path.
+- That was wrong because the anchor cancels algebraically on the command path.
+- Command upload must stay in the RTCore and `6064` and `607A` reference frame.
+- The command path must not "helpfully" add the absolute anchor back in.
+- Raw absolute multi-turn counts are essential for diagnostics and truth reconstruction, but they are not automatically the right frame to command motion from.
+- Historically the live stack ran with `C10.18/C10.19 = 1:1`, which forced the host to own the higher-level joint semantics. The current migration removes that posture by programming the real mechanical ratio into the drive at startup and refusing to invent a second host-owned truth path.
+
+## Truth, Anchors, And Fail-Closed Behavior
+
+- Removing alternate host truth reconstruction was the right call. Those alternate paths made it too easy to hide frame problems behind something merely plausible.
+- The system should fail closed when canonical truth cannot be reconstructed safely.
+- A stale software anchor can make a good drive-side frame look bad.
+- The specific `command_frame_roundtrip_mismatch` diagnosis is our host-side diagnosis, not a manufacturer object or drive-side fault.
+- The anchor is stored in `.gradient_absolute_encoder_anchors.json`.
+- The anchor is calculated from:
+  - absolute encoder-derived axis position
+  - minus the live RTCore or reference-frame position
+- If that stored anchor is stale, canonical reconstruction can be off by tens of thousands of counts even when the drive is already sitting in a near-zero home frame.
+
+## Jitter And Measurement Lessons
+
+- The encoders did not look wildly unstable in the probe work.
+- What we actually observed was small live-read wander.
+- Across repeated reads, `0..3` counts of drift is normal enough that a single `2-count` miss should not be over-interpreted.
+- A one-count acceptance threshold is therefore too brittle for every sample of "truth available" reasoning.
+- A single failed bridge comparison at `2` counts is weak evidence by itself. Systematic divergence matters much more.
+- The probe was useful because it compared all bridges in one snapshot instead of arguing from isolated reads.
+
+## Native-Home Verification Lessons
+
+- Native-home completion is not just "I saw bit 15 once."
+- Correct verification has to include:
+  - fresh metrics after the command
+  - whether RTCore observed the native-home transaction as active
+  - whether the tail completed
+  - whether the anchor refreshed coherently
+- Fast back-to-back homes can create ambiguity if the first transaction tail is still in flight.
+- `J2` taught an additional lesson: "too soon after J1" was plausible but incomplete. Stale-anchor and verification-epoch issues also mattered.
+- A clean restarted single-axis retry on `J2` succeeded and refreshed the anchor, which proved the joint was not fundamentally broken.
+
+## UI And Operator Trust Lessons
+
+- The frontend must never flatten contradictory native-home telemetry into a cheerful success message.
+- We found a real UI bug where a secondary telemetry interpretation made a row look effectively successful while the command result still said failure.
+- Commissioning messaging must stay conservative. If telemetry conflicts, show conflict or failure, not optimism.
+- The user's auditory observation about `J2` de-energizing faster was useful evidence. It fit the theory that the transaction was aborting early rather than following the normal tail.
+
+## Test Methodology Lessons
+
+- Separate these questions explicitly:
+  - Did the drive preserve the corrected frame?
+  - Did the homing-complete bit persist?
+  - Did a specific object such as `607C` witness that persistence?
+- We needed both manual-backed reasoning and live hardware evidence. Either one alone was not enough.
+- Shared before-and-after power-cycle captures were more valuable than isolated anecdotes.
+- Already-proven joints should remain in the capture set as controls while new joints are tested.
+- For this bug class, the right evidence stack is:
+  - direct SDO or object snapshot
+  - RTCore metrics
+  - API truth view
+  - persisted anchor file
+  - power-cycle comparison
+
+## Working Conclusions From The Persistence Experiments
+
+- Persistence across power cycle is real on `J3`, `J4`, and `J6`.
+- A focused retry also demonstrated clean persistence behavior for `J2`.
+- Those results matter because they show the remaining hard problems are not "mystery encoder instability."
+- The remaining hard problems look like:
+  - stale-anchor handling
+  - native-home verification semantics
+  - jitter-tolerant but still fail-closed truth acceptance
+  - preserving operator trust in the UI
+
+## Probe Checks To Keep Reusing
+
+The probe is most useful when it validates all bridge families together:
+
+- `combined(U40.20/.22) ~= sign_extend_16(U40.1E) * 131072 + (U40.1C mod 131072)`
+- `6063 ~= 6064 * 6091`
+- `60FC ~= 6062 * 6091`
+- `combined(U40.2A/.2C) ~= U40.28 * C10_ratio`
+
+Those formulas usually match within `0..3` counts rather than exactly zero on every sample because the reads are live, sequential, and not perfectly simultaneous.
+
+## What Remains Open
+
+- How stale-anchor detection and refresh should work operationally.
+- Which verification semantics should govern native-home success versus pending versus failed.
+- How tolerant the roundtrip acceptance threshold should be while still failing closed for real semantic mismatches.
+
+Settled (2026-04-16 Workstream 3): the long-term host canonical truth stays
+rooted in `U40.20/.22 + persistent absolute-home anchor`. Pure `6064` truth
+is not sufficient for multi-turn-capable joints (J1/J4/J5/J6 limits exceed
+one shaft revolution) because `6064` wraps at `RM`. The vendor's "6064 is
+authoritative" claim is interpreted as "authoritative within shaft space":
+we therefore require shaft-frame agreement between the anchored canonical
+view and live `6064` modulo `RM`, failing closed with reason
+`multi_turn_anchor_inconsistent_with_live_6064` otherwise.
+
+## Bottom Line
+
+The arithmetic is now explicit and testable. The dangerous failures came from mixing the absolute multi-turn frame, the drive's reference or home frame, and the stored software anchor as if they were the same thing.
+
+In one sentence: the probe and verification workflow taught us that the A6-EC behavior is internally coherent, but only if we stop mixing raw absolute counts, drive reference counts, and stored software anchors as though they were one frame.

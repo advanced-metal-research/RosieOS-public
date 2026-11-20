@@ -1,0 +1,9 @@
+{
+  "schema_version": 2,
+  "id": "revpi_dio",
+  "io_backend": "picontrol",
+  "output_channels": 14,
+  "input_channels": 14,
+  "_source": "KUNBUS Revolution Pi DIO expansion: 14 digital outputs O_1..O_14 and 14 digital inputs I_1..I_14 in the piControl process image (/dev/piControl0); the retired JSLOP robot-v4 bridge drove O_1..O_5 by these PiCtory names with piTest. Layout read on a Rosie 1430 cell's servo host (DIO V1.5) 2026-10-12: piTest -v O_1 = offset 83 bit 0, O_9 = offset 84 bit 0, I_1 = offset 13 bit 0, and PiCtory's config.rsc maps O_1..O_8 to bits 0..7 of the first output byte and O_9..O_16 to bits 0..7 of the next (I_n likewise), so O_n is bit n-1 of a little-endian 16-bit word at the O_1 offset. KUNBUS documents O_15/O_16 and I_15/I_16 as unused. The module's Status input word (input offset + 4) reports IC faults: bit 0 no communication to the input IC (a Rosie 1430 cell read 0x49 with no 24 V on X2 pins 1/2, the IN LED red, every input reading 1; 0 with the inputs supplied, 2026-10-12), bit 8 no communication to the output IC.",
+  "_unverified": "Offsets depend on the module's PiCtory slot, so they are machine configuration (picontrol_output_offset = piTest -v O_1, picontrol_input_offset = piTest -v I_1). No output has been switched by rt-core on a cell. The module resets its outputs to 0 when the piBridge exchange stops for 500 ms (KUNBUS, firmware 1.5 or newer; 50 ms for 1.4 or older), but piControl keeps exchanging the last written word if rt-core dies or hangs, so that watchdog does not cover rt-core."
+}

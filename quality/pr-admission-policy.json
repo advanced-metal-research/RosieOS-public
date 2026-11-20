@@ -1,0 +1,168 @@
+{
+  "schema": "rosie_pr_admission_policy_v1",
+  "mode": "shadow",
+  "always_checks": [
+    "diff-integrity",
+    "admission-contract"
+  ],
+  "rules": [
+    {
+      "id": "admission-gate",
+      "paths": [
+        ".github/workflows/pr-admission.yml",
+        "quality/pr-admission-policy.json",
+        "quality/pr-admission.mjs",
+        "quality/pr-admission.test.mjs",
+        "quality/release-test-coverage.json",
+        "quality/release-test-coverage.mjs",
+        "quality/release-test-coverage.test.mjs",
+        "quality/qualification-policy.json",
+        "quality/qualification.mjs",
+        "quality/qualification.test.mjs",
+        "quality/qualification.integration.test.mjs",
+        "quality/qualification.test.mjs.scenarios.json",
+        "quality/pr-admission.test.mjs.scenarios.json"
+      ],
+      "checks": [
+        "workflow-syntax"
+      ],
+      "proof": "mapped"
+    },
+    {
+      "id": "quality-tools",
+      "prefixes": [
+        "quality/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "github-workflows",
+      "prefixes": [
+        ".github/workflows/"
+      ],
+      "checks": [
+        "workflow-syntax"
+      ],
+      "proof": "mapped"
+    },
+    {
+      "id": "build1-release-worker",
+      "prefixes": [
+        "tools/build1-release-worker/"
+      ],
+      "checks": [
+        "build1-contract"
+      ],
+      "proof": "mapped"
+    },
+    {
+      "id": "documentation",
+      "suffixes": [
+        ".md"
+      ],
+      "checks": [],
+      "proof": "mapped"
+    },
+    {
+      "id": "runtime-control",
+      "prefixes": [
+        "motion-server/",
+        "robot_description/",
+        "rt-core/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "daemon",
+      "prefixes": [
+        "daemon/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "clients-and-olp",
+      "paths": [
+        "dev-stack.sh"
+      ],
+      "prefixes": [
+        "cli/",
+        "mcp/",
+        "offline-programming/",
+        "steamdeck/",
+        "cadquery/",
+        "cell-camera/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "coordination",
+      "prefixes": [
+        "coordination/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "weld-and-preflight",
+      "prefixes": [
+        "preflight/",
+        "weld_planner/",
+        "tesseract/",
+        "tools/sphere_tool/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "release-tools",
+      "prefixes": [
+        "tools/robot-stack-release/",
+        "releases/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "repository-notices",
+      "paths": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "checks": [],
+      "proof": "mapped"
+    },
+    {
+      "id": "repository-ignore-rules",
+      "paths": [
+        ".gitignore"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "public-mirror",
+      "prefixes": [
+        "tools/public-mirror/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    },
+    {
+      "id": "retired-trees",
+      "prefixes": [
+        "robot/",
+        "urdf/",
+        "nats/",
+        "docs/evidence/",
+        "docs/runtime-comparison/",
+        "docs/safety-deployment/"
+      ],
+      "checks": [],
+      "proof": "pending"
+    }
+  ]
+}

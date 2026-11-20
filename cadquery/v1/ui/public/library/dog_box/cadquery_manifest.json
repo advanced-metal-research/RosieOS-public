@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "tool": "rosie cadquery v1 convert",
+  "step": "C:\\Users\\operator\\RosieOS\\cadquery\\v1\\exports\\dog_box\\dog_box.step",
+  "output_dir": "C:\\Users\\operator\\RosieOS\\cadquery\\v1\\ui\\public\\library\\dog_box",
+  "robot_name": "dog_box",
+  "package": "assembly",
+  "split": true,
+  "solid_count": 6,
+  "links": [
+    {
+      "name": "link_1",
+      "mesh": "mesh_link_1.stl",
+      "source": "solid[1]",
+      "mass_properties": {
+        "volume": 6750000.0,
+        "center": [
+          2.1316282072803005e-16,
+          1.682486249087055e-15,
+          75.0
+        ],
+        "bounding_box": {
+          "xmin": -150.0000001,
+          "ymin": -75.0000001,
+          "zmin": -1e-07,
+          "xmax": 150.0000001,
+          "ymax": 75.0000001,
+          "zmax": 150.0000001
+        }
+      }
+    },
+    {
+      "name": "link_2",
+      "mesh": "mesh_link_2.stl",
+      "source": "solid[2]",
+      "mass_properties": {
+        "volume": 62671.45867644274,
+        "center": [
+          -7.139954976673912e-15,
+          -3.947292182226228e-15,
+          151.5
+        ],
+        "bounding_box": {
+          "xmin": -125.00594942300229,
+          "ymin": -62.50594942300229,
+          "zmin": 149.99405057699772,
+          "xmax": 125.00594942300229,
+          "ymax": 62.505949423002285,
+          "zmax": 153.00594942300228
+        }
+      }
+    },
+    {
+      "name": "link_3",
+      "mesh": "mesh_link_3.stl",
+      "source": "solid[3]",
+      "mass_properties": {
+        "volume": 62671.45867644282,
+        "center": [
+          -4.4116794977822485e-15,
+          -76.5000000000002,
+          76.49999999999993
+        ],
+        "bounding_box": {
+          "xmin": -125.00594942300229,
+          "ymin": -78.00594942300306,
+          "zmin": 13.994050576997612,
+          "xmax": 125.00594942300229,
+          "ymax": -74.99405057699734,
+          "zmax": 139.00594942300222
+        }
+      }
+    },
+    {
+      "name": "link_4",
+      "mesh": "mesh_link_4.stl",
+      "source": "solid[4]",
+      "mass_properties": {
+        "volume": 62671.45867644281,
+        "center": [
+          -4.121437425559733e-15,
+          76.5000000000006,
+          76.49999999999993
+        ],
+        "bounding_box": {
+          "xmin": -125.00594942300229,
+          "ymin": 74.99405057699781,
+          "zmin": 13.994050576997614,
+          "xmax": 125.00594942300229,
+          "ymax": 78.00594942300339,
+          "zmax": 139.0059494230022
+        }
+      }
+    },
+    {
+      "name": "link_5",
+      "mesh": "mesh_link_5.stl",
+      "source": "solid[5]",
+      "mass_properties": {
+        "volume": 23561.94490192345,
+        "center": [
+          151.5,
+          9.881639424208262e-15,
+          75.0
+        ],
+        "bounding_box": {
+          "xmin": 149.98810125399544,
+          "ymin": -50.01189874600456,
+          "zmin": 24.988101253995442,
+          "xmax": 153.01189874600456,
+          "ymax": 50.01189874600456,
+          "zmax": 125.01189874600456
+        }
+      }
+    },
+    {
+      "name": "link_6",
+      "mesh": "mesh_link_6.stl",
+      "source": "solid[6]",
+      "mass_properties": {
+        "volume": 23561.94490192345,
+        "center": [
+          -151.5,
+          -5.806430800313421e-15,
+          75.0
+        ],
+        "bounding_box": {
+          "xmin": -153.01189874600456,
+          "ymin": -50.011898746004555,
+          "zmin": 24.988101253995442,
+          "xmax": -149.98810125399544,
+          "ymax": 50.01189874600457,
+          "zmax": 125.01189874600456
+        }
+      }
+    }
+  ],
+  "warnings": [
+    "STEP files do not preserve Fusion robot joints; generated URDF uses fixed joints only.",
+    "Inspect mesh scale and frames before using the URDF for simulation or control."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../offline-programming/v1/ui/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "typeRoots": ["../../../../offline-programming/v1/ui/node_modules/@types"]
+  },
+  "include": ["*.ts"]
+}

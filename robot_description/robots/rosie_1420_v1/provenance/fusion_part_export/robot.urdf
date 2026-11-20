@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<robot name="fusion_model">
+  <link name="model_root"/>
+  <joint name="model_root_to_l1_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="l1_1"/>
+    <origin xyz="0.4127 0.4 0.893" rpy="6.52061151e-17 1.65829493e-18 -5.87590706e-30"/>
+  </joint>
+  <link name="l1_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l1_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l1_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_base_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="base_1"/>
+    <origin xyz="0.4127 0.4 0.8636" rpy="0 -0 0"/>
+  </joint>
+  <link name="base_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/base_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/base_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_old_base_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="old_base_1"/>
+    <origin xyz="0 0 0" rpy="0 -0 0"/>
+  </joint>
+  <link name="old_base_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/old_base_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/old_base_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_l2_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="l2_1"/>
+    <origin xyz="0.5727 0.2745 1.043" rpy="-5.34111208e-17 -5.01026141e-17 -5.55111512e-17"/>
+  </joint>
+  <link name="l2_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l2_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l2_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_l3_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="l3_1"/>
+    <origin xyz="0.5727 0.2745 1.643" rpy="-1.94079026e-15 1.85819779e-16 5.55111512e-17"/>
+  </joint>
+  <link name="l3_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l3_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l3_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_l4_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="l4_1"/>
+    <origin xyz="0.7317 0.399999999 1.748" rpy="-9.69019442e-16 1.30308627e-16 -5.55111512e-17"/>
+  </joint>
+  <link name="l4_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l4_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l4_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_l5_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="l5_1"/>
+    <origin xyz="1.245689 0.357499999 1.748" rpy="-1.0884772e-15 1.50381002e-16 9.38138456e-15"/>
+  </joint>
+  <link name="l5_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l5_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/l5_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+  <joint name="model_root_to_mig_torch_v1_1" type="fixed">
+    <parent link="model_root"/>
+    <child link="mig_torch_v1_1"/>
+    <origin xyz="1.245689 0.399999999 1.6547" rpy="-9.24251122e-16 2.96594363e-16 9.54791801e-15"/>
+  </joint>
+  <link name="mig_torch_v1_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/mig_torch_v1_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://assembly/meshes/mig_torch_v1_1.stl" scale="0.001 0.001 0.001"/></geometry>
+    </collision>
+  </link>
+</robot>

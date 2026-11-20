@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "program_id": "invalid-program",
+  "program_name": "Invalid missing row id",
+  "robotic-cell-type": "rosie_1400_v3",
+  "robot_model": "rosie_1400_v3",
+  "program_state": "saved_unplanned",
+  "execution_mode": "dry_run",
+  "units": {
+    "length": "m",
+    "angle": "rad",
+    "time": "s",
+    "joint_order": [
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5",
+      "J6",
+      "J7",
+      "J8",
+      "J9"
+    ]
+  },
+  "program_revision": 1,
+  "base_program_revision": 0,
+  "rows": [
+    {
+      "revision": 1,
+      "row_hash": "hash",
+      "enabled": true,
+      "row_type": "comment",
+      "comment": "row_id is intentionally absent"
+    }
+  ]
+}

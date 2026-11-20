@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "id": "planet_iecs_1116_do",
+  "io_backend": "ethercat",
+  "vendor_id": 2271,
+  "product_code": 68,
+  "revision_no": 1,
+  "mailbox": false,
+  "output_channels": 16,
+  "input_channels": 0,
+  "output_pdos": [
+    {"sync": 0, "pdo": 6656, "index": 12545, "subindex": 1, "bits": 8},
+    {"sync": 1, "pdo": 6657, "index": 12545, "subindex": 2, "bits": 8}
+  ],
+  "input_pdos": [],
+  "_source": "PLANET ESI IECS-1116(V2)_v1.3.xml (docs/drives/planet/IECS-1116-V2_v1.3.xml, sha256 321a5580c64531d072dd956fa9a823932382738dcffc6403a13eb688d0c25695), device IECS-1116-DO: vendor #x000008DF, ProductCode #x00000044, RevisionNo #x00000001; fixed RxPdo #x1a00 on SM0 and #x1a01 on SM1, one BITARR8 entry each (#x3101:1 channels 0-7, #x3101:2 channels 8-15); no mailbox; both output sync managers ControlByte #x44 (watchdog trigger enabled). Outputs are open-collector sink, 3.5-50 V, 700 mA per channel (PLANET datasheet, hardware V2).",
+  "_unverified": "Identity and layout are the vendor ESI, not yet read from the module's SII on a bus (ethercat slaves -v / ethercat pdos). Sync-manager watchdog OFF on bus loss is not measured."
+}

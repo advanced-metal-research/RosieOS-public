@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "appUrl": "http://127.0.0.1:8796/offline-programming/v1/ui/?accepted-motion-proof=1785478778944",
+  "program": "Accepted trajectory motion proof",
+  "planner": {
+    "owner": "motion-server",
+    "backend": "motion_server_tesseract_trajectory_v1",
+    "trajectory_method": "linear-tcp-dense-csp",
+    "build_digest": "sha256:9893b1be697f45d0fd08fdcb4d685bc1906fdf6570bc7ca9ce510084009344e0"
+  },
+  "planId": "offline-programming-local/5653695e-6394-4db1-81bd-443c341fa48b:local:33:1/12",
+  "trajectoryDigest": "sha256:d958b8d23124b6892065a1fc168affec330b507a4d3f9d10e3cdb51f35bbd7a3",
+  "samples": 21,
+  "durationS": 55.81992857109188,
+  "jointTravelRad": 5.39107269610848,
+  "acceptedTrajectoryEqualsPlayback": true,
+  "persistedAndPlayableAfterReload": true,
+  "playAdvancedTo": "1.6 / 55.8 s",
+  "midpointTime": "36.3 / 55.8 s",
+  "renderedDifferenceDuringPlay": {
+    "changedPixels": 949,
+    "changedFraction": 0.002121002167936884
+  },
+  "renderedDifferenceAtMidpoint": {
+    "changedPixels": 2074,
+    "changedFraction": 0.004635361956060166
+  },
+  "screenshots": {
+    "before": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\accepted-motion-before.png",
+    "duringPlay": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\accepted-motion-playing.png",
+    "midpoint": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\accepted-motion-midpoint.png",
+    "diff": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\accepted-motion-diff.png"
+  },
+  "exportedProject": "C:\\Users\\operator\\AppData\\Local\\Temp\\rosie-accepted-motion-proof\\accepted-trajectory-motion-proof.json"
+}

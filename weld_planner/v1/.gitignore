@@ -1,0 +1,5 @@
+.pixi/
+exports/
+__pycache__/
+.pytest_cache/
+workspace/

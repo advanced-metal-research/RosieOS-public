@@ -1,0 +1,16 @@
+/build/
+__pycache__/
+*.pyc
+
+# Bench evidence dumps stay on disk and in release attachments, not in git (2026-09-17 bloat review);
+# the rules that name the bench's runs live in docs/evidence/.gitignore, beside them.
+# Review-round artefacts of 11 to 15 September 2026 leave git (bloat review item 5): the tracker REVIEWS
+# block and tag archive/standalone-rt-core-2026-09-17 hold the narrative; the named documents in docs/history stay.
+/docs/evidence/rev01-followup-1c79f6f/
+/docs/evidence/rev01-replay/
+/docs/evidence/rev02-before-1c79f6f/
+/docs/evidence/review-runtime-2026-09-12/
+/docs/evidence/application-grant-214770e/
+/docs/history/*.json
+/docs/history/main-sync-*.md
+/docs/history/main-review-*.md

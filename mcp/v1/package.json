@@ -1,0 +1,31 @@
+{
+  "name": "rosieos-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for RosieOS: rt-core observation, OLP, the motion servers and the weld planner",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "bin": {
+    "rosieos-mcp-server": "dist/src/index.js"
+  },
+  "scripts": {
+    "build": "npm run build --prefix ../../cli/v1 && tsc -p tsconfig.json",
+    "start": "node dist/src/index.js",
+    "test": "npm run build && node --test \"dist/test/*.test.js\"",
+    "typecheck": "npm run typecheck --prefix ../../cli/v1 && tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.3.1",
+    "rosie-cli": "file:../../cli/v1",
+    "zod": "4.2.1"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.3.1",
+    "@types/node": "22.19.1",
+    "typescript": "5.9.3"
+  }
+}

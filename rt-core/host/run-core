@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+component="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PATH="${PATH}:${component}/bin:${component}/build"
+exec rtctl run --backend live --config "${ROSIE_RT_CONFIG:-/etc/rosie-rt-core/machine.json}" --out /run/rosie-rt-core/config --socket /run/rosie-rt-core/ipc.sock

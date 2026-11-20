@@ -1,0 +1,14 @@
+{
+  "capabilities_schema": "amr.weld-preflight.capabilities.v1",
+  "distribution": "amr-motion-bench",
+  "execution_authority": "none",
+  "python": "3.12",
+  "required_candidate_schema": "amr.weld-preflight.candidate-ingest.v0",
+  "schema": "rosieos.weld-preflight-package-lock.v1",
+  "version": "0.3.1",
+  "wheel": {
+    "filename": "amr_motion_bench-0.3.1-py3-none-any.whl",
+    "release_url": "https://github.com/gradient-industrial-robotics/RosieOS/releases/download/preflight-v0.3.1/amr_motion_bench-0.3.1-py3-none-any.whl",
+    "sha256": "68afaf97157bd3b8c3044930438b746bf2b6109ad47dd582444c53eb8f9eedf7"
+  }
+}

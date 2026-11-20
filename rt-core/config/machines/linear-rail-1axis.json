@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "_source": "Single-axis ball-screw linear rail on one A6-EC drive. Design 2026-10-12 mechanics, migrated 2026-10-19 to linear absolute mode with software ratio 100/1, continuous counts and exact multi-turn evidence. Every motion number remains an unverified design value.",
+  "backend": "live",
+  "cycle_ns": 1000000,
+  "max_cycle_lateness_ns": 1000000,
+  "max_cycle_lateness_ns_unverified": "Native conservative 1 ms deadline (as a Rosie 1430 arm); not a measured qualification of this host.",
+  "drive_speed_limit_motor_rpm": 1500,
+  "drive_speed_limit_motor_rpm_unverified": "Drive 0x607F cap = limits.max_velocity: 1.5707963 rad/s x 100 x 60 / (2*pi) = 1500 motor rpm = 250 mm/s at 10 mm lead. Unverified: check the screw's critical speed and DN rating for the installed length before raising it.",
+  "drive_supervision": {
+    "enable_timeout_ms": 500,
+    "release_slack_ms": 500,
+    "disarm_motion_tolerance": 0.0062832
+  },
+  "_drive_supervision_source": "Copied from a Rosie 1430 arm's machine configuration: enable_timeout_ms 500 and release_slack_ms 500; disarm_motion_tolerance = limits.following_error, 1 mm = 0.0062832 rad (13107 counts at 100:1). Unverified on this rail.",
+  "tracking_lag_allowance": {
+    "lag_allowance_ms": 50
+  },
+  "_tracking_lag_allowance_source": "Same as a Rosie 1430 arm: an A6-EC with factory speed feedforward off (C01.13/C01.14 = 0/0, C01.00 = 40 rad/s) trails its command by ~27 ms (a Rosie 1430 arm's stop dumps 2026-10-06), so the 1 mm static following error would fault at ~37 mm/s. Bound = static + |commanded velocity| x 50 ms: 1 + 12.5 = 13.5 mm at 250 mm/s. Unverified on this rail: measure its lag.",
+  "robot": {
+    "robot_description": {
+      "path": "robot_description/robots/linear_rail_1axis",
+      "sha256": "sha256:722ed1a35eec54dad6067b889526239403567745db4e8379c7bc7f01caba2403",
+      "source": "Single-axis rail design 2026-10-12; recompute with robot_description/go/cmd/identity after any edit to the description."
+    }
+  },
+  "axes": [
+    {
+      "robot_joint": "J1",
+      "robot_joint_source": "Definition joint name.",
+      "slave_position": 0,
+      "slave_position_unverified": "Placeholder: zero-based EtherCAT position of the rail drive; read it from the bus (ethercat slaves) on the servo host.",
+      "require_home": true,
+      "limits": {
+        "min": 0.031416,
+        "max": 6.251769,
+        "max_velocity": 1.5707963,
+        "jog_acceleration": 3.1415927,
+        "max_target_lead": 0.0031416,
+        "following_error": 0.0062832,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.00031416,
+        "completion_timeout_ms": 1000
+      },
+      "limits_unverified": "Design values converted at 159.155 mm/rad, unverified until measured on the installed rail: travel 5..995 mm (0.031416..6.251769 rad, the robot definition bound); max_velocity 250 mm/s (1.5707963 rad/s, 1500 motor rpm); jog_acceleration 500 mm/s^2 (3.1415927 rad/s^2, reaches 250 mm/s in 0.5 s over 62.5 mm); max_target_lead 0.5 mm (warning); following_error 1 mm (fault, 100 ms persistence, plus tracking_lag_allowance); completion_tolerance 0.05 mm within 1000 ms (a Rosie 1430 arm's timeouts).",
+      "collision_watchdog": {
+        "_source": "Example design 2026-10-12: following-error trip just under the 1 mm static following_error (12000 counts = 0.92 mm at 13107.2 counts/mm), 10 consecutive cycles; torque 500 raw (50.0 percent rated) is the mini bench placeholder (rt-core/config/machines/bench/one-motor-1to1.json).",
+        "_unverified": "unverified placeholders. The watchdog compares the drive's 0x60F4 following error against this static count with no tracking_lag_allowance and trips on torque OR following error: at the ~27 ms A6-EC lag (feedforward off) 12000 counts is reached at ~34 mm/s. Raise it toward the speed-scaled bound (13.5 mm = 176947 counts at 250 mm/s) or measure the lag before running faster. Torque: measure the rail's acceleration and friction torque, then set a margin above it.",
+        "torque_abs_max_raw": 500,
+        "following_error_counts_max": 12000,
+        "sustained_cycles": 10
+      }
+    }
+  ],
+  "runtime": {
+    "cpu": 0,
+    "priority": 80
+  },
+  "runtime_unverified": "Placeholder CPU0/FIFO80 (as a Rosie 1430 arm); qualify scheduler admission, isolation and cycle latency on the servo host.",
+  "bus": {
+    "unknown_slaves": "refuse"
+  },
+  "bus_bringup": {
+    "explicit_pdo_config": false,
+    "disable_output_watchdog": false,
+    "no_dc": false
+  },
+  "_bus_bringup_source": "Same as a Rosie 1430 arm: A6-EC fixed PDO preset (required by a6ec_sdo coordinate evidence), output watchdog and distributed clocks enabled."
+}

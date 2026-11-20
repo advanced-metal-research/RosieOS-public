@@ -1,0 +1,84 @@
+name: PR admission
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-admission-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  admission:
+    name: PR admission / required
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.26.5"
+          cache: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Validate managed release test coverage
+        run: |
+          node --test quality/release-test-coverage.test.mjs
+          node quality/release-test-coverage.mjs check --summary "$GITHUB_STEP_SUMMARY"
+      - name: Validate qualification contracts
+        # These tests are built on the real benches and stay out of the public
+        # mirror (tools/public-mirror/private-paths.txt). The full tree, which
+        # has that list, always runs them, so a missing test fails here.
+        run: |
+          if [ -f tools/public-mirror/private-paths.txt ] || [ -f quality/qualification.test.mjs ]; then
+            node --test quality/qualification.test.mjs
+            python3 quality/hil_admission.test.py
+          else
+            echo "qualification contract tests are internal; skipped in the public mirror"
+          fi
+      - name: Run the versioned admission policy
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || 'HEAD^' }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          RESULT_PATH: ${{ runner.temp }}/pr-admission/result.json
+        run: |
+          mkdir -p "$(dirname "$RESULT_PATH")"
+          node quality/pr-admission.mjs run \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --result "$RESULT_PATH" \
+            --summary "$GITHUB_STEP_SUMMARY"
+      - name: Generate the qualification plan
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || 'HEAD^' }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PLAN_PATH: ${{ runner.temp }}/pr-admission/qualification-plan.json
+        run: |
+          node quality/qualification.mjs plan \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --out "$PLAN_PATH" \
+            --summary "$GITHUB_STEP_SUMMARY"
+      - name: Retain the admission record
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pr-admission-${{ github.event.pull_request.number || github.run_id }}
+          path: |
+            ${{ runner.temp }}/pr-admission/result.json
+            ${{ runner.temp }}/pr-admission/qualification-plan.json
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "backend": "simulation",
+  "cycle_ns": 1000000,
+  "max_motor_rpm": 10,
+  "axes": [
+    {
+      "name": "J1",
+      "slave_position": 0,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J2",
+      "slave_position": 1,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J3",
+      "slave_position": 2,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J4",
+      "slave_position": 3,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J5",
+      "slave_position": 4,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J6",
+      "slave_position": 5,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J7",
+      "slave_position": 6,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J8",
+      "slave_position": 7,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "name": "J9",
+      "slave_position": 8,
+      "profile": "cia402_sim",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    }
+  ],
+  "max_cycle_lateness_ns": 20000000,
+  "runtime": {
+    "cpu": 2,
+    "priority": 90
+  }
+}

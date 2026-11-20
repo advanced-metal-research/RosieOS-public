@@ -1,0 +1,1105 @@
+{
+  "schema": "rosie.rt-core.inventory.v1",
+  "configuration_sha256": "e742b0da102865d89d05e37e80e80e4263a449dfd157d096c78c6859846777a6",
+  "inventory": {
+    "command": [
+      "ethercat",
+      "slaves",
+      "--verbose"
+    ],
+    "exit_code": 0,
+    "stdout": "=== Master 0, Slave 0 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 1 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 2 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 3 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 4 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 5 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 6 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 7 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n=== Master 0, Slave 8 ===\nDevice: Main\nState: OP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n  Serial number:   0x00000000\nDL information:\n  Distributed clocks: yes, 64 bit\n",
+    "stderr": ""
+  },
+  "axes": [
+    {
+      "name": "J1",
+      "profile": "a6ec",
+      "slave_position": 0,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005611 22033\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "0",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "6509175\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 0,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 0,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 0,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22033
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22033 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J2",
+      "profile": "a6ec",
+      "slave_position": 1,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005611 22033\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "1",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "6553611\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 1,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 1,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 1,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22033
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22033 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J3",
+      "profile": "a6ec",
+      "slave_position": 2,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005611 22033\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "2",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "6553590\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 2,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 2,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 2,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22033
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22033 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J4",
+      "profile": "a6ec",
+      "slave_position": 3,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005612 22034\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "1179628\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22034
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22034 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J5",
+      "profile": "a6ec",
+      "slave_position": 4,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005612 22034\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "4",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "6553604\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 4,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 4,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 4,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22034
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22034 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J6",
+      "profile": "a6ec",
+      "slave_position": 5,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005612 22034\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x9650 38480\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "5",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "655362\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 5,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 5,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 5,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22034
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22034 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J7",
+      "profile": "a6ec",
+      "slave_position": 6,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005611 22033\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x1650 5712\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "6",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "-2\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 6,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 6,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 6,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22033
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22033 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J8",
+      "profile": "a6ec",
+      "slave_position": 7,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005611 22033\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x1650 5712\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "7",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "30\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 7,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 7,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 7,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22033
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22033 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    },
+    {
+      "name": "J9",
+      "profile": "a6ec",
+      "slave_position": 8,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00000715 1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00005612 22034\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x1650 5712\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x08 8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "8",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "-32\n",
+          "stderr": ""
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 8,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 8,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 8,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 22034
+      },
+      "differences": [],
+      "notes": [
+        "CoE 0x1018:3 revision 22034 differs from the SII revision 12024 the master binds on; the profile pins the SII value"
+      ],
+      "errors": []
+    }
+  ]
+}

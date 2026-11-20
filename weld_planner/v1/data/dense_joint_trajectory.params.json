@@ -1,0 +1,27 @@
+{
+  "schema": "amr-weld-planner-v1.dense-joint-trajectory-params.v1",
+  "id": "module_defaults",
+  "label": "Dense trajectory export defaults",
+  "notes": {
+    "max_abs_qd_rad_s": "Executor clamp ceiling per axis, J1..J9, as the FORMAT's default. Measured on the qd-carry corpus: free-space peak 2.44 rad/s (J4), weld crawl 0.10 rad/s; 3.0 clears the free-space peak with headroom. Carried per-plan in the blob header. When the motion server emits the blob it lowers each axis to the cell profile's enforced_velocity_rad_s (the target's cell.json, or the model's planning rate in robot_description/<model>/config.json when the cell states none), so a plan faster than the cell is refused at emission (qd_limit_exceeded) and the header the daemon reads declares the cell's ceiling; the daemon additionally caps with its own hard ceiling and RTCore's effective limit.",
+    "dt_s": "The controller's clock: 0.01 s is certificate density (cuRobo interpolation_dt is 0.02). The wire's WIRE_DT_S bench detune to 0.2 does not apply here -- the dense blob is the program-by-reference path that lifts that constraint.",
+    "axis_mask": "511 = 0x1ff: all nine axes (J1..J6 arm, J7/J8 positioner, J9 side selector).",
+    "weld_ramp_s": "Stand-in for issue 0013. A weld pass leaves M5 at travel speed at both ends and the daemon refuses a segment not at rest at its ends, so the dense export plays each weld through a smoothstep time map that starts and ends at zero rate over this many seconds at each end; positions stay on the certified path and the pass lasts weld_ramp_s longer. At the corpus weld crawl of 0.10 rad/s the ramp's peak acceleration is 0.6 rad/s^2 (1.5 * 0.10 / 0.25), an order below the free-space runs. Removed once M5 consumes an authored run-in/run-out (0013 step 1-2); a value of 0 disables it."
+  },
+  "params": {
+    "max_abs_qd_rad_s": [
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0
+    ],
+    "dt_s": 0.01,
+    "axis_mask": 511,
+    "weld_ramp_s": 0.25
+  }
+}

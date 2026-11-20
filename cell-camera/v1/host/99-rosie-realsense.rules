@@ -1,0 +1,5 @@
+# Installed by host/install.sh for a camera with CELL_CAMERA_SOURCE=realsense.
+# librealsense's RSUSB backend reads the camera through usbfs, which is root's
+# alone by default; the camera unit's throwaway user is in the video group.
+# Intel RealSense D435i only (8086:0b3a): another model is another line.
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="8086", ATTR{idProduct}=="0b3a", GROUP="video", MODE="0660"

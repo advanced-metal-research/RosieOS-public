@@ -1,0 +1,55 @@
+﻿{
+    "url":  "http://127.0.0.1:8796/offline-programming/v1/ui/?spreadsheet-path-proof=1785494977224",
+    "readyState":  "complete",
+    "viewport":  {
+                     "width":  1920,
+                     "height":  1080,
+                     "dpr":  1.5
+                 },
+    "workspace":  {
+                      "x":  0,
+                      "y":  42.66666793823242,
+                      "width":  1920,
+                      "height":  1007.3333740234375
+                  },
+    "panel":  {
+                  "x":  459.3333435058594,
+                  "y":  52.66666793823242,
+                  "width":  947.34375,
+                  "height":  625.6666870117188
+              },
+    "stage":  {
+                  "x":  460,
+                  "y":  53.333335876464844,
+                  "width":  946.0104370117188,
+                  "height":  624.3333740234375
+              },
+    "canvasCss":  {
+                      "x":  460,
+                      "y":  53.333335876464844,
+                      "width":  946.0104370117188,
+                      "height":  624.3333740234375
+                  },
+    "canvasBuffer":  {
+                         "width":  947,
+                         "height":  625
+                     },
+    "rendererScale":  {
+                          "x":  1.001046038129777,
+                          "y":  1.0010677404160961
+                      },
+    "layout":  "orbit",
+    "pathPointCount":  "4",
+    "body":  {
+                 "x":  0,
+                 "y":  0,
+                 "width":  1920,
+                 "height":  1080
+             },
+    "documentElement":  {
+                            "x":  0,
+                            "y":  0,
+                            "width":  1920,
+                            "height":  1080
+                        }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Robot v4 tune EtherCAT NIC
+After=systemd-udevd.service
+Before=ethercat.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/robot-v4-ethercat-nic-tune.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,46 @@
+{
+  "schema": "rosie.robot-definition.v1",
+  "robot_id": "linear_rail_1axis",
+  "name": "Single-axis linear rail (ball screw, A6-EC)",
+  "revision": 1,
+  "revision_source": "Owner-approved design 2026-10-12: one ball-screw rail modelled as a rotary external joint with no URDF and no Cartesian participation (jog, Home and joint moves only). The drive-native ratio is the motor turns over the full rail, so the whole rail is one virtual output turn (2*pi rad). See README.md beside this file.",
+  "defaults": {
+    "drive_profile": "a6ec",
+    "home_policy": "required",
+    "coordinate_evidence_mode": "multi_turn"
+  },
+  "calibration": {
+    "identity": "home_calibration",
+    "note": "No anchors are embedded. Home is established only by drive HM35 at the rail's mechanical home end; offsets and encoder anchors live in the Home calibration record."
+  },
+  "joints": [
+    {
+      "name": "J1",
+      "urdf_joint": null,
+      "kind": "external",
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "numerator_source": "Example design 2026-10-12: screw lead 10 mm/rev x 100 motor turns = 1000 mm rail = one virtual output turn; numerator = motor turns over the full rail (rail length / lead). 1 rad = 1000/(2*pi) = 159.155 mm; 131072 x 100 / 1000 = 13107.2 counts/mm.",
+        "numerator_unverified": "unverified: lead and usable rail length are example design values; replace with the installed rail's and measure counts per mm before motion qualification",
+        "denominator": 1,
+        "denominator_source": "Example design 2026-10-12: denominator 1. rtctl requires 131072 x numerator / denominator to be an integer, at most 2147483647 (int32 counts/rev) and above 2 x 640016 counts (the a6ec 128 ms mailbox acquisition allowance must stay below half a turn): numerator/denominator 10..16383, each term at most 65535 (A6-EC 0x2010:19/1A are u16).",
+        "source": "Example design 2026-10-12 mechanics, migrated 2026-10-19: software ratio 100/1 in A6-EC linear absolute mode."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "A6-EC/A6M 17-bit absolute motor encoder, 131072 counts/motor rev, the same model the Rosie 1430 arms use.",
+      "motor_encoder_counts_per_rev_unverified": "unverified: the rail motor's encoder part number and counts per physical motor revolution are not yet read back",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Owner statement 2026-10-12: the rail's encoder cable has a battery box (multi-turn retention). Battery voltage and retention are unmeasured.",
+      "sign": 1,
+      "sign_unverified": "unverified: +1 is a placeholder; confirm that positive motion moves the carriage away from the home end before motion qualification",
+      "mechanical_travel": {
+        "min": 0.031416,
+        "min_unverified": "unverified: 5 mm from the home end (5 / 159.155 mm per rad); example design value, measure the hard stop clearance on the installed rail",
+        "max": 6.251769,
+        "max_unverified": "unverified: 995 mm from the home end (995 / 159.155 mm per rad), 5 mm short of one virtual output turn so the span stays below 2*pi; example design value, measure on the installed rail"
+      }
+    }
+  ]
+}

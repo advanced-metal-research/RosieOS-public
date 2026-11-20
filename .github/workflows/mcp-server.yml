@@ -1,0 +1,73 @@
+name: RosieOS MCP server
+# The rosie CLI (cli/v1) and the MCP server (mcp/v1) share one library: both are built and tested here.
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/mcp-server.yml"
+      - "mcp/v1/**"
+      - "cli/v1/**"
+      - "offline-programming/v1/ui/src/**"
+      - "offline-programming/v1/ui/snapshot.html"
+      - "offline-programming/v1/ui/vite.snapshot.config.ts"
+      - "robot_description/**"
+      - "offline-programming/v1/ui/package-lock.json"
+      - "steamdeck/real/v5/olp-core/**"
+      - "motion-server/joint-trajectory/v1/testdata/**"
+      - "rt-core/config/cells/**"
+      - "rt-core/config/drives/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mcp-server.yml"
+      - "mcp/v1/**"
+      - "cli/v1/**"
+      - "offline-programming/v1/ui/src/**"
+      - "offline-programming/v1/ui/snapshot.html"
+      - "offline-programming/v1/ui/vite.snapshot.config.ts"
+      - "robot_description/**"
+      - "offline-programming/v1/ui/package-lock.json"
+      - "steamdeck/real/v5/olp-core/**"
+      - "motion-server/joint-trajectory/v1/testdata/**"
+      - "rt-core/config/cells/**"
+      - "rt-core/config/drives/**"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            cli/v1/package-lock.json
+            mcp/v1/package-lock.json
+            offline-programming/v1/ui/package-lock.json
+      # The server bundles OLP's own program engine against the UI's packages.
+      - name: Install OLP UI dependencies
+        working-directory: offline-programming/v1/ui
+        run: npm ci
+      - name: Install rosie CLI dependencies
+        working-directory: cli/v1
+        run: npm ci
+      - name: Typecheck the CLI and its engine entry against OLP's sources
+        working-directory: cli/v1
+        run: npm run typecheck
+      # The snapshot test drives OLP's renderer in the runner's Chrome; it skips when none is found.
+      - name: Build and test the CLI
+        working-directory: cli/v1
+        run: npm test
+      - name: Install MCP server dependencies
+        working-directory: mcp/v1
+        run: npm ci
+      - name: Typecheck the server and its engine entry against OLP's sources
+        working-directory: mcp/v1
+        run: npm run typecheck
+      - name: Build and test
+        working-directory: mcp/v1
+        run: npm test

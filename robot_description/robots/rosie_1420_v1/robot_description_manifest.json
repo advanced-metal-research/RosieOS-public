@@ -1,0 +1,21 @@
+{
+  "schema": "rosie.robot-manifest.v1",
+  "model_id": "rosie_1420_v1",
+  "files": [
+    "config.json",
+    "meshes/base.dae",
+    "meshes/end_effector.dae",
+    "meshes/fixture_placeholder.dae",
+    "meshes/link_1.dae",
+    "meshes/link_2.dae",
+    "meshes/link_3.dae",
+    "meshes/link_4.dae",
+    "meshes/link_5.dae",
+    "meshes/link_6.dae",
+    "meshes/pedestal.dae",
+    "robot.srdf",
+    "robot.urdf",
+    "rtcore_definition.json",
+    "spheres.json"
+  ]
+}

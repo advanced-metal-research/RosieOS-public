@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "tool": "rosie cadquery v1 measure",
+  "fusion_manifest": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\export_manifest.json",
+  "mesh_dir": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes",
+  "measurement_count": 11,
+  "measurements": [
+    {
+      "target_type": "part",
+      "index": 0,
+      "name": "floor_1_1",
+      "mesh": "floor_1_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\floor_1_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "floor (1)",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 8034,
+      "bounds_raw": {
+        "min": [
+          0.0,
+          -4.194175931039601e-13,
+          -203.1999969482422
+        ],
+        "max": [
+          2608.5,
+          1371.5999755859375,
+          485.23748779296875
+        ],
+        "center": [
+          1304.25,
+          685.7999877929685,
+          141.01874542236328
+        ],
+        "size": [
+          2608.5,
+          1371.599975585938,
+          688.4374847412109
+        ],
+        "diagonal": 3026.467398374572
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 1,
+      "name": "l1_1_1",
+      "mesh": "l1_1_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\l1_1_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "l1 (1)",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 4914,
+      "bounds_raw": {
+        "min": [
+          -130.0,
+          -130.0,
+          -4.711248210130525e-13
+        ],
+        "max": [
+          249.9441375732422,
+          130.0,
+          359.88092041015625
+        ],
+        "center": [
+          59.972068786621094,
+          0.0,
+          179.9404602050779
+        ],
+        "size": [
+          379.9441375732422,
+          260.0,
+          359.8809204101567
+        ],
+        "diagonal": 584.3559057214502
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 2,
+      "name": "l2_1",
+      "mesh": "l2_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\l2_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "l2",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 672,
+      "bounds_raw": {
+        "min": [
+          -62.5,
+          -75.0,
+          -62.5
+        ],
+        "max": [
+          62.5,
+          7.65404212720814e-15,
+          662.5
+        ],
+        "center": [
+          0.0,
+          -37.49999999999999,
+          300.0
+        ],
+        "size": [
+          125.0,
+          75.00000000000001,
+          725.0
+        ],
+        "diagonal": 739.509972887452
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 3,
+      "name": "l3_1",
+      "mesh": "l3_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\l3_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "l3",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 4086,
+      "bounds_raw": {
+        "min": [
+          -89.99942779541016,
+          -7.60331332399708e-14,
+          -89.98811340332031
+        ],
+        "max": [
+          159.0,
+          227.0,
+          170.0
+        ],
+        "center": [
+          34.50028610229492,
+          113.49999999999996,
+          40.005943298339844
+        ],
+        "size": [
+          248.99942779541016,
+          227.00000000000009,
+          259.9881134033203
+        ],
+        "diagonal": 425.5861066264493
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 4,
+      "name": "l4_1",
+      "mesh": "l4_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\l4_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "l4",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 1464,
+      "bounds_raw": {
+        "min": [
+          -8.644667447155197e-12,
+          -108.23303985595703,
+          -57.0
+        ],
+        "max": [
+          527.6282348632812,
+          146.89295959472656,
+          99.53331756591797
+        ],
+        "center": [
+          263.8141174316363,
+          19.329959869384766,
+          21.266658782958984
+        ],
+        "size": [
+          527.6282348632899,
+          255.1259994506836,
+          156.53331756591797
+        ],
+        "diagonal": 606.6164433386666
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 5,
+      "name": "l5_1",
+      "mesh": "l5_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\l5_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "l5",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 1626,
+      "bounds_raw": {
+        "min": [
+          -42.5,
+          -9.387636338859667e-14,
+          -93.30000305175781
+        ],
+        "max": [
+          42.5,
+          121.83304595947266,
+          100.27999877929688
+        ],
+        "center": [
+          0.0,
+          60.91652297973628,
+          3.4899978637695312
+        ],
+        "size": [
+          85.0,
+          121.83304595947276,
+          193.5800018310547
+        ],
+        "diagonal": 244.0112870272073
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 6,
+      "name": "mig_torch_v1_1",
+      "mesh": "mig_torch_v1_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\mig_torch_v1_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "mig_torch_v1",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 5190,
+      "bounds_raw": {
+        "min": [
+          -34.749324798583984,
+          -38.099998474121094,
+          -406.2404479980469
+        ],
+        "max": [
+          215.76010131835938,
+          34.749324798583984,
+          103.08694458007812
+        ],
+        "center": [
+          90.5053882598877,
+          -1.6753368377685547,
+          -151.57675170898438
+        ],
+        "size": [
+          250.50942611694336,
+          72.84932327270508,
+          509.327392578125
+        ],
+        "diagonal": 572.2555279813056
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 7,
+      "name": "h_frame_1",
+      "mesh": "h_frame_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\h_frame_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "h_frame",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 28407,
+      "bounds_raw": {
+        "min": [
+          -600.0,
+          -848.780029296875,
+          -0.9505321979522705
+        ],
+        "max": [
+          600.0,
+          848.780029296875,
+          585.5
+        ],
+        "center": [
+          0.0,
+          0.0,
+          292.27473390102386
+        ],
+        "size": [
+          1200.0,
+          1697.56005859375,
+          586.4505321979523
+        ],
+        "diagonal": 2160.007958144617
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 8,
+      "name": "positioner_table_1",
+      "mesh": "positioner_table_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\positioner_table_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "positioner_table",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 36,
+      "bounds_raw": {
+        "min": [
+          -100.0,
+          -1244.0,
+          -100.0
+        ],
+        "max": [
+          100.0,
+          7.105427357601002e-14,
+          100.0
+        ],
+        "center": [
+          0.0,
+          -622.0,
+          0.0
+        ],
+        "size": [
+          200.0,
+          1244.0,
+          200.0
+        ],
+        "diagonal": 1275.7491916517133
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 9,
+      "name": "positioner_table_2",
+      "mesh": "positioner_table_2.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\positioner_table_2.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "positioner_table",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 36,
+      "bounds_raw": {
+        "min": [
+          -100.0,
+          -1244.0,
+          -100.0
+        ],
+        "max": [
+          100.0,
+          7.105427357601002e-14,
+          100.0
+        ],
+        "center": [
+          0.0,
+          -622.0,
+          0.0
+        ],
+        "size": [
+          200.0,
+          1244.0,
+          200.0
+        ],
+        "diagonal": 1275.7491916517133
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    },
+    {
+      "target_type": "part",
+      "index": 10,
+      "name": "end_effector_1",
+      "mesh": "end_effector_1.stl",
+      "mesh_path": "C:\\Users\\operator\\gradient-cli\\urdf\\v1\\rosie_1400_v3\\fusion_part_export\\meshes\\end_effector_1.stl",
+      "logical_link_name": "",
+      "occurrence_path": "",
+      "component_name": "end_effector",
+      "bbox_min_m": [],
+      "bbox_max_m": [],
+      "bbox_source": "",
+      "transform_candidate": "",
+      "transform_error_m": null,
+      "status": "measured",
+      "vertex_count": 1698,
+      "bounds_raw": {
+        "min": [
+          0.0,
+          -3.1745660305023193,
+          -3.1732640266418457
+        ],
+        "max": [
+          6.349999904632568,
+          3.1745660305023193,
+          3.174999952316284
+        ],
+        "center": [
+          3.174999952316284,
+          0.0,
+          0.0008679628372192383
+        ],
+        "size": [
+          6.349999904632568,
+          6.349132061004639,
+          6.34826397895813
+        ],
+        "diagonal": 10.997019244479294
+      },
+      "units": "Fusion STL raw units, normally millimeters"
+    }
+  ],
+  "warnings": [
+    "STL triangle bounds are mesh bounds, not exact BRep bounds.",
+    "Use URDF mesh scale before comparing raw STL coordinates to Fusion meter-space metadata; Fusion STL exports are commonly millimeter-based."
+  ]
+}

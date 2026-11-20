@@ -1,0 +1,14 @@
+[Unit]
+Description=Re-sign the Rosie controller's remote CRL daily
+
+[Timer]
+# Daily against a 7-day CRL: six missed days before clients are refused.
+# Persistent runs a missed day at the next boot; OnBootSec covers a host that
+# was off longer than the CRL lasts.
+OnCalendar=daily
+RandomizedDelaySec=30min
+Persistent=true
+OnBootSec=5min
+
+[Install]
+WantedBy=timers.target

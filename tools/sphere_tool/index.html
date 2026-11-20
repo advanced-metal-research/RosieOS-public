@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>sphere tool · rosie urdf v1</title>
+    <link rel="stylesheet" href="/src/spheres.css" />
+  </head>
+  <body>
+    <!-- Authoring tool for two things a cell needs: the per-cell sphere model
+         the motion planner collides with, and the joint limits in the cell's
+         own robot.urdf. Reads the bundles under robot_description through serve.py; both
+         outputs leave as a browser download, into a diff somebody reads. -->
+    <header id="top">
+      <h1>sphere model <span class="tag">dev</span></h1>
+      <select id="cell-picker"></select>
+      <div id="cell-note" class="muted"></div>
+      <div id="totals" class="muted"></div>
+    </header>
+
+    <aside id="panel">
+      <section>
+        <h2>Fit</h2>
+        <label class="row">
+          <span>method</span>
+          <select id="method">
+            <option value="auto">auto · try all, keep best</option>
+            <option value="cluster">cluster · exact count</option>
+            <option value="boxes">boxes · one level</option>
+            <option value="hierarchy">hierarchy · coarse→fine</option>
+          </select>
+        </label>
+        <label class="row" title="Fit the convex hull instead of the mesh: simpler body, fewer spheres, guaranteed to cover the part — but every concavity it fills is wasted volume. Waste is still measured against the real mesh, so the two settings compare directly.">
+          <span>convex hull</span>
+          <input id="convex-hull" type="checkbox" />
+        </label>
+        <label class="row">
+          <span>sphere budget</span>
+          <input id="sphere-budget" type="range" min="4" max="400" step="2" value="50" />
+          <span id="sphere-budget-val" class="slider-val">50</span>
+        </label>
+        <!-- Not just a display setting: this grid is what `cluster` fits to
+             and what every method's final radius is tightened against. -->
+        <label class="row" title="Voxel grid the mesh surface is sampled on. Sets the precision of the coverage and waste numbers, the input to cluster mode, and the slack in every method's final radius.">
+          <span>surface grid</span>
+          <input id="resolution" type="range" min="16" max="96" step="4" value="48" />
+          <span id="resolution-val" class="slider-val">48</span>
+        </label>
+
+        <!-- cluster -->
+        <label class="row mode-opt" data-for="cluster">
+          <span>clusters</span>
+          <input id="max-spheres" type="range" min="1" max="200" value="30" />
+          <span id="max-spheres-val" class="slider-val">30</span>
+        </label>
+
+        <!-- boxes -->
+        <label class="row mode-opt" data-for="boxes">
+          <span>box voxels</span>
+          <input id="box-resolution" type="range" min="8" max="96" step="2" value="24" />
+          <span id="box-resolution-val" class="slider-val">24</span>
+        </label>
+
+        <!-- hierarchy -->
+        <label class="row mode-opt" data-for="hierarchy">
+          <span>base voxels</span>
+          <input id="base-resolution" type="range" min="4" max="48" step="1" value="12" />
+          <span id="base-resolution-val" class="slider-val">12</span>
+        </label>
+        <label class="row mode-opt" data-for="hierarchy">
+          <span>levels</span>
+          <input id="levels" type="range" min="1" max="5" value="3" />
+          <span id="levels-val" class="slider-val">3</span>
+        </label>
+
+        <!-- boxes + hierarchy -->
+        <label class="row mode-opt" data-for="boxes hierarchy">
+          <span>aspect cap</span>
+          <input id="aspect" type="range" min="100" max="300" step="10" value="120" />
+          <span id="aspect-val" class="slider-val">1.2</span>
+        </label>
+
+        <div id="grid-note" class="muted"></div>
+        <div class="row">
+          <button id="fit-link">Fit this link</button>
+          <button id="fit-all">Fit all</button>
+        </div>
+        <!-- Continues from whatever is on the link instead of re-seeding, so
+             a cover you dragged into place is not thrown away. -->
+        <div class="row">
+          <button id="refine-link" title="Descend on wasted volume from the spheres currently on this link — no re-seeding, so hand placement survives.">Refine current</button>
+          <button id="refine-all">Refine all</button>
+        </div>
+        <div id="fit-report" class="muted"></div>
+      </section>
+
+      <section>
+        <h2>Spheres · <span id="sphere-count">0</span></h2>
+        <div id="sphere-list"></div>
+        <div class="row" id="gizmo-mode-row">
+          <button id="gizmo-move" class="mode-btn active">Move <kbd>T</kbd></button>
+          <button id="gizmo-scale" class="mode-btn">Size <kbd>S</kbd></button>
+        </div>
+        <label class="row">
+          <span>radius mm</span>
+          <input id="radius" type="range" min="1" max="400" value="50" />
+          <span id="radius-readout" class="slider-val">50</span>
+        </label>
+        <div class="row">
+          <button id="add-sphere">Add at centre</button>
+          <button id="delete-sphere">Delete</button>
+        </div>
+        <div id="sphere-note" class="muted">
+          Click a sphere to select. Drag axes to move; switch to Size to drag-resize. Arrow keys nudge; shift = Z; alt = fine.
+        </div>
+      </section>
+
+      <section>
+        <h2>Asset</h2>
+        <div class="row">
+          <button id="export">Download JSON</button>
+          <button id="import">Load JSON…</button>
+        </div>
+        <input id="import-file" type="file" accept="application/json" hidden />
+        <div id="asset-note" class="muted"></div>
+      </section>
+
+      <section>
+        <h2>View</h2>
+        <div class="row">
+          <button id="mode-link" class="mode-btn active">Single link</button>
+          <button id="mode-robot" class="mode-btn">Full robot</button>
+        </div>
+        <label class="row" title="Draw a triad at every frame the cell declares. In single-link view that is the link's own origin plus every frame bolted to it through fixed joints -- which is where a tool frame that has drifted off the hardware becomes visible. In full-robot view it is every link, posed.">
+          <span>frame axes</span>
+          <input id="show-axes" type="checkbox" />
+        </label>
+        <label class="row">
+          <span>axis length</span>
+          <input id="axis-length" type="range" min="10" max="400" step="5" value="80" />
+          <span id="axis-length-val" class="muted">80 mm</span>
+        </label>
+        <label class="row">
+          <span>frame labels</span>
+          <input id="show-axis-labels" type="checkbox" checked />
+        </label>
+      </section>
+
+      <section id="link-section">
+        <h2>Links</h2>
+        <label class="row">
+          <span>show mesh</span>
+          <input id="show-mesh" type="checkbox" checked />
+        </label>
+        <label class="row">
+          <span>show all links</span>
+          <input id="show-all" type="checkbox" />
+        </label>
+        <div id="link-list"></div>
+      </section>
+
+      <section id="joint-section" style="display:none">
+        <h2>Joints</h2>
+        <!-- Each row is `name | lower | slider | upper`. The two bounds are
+             editable, and the arrows under them take the pose the slider is
+             at -- which is the whole point: you drive the joint to where the
+             arm actually stops and record THAT, rather than typing a number
+             and hoping. -->
+        <div id="joint-sliders"></div>
+        <div class="row">
+          <button id="reset-joints">Reset to zero</button>
+          <button id="revert-limits">Revert limits</button>
+        </div>
+        <div class="row">
+          <button id="export-limits">Download URDF</button>
+        </div>
+        <div id="limit-note" class="muted"></div>
+      </section>
+    </aside>
+
+    <main id="viewport"></main>
+    <div id="error"></div>
+
+    <script type="module" src="/src/spheres.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+type ScalarMaps struct {
+	Flags  map[string]bool   `json:"flags"`
+	Labels map[string]string `json:"labels,omitempty"`
+	Counts map[string]uint64 `json:"counts"`
+}

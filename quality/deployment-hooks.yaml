@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: deployment-tools
+        name: Deployment diagnostics contracts (local, no devices)
+        entry: node --test quality/deployment-tools.test.mjs
+        language: system
+        pass_filenames: false
+        files: ^quality/deployment-.*$

@@ -1,0 +1,19 @@
+{
+  "schema": "rosie.qualification-scenarios.v1",
+  "scenarios": [
+    {
+      "id": "operator-runtime-contract",
+      "claim": "operator-contract",
+      "environment": "source",
+      "test": "offline-programming/v1/internal/denseexec/jog_end_test.go",
+      "runner": "operator-runtime-contract",
+      "deterministic": true,
+      "motionAllowed": false,
+      "requiredCapabilities": [],
+      "timeoutSeconds": 600,
+      "evidenceOutputs": ["go-test-result", "runner-log"],
+      "finalSafe": "not_applicable",
+      "owner": "offline-programming/v1"
+    }
+  ]
+}

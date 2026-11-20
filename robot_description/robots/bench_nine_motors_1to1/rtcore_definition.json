@@ -1,0 +1,296 @@
+{
+  "calibration": {
+    "identity": "home_calibration",
+    "note": "Offsets and encoder anchors live in the Home calibration record with its own revision, which does not invalidate plans; this file carries none."
+  },
+  "defaults": {
+    "coordinate_evidence_mode": "multi_turn",
+    "drive_profile": "a6ec_bench_1to1",
+    "home_policy": "required"
+  },
+  "joints": [
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J1",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); on axis 0 with sign -1 a positive logical move turns the shaft arrow clockwise on camera cam1",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J2",
+      "sign": 1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 1",
+      "sign_unverified": "unverified: axis 1 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J3",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 2",
+      "sign_unverified": "unverified: axis 2 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J4",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 3",
+      "sign_unverified": "unverified: axis 3 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J5",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 4",
+      "sign_unverified": "unverified: axis 4 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J6",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 5",
+      "sign_unverified": "unverified: axis 5 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J7",
+      "sign": 1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 6",
+      "sign_unverified": "unverified: axis 6 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J8",
+      "sign": 1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 7",
+      "sign_unverified": "unverified: axis 7 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    },
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "_unverified": "unverified: verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "numerator": 1,
+        "numerator_source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1",
+        "source": "cited: docs/robots/rosie_1400/README.md; owner direction 2026-09-14, bare bench motor shaft, no reduction, exact 1/1"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 3,
+        "max_unverified": "unverified: owner bare-motor single-turn operating envelope, 3 rad",
+        "min": -3,
+        "min_unverified": "unverified: owner bare-motor single-turn operating envelope, -3 rad"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present is required by linear multi-turn mode",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J9",
+      "sign": 1,
+      "sign_source": "cited: docs/robots/rosie_1400/README.md; owner bench convention recorded 2026-09-14; motors left to right are axes 0..8 (J1..J9); this joint is axis 8",
+      "sign_unverified": "unverified: axis 8 retains its configured logical sign; verify its shaft-arrow direction on cam1 before claiming the axis-0 clockwise convention for this motor",
+      "urdf_joint": null
+    }
+  ],
+  "name": "bench_nine_motors_1to1",
+  "revision": 6,
+  "revision_source": "Owner-approved A6-EC linear-mode migration 2026-10-19: retire single-turn evidence and use continuous multi-turn coordinates.",
+  "robot_id": "bench_nine_motors_1to1",
+  "schema": "rosie.robot-definition.v1"
+}

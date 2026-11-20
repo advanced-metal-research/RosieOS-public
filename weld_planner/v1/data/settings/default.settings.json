@@ -1,0 +1,28 @@
+{
+  "schema": "amr-weld-planner-v1.settings.v1",
+  "id": "module_defaults",
+  "label": "Module defaults",
+  "presets": {
+    "torch": "rosie_link6_gun",
+    "weld": "gmaw_steel_fillet",
+    "search": "steady"
+  },
+  "defaults": {
+    "analysis": {
+      "rail_offset_m": 0.02,
+      "min_seam_length_m": 0.005,
+      "max_corner_angle_deg": 5.0,
+      "accessibility_ray_count": 256
+    }
+  },
+  "playback": {
+    "autoplay_pause_s": 0.7,
+    "fallback_pass_s": 5.0,
+    "comb_seconds": 1.0
+  },
+  "intersector": {
+    "engine": "bvh",
+    "deflection_mm": 0.01,
+    "dilation_mm": 0.05
+  }
+}

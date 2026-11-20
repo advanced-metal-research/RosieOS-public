@@ -1,0 +1,1475 @@
+{
+  "source_path": "urdf/v1/rosie_1400_h/component_analysis.json (predecessor monorepo)",
+  "source_sha256": "dee010b74ebd46b1a9f4d60b35f6acbf08fa1269935bd909ce436e1dba72e772",
+  "extraction_date": "2026-09-14",
+  "source_generated_at_utc": "2026-05-28T01:12:21.128Z",
+  "extraction": "All source_occurrence_keys under rosie_1400:1, grouped by the CAD L1..L5/base/end_effector occurrence rather than render group. Direct parents deduplicated by occurrence identity; leaf occurrences retained. Each name segment is decoded with name.encode('latin-1').decode('gbk'); existing Unicode names are unchanged. No ratio is inferred from render-group assignment.",
+  "links": {
+    "base": {
+      "cad_occurrence": "rosie_1400:1/base:1",
+      "direct_component_occurrences": [
+        "base plate (1):1",
+        "base clamp:1"
+      ],
+      "components": [
+        {
+          "name": "base plate (1)",
+          "occurrence_path": "rosie_1400:1/base:1/base plate (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/0",
+          "source_line": 125
+        },
+        {
+          "name": "base clamp",
+          "occurrence_path": "rosie_1400:1/base:1/base clamp:1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/1",
+          "source_line": 126
+        }
+      ]
+    },
+    "L1": {
+      "cad_occurrence": "rosie_1400:1/L1:1",
+      "direct_component_occurrences": [
+        "base top brace (1):1",
+        "base top mount (1):1",
+        "Component4:1",
+        "base bottom clamp (1):1",
+        "servo mount middle (1):1",
+        "A6M80-1000H2B1-M17 v1:1",
+        "BCUK-RE16025UUCC0P5 v1:1",
+        "HSS-40-100-I-D19 v1:1",
+        "HSS-40-100-I-D19 v1 (1):1",
+        "A6M80-1000H2B1-M17 v1:2",
+        "servo-connector v1 (1) (1):1"
+      ],
+      "components": [
+        {
+          "name": "base top brace (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/base top brace (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/2",
+          "source_line": 127
+        },
+        {
+          "name": "base top mount (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/base top mount (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/3",
+          "source_line": 128
+        },
+        {
+          "name": "base servo side vertical flange (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/Component4:1/base servo side vertical flange (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/4",
+          "source_line": 129
+        },
+        {
+          "name": "Component10",
+          "occurrence_path": "rosie_1400:1/L1:1/Component4:1/Component6:1/base top vertical flange (1):1/Component10:1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/5",
+          "source_line": 130
+        },
+        {
+          "name": "base bottom clamp (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/base bottom clamp (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/6",
+          "source_line": 131
+        },
+        {
+          "name": "servo mount middle (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/servo mount middle (1):1",
+          "render_group": "base_link",
+          "source_pointer": "/components/0/source_occurrence_keys/7",
+          "source_line": 132
+        },
+        {
+          "name": "A6M80-1000H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L1:1/A6M80-1000H2B1-M17 v1:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/0",
+          "source_line": 254
+        },
+        {
+          "name": "BCUK-RE16025UUCC0P5 v1",
+          "occurrence_path": "rosie_1400:1/L1:1/BCUK-RE16025UUCC0P5 v1:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/1",
+          "source_line": 255
+        },
+        {
+          "name": "交叉轴承LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/交叉轴承LSS-40:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/2",
+          "source_line": 256
+        },
+        {
+          "name": "TC-90x105x6",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/交叉轴承LSS-40:1/TC-90x105x6:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/3",
+          "source_line": 257
+        },
+        {
+          "name": "刚轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/刚轮LSS-40:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/4",
+          "source_line": 258
+        },
+        {
+          "name": "柔轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/柔轮LSS-40:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/5",
+          "source_line": 259
+        },
+        {
+          "name": "柔轮垫块LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/柔轮垫块LSS-40:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/6",
+          "source_line": 260
+        },
+        {
+          "name": "EB7310015-40KC-46",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/EB7310015-40KC:1/EB7310015-40KC-46:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/7",
+          "source_line": 261
+        },
+        {
+          "name": "EB7310015-40KC-01",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/EB7310015-40KC:1/EB7310015-40KC-01:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/8",
+          "source_line": 262
+        },
+        {
+          "name": "发生器LSS-40-DL-φ19",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/发生器LSS-40-DL-φ19:1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/9",
+          "source_line": 263
+        },
+        {
+          "name": "交叉轴承LSS-40 (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/交叉轴承LSS-40 (1):1",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/10",
+          "source_line": 264
+        },
+        {
+          "name": "TC-90x105x6",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/交叉轴承LSS-40 (1):1/TC-90x105x6:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/11",
+          "source_line": 265
+        },
+        {
+          "name": "EB7310015-40KC-46",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/EB7310015-40KC (1):1/EB7310015-40KC-46:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/12",
+          "source_line": 266
+        },
+        {
+          "name": "EB7310015-40KC-01",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/EB7310015-40KC (1):1/EB7310015-40KC-01:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/13",
+          "source_line": 267
+        },
+        {
+          "name": "刚轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/刚轮LSS-40:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/14",
+          "source_line": 268
+        },
+        {
+          "name": "柔轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/柔轮LSS-40:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/15",
+          "source_line": 269
+        },
+        {
+          "name": "柔轮垫块LSS-40",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/柔轮垫块LSS-40:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/16",
+          "source_line": 270
+        },
+        {
+          "name": "发生器LSS-40-DL-φ19",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/发生器LSS-40-DL-φ19:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/17",
+          "source_line": 271
+        },
+        {
+          "name": "A6M80-1000H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L1:1/A6M80-1000H2B1-M17 v1:2",
+          "render_group": "link_1",
+          "source_pointer": "/components/1/source_occurrence_keys/18",
+          "source_line": 272
+        },
+        {
+          "name": "servo-connector v1 (1) (1)",
+          "occurrence_path": "rosie_1400:1/L1:1/servo-connector v1 (1) (1):1",
+          "render_group": "cell_static_residual_positioner_servo_mounts_23",
+          "source_pointer": "/components/33/source_occurrence_keys/0",
+          "source_line": 4367
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/销子5x14:1",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/0",
+          "source_line": 4521
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:1",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/1",
+          "source_line": 4522
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:1",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/2",
+          "source_line": 4523
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/销子5x14:2",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/3",
+          "source_line": 4524
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/销子5x14:3",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/4",
+          "source_line": 4525
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/销子5x14:4",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/5",
+          "source_line": 4526
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:2",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/6",
+          "source_line": 4527
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:3",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/7",
+          "source_line": 4528
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:4",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/8",
+          "source_line": 4529
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:5",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/9",
+          "source_line": 4530
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:6",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/10",
+          "source_line": 4531
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:7",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/11",
+          "source_line": 4532
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:8",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/12",
+          "source_line": 4533
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:2",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/13",
+          "source_line": 4534
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:3",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/14",
+          "source_line": 4535
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:4",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/15",
+          "source_line": 4536
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:5",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/16",
+          "source_line": 4537
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:6",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/17",
+          "source_line": 4538
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:7",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/18",
+          "source_line": 4539
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:8",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/19",
+          "source_line": 4540
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:9",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/20",
+          "source_line": 4541
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:10",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/21",
+          "source_line": 4542
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:11",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/22",
+          "source_line": 4543
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:12",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/23",
+          "source_line": 4544
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:13",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/24",
+          "source_line": 4545
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:14",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/25",
+          "source_line": 4546
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:15",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/26",
+          "source_line": 4547
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:16",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/27",
+          "source_line": 4548
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:17",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/28",
+          "source_line": 4549
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:18",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/29",
+          "source_line": 4550
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:19",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/30",
+          "source_line": 4551
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:20",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/31",
+          "source_line": 4552
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/销子5x14:5",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/32",
+          "source_line": 4553
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:9",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/33",
+          "source_line": 4554
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:21",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/34",
+          "source_line": 4555
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/销子5x14:6",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/35",
+          "source_line": 4556
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/销子5x14:7",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/36",
+          "source_line": 4557
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/销子5x14:8",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/37",
+          "source_line": 4558
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:10",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/38",
+          "source_line": 4559
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:11",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/39",
+          "source_line": 4560
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:12",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/40",
+          "source_line": 4561
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:13",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/41",
+          "source_line": 4562
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:14",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/42",
+          "source_line": 4563
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:15",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/43",
+          "source_line": 4564
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M10x25:16",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/44",
+          "source_line": 4565
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:22",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/45",
+          "source_line": 4566
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:23",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/46",
+          "source_line": 4567
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:24",
+          "render_group": "cell_static_residual_fastener_sets_24",
+          "source_pointer": "/components/34/source_occurrence_keys/47",
+          "source_line": 4568
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:25",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/0",
+          "source_line": 4721
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:26",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/1",
+          "source_line": 4722
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:27",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/2",
+          "source_line": 4723
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:28",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/3",
+          "source_line": 4724
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:29",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/4",
+          "source_line": 4725
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:30",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/5",
+          "source_line": 4726
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:31",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/6",
+          "source_line": 4727
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:32",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/7",
+          "source_line": 4728
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:33",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/8",
+          "source_line": 4729
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:34",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/9",
+          "source_line": 4730
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:35",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/10",
+          "source_line": 4731
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:36",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/11",
+          "source_line": 4732
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:37",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/12",
+          "source_line": 4733
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:38",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/13",
+          "source_line": 4734
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:39",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/14",
+          "source_line": 4735
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L1:1/HSS-40-100-I-D19 v1 (1):1/GB-T70.1-2000,M4x25:40",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/15",
+          "source_line": 4736
+        }
+      ]
+    },
+    "L2": {
+      "cad_occurrence": "rosie_1400:1/L2:1",
+      "direct_component_occurrences": [
+        "j2-thicc:1"
+      ],
+      "components": [
+        {
+          "name": "j2-thicc",
+          "occurrence_path": "rosie_1400:1/L2:1/j2-thicc:1",
+          "render_group": "link_2",
+          "source_pointer": "/components/2/source_occurrence_keys/0",
+          "source_line": 377
+        },
+        {
+          "name": "Component3",
+          "occurrence_path": "rosie_1400:1/L2:1/j2-thicc:1/Component3:1",
+          "render_group": "link_2",
+          "source_pointer": "/components/2/source_occurrence_keys/1",
+          "source_line": 378
+        },
+        {
+          "name": "Component4",
+          "occurrence_path": "rosie_1400:1/L2:1/j2-thicc:1/Component4:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/0",
+          "source_line": 4920
+        }
+      ]
+    },
+    "L3": {
+      "cad_occurrence": "rosie_1400:1/L3:1",
+      "direct_component_occurrences": [
+        "HRP130_D14 v1:1",
+        "A6M80-1000H2B1-M17 v1:1",
+        "HSS-40-100-I-D19 v1:1",
+        "A6M60-400H2B1-M17 v1:1",
+        "j3 mount v5:1"
+      ],
+      "components": [
+        {
+          "name": "61904",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/61904:1",
+          "render_group": "link_3",
+          "source_pointer": "/components/3/source_occurrence_keys/0",
+          "source_line": 483
+        },
+        {
+          "name": "齿轮Z10_M0.65X10",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/齿轮Z10_M0.65X10:1",
+          "render_group": "link_3",
+          "source_pointer": "/components/3/source_occurrence_keys/1",
+          "source_line": 484
+        },
+        {
+          "name": "A6M80-1000H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L3:1/A6M80-1000H2B1-M17 v1:1",
+          "render_group": "cell_static_residual_positioner_servo_mounts_23",
+          "source_pointer": "/components/33/source_occurrence_keys/1",
+          "source_line": 4368
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/销子5x14:1",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/16",
+          "source_line": 4737
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:1",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/17",
+          "source_line": 4738
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:1",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/18",
+          "source_line": 4739
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/销子5x14:2",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/19",
+          "source_line": 4740
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/销子5x14:3",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/20",
+          "source_line": 4741
+        },
+        {
+          "name": "销子5x14",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/销子5x14:4",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/21",
+          "source_line": 4742
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:2",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/22",
+          "source_line": 4743
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:3",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/23",
+          "source_line": 4744
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:4",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/24",
+          "source_line": 4745
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:5",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/25",
+          "source_line": 4746
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:6",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/26",
+          "source_line": 4747
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:7",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/27",
+          "source_line": 4748
+        },
+        {
+          "name": "GB-T70.1-2000,M10x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M10x25:8",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/28",
+          "source_line": 4749
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:2",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/29",
+          "source_line": 4750
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:3",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/30",
+          "source_line": 4751
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:4",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/31",
+          "source_line": 4752
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:5",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/32",
+          "source_line": 4753
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:6",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/33",
+          "source_line": 4754
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:7",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/34",
+          "source_line": 4755
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:8",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/35",
+          "source_line": 4756
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:9",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/36",
+          "source_line": 4757
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:10",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/37",
+          "source_line": 4758
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:11",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/38",
+          "source_line": 4759
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:12",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/39",
+          "source_line": 4760
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:13",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/40",
+          "source_line": 4761
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:14",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/41",
+          "source_line": 4762
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:15",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/42",
+          "source_line": 4763
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:16",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/43",
+          "source_line": 4764
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:17",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/44",
+          "source_line": 4765
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:18",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/45",
+          "source_line": 4766
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:19",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/46",
+          "source_line": 4767
+        },
+        {
+          "name": "GB-T70.1-2000,M4x25",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/GB-T70.1-2000,M4x25:20",
+          "render_group": "cell_static_residual_fastener_sets_25",
+          "source_pointer": "/components/35/source_occurrence_keys/47",
+          "source_line": 4768
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/1",
+          "source_line": 4921
+        },
+        {
+          "name": "130转台遮光板",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/130转台遮光板:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/2",
+          "source_line": 4922
+        },
+        {
+          "name": "连接板",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/连接板:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/3",
+          "source_line": 4923
+        },
+        {
+          "name": "电机安装支架",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/电机安装支架:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/4",
+          "source_line": 4924
+        },
+        {
+          "name": "交叉滚子轴承",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/交叉滚子轴承:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/5",
+          "source_line": 4925
+        },
+        {
+          "name": "箱体",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/箱体:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/6",
+          "source_line": 4926
+        },
+        {
+          "name": "油封",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/油封:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/7",
+          "source_line": 4927
+        },
+        {
+          "name": "抱箍",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/抱箍:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/8",
+          "source_line": 4928
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:2",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/9",
+          "source_line": 4929
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:3",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/10",
+          "source_line": 4930
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:4",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/11",
+          "source_line": 4931
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:5",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/12",
+          "source_line": 4932
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N",
+          "occurrence_path": "rosie_1400:1/L3:1/HRP130_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M4 x 8 (8) --N:6",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/13",
+          "source_line": 4933
+        },
+        {
+          "name": "A6M60-400H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L3:1/A6M60-400H2B1-M17 v1:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/14",
+          "source_line": 4934
+        },
+        {
+          "name": "j3 mount v5",
+          "occurrence_path": "rosie_1400:1/L3:1/j3 mount v5:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/15",
+          "source_line": 4935
+        },
+        {
+          "name": "交叉轴承LSS-40",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/交叉轴承LSS-40:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/0",
+          "source_line": 5188
+        },
+        {
+          "name": "TC-90x105x6",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/交叉轴承LSS-40:1/TC-90x105x6:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/1",
+          "source_line": 5189
+        },
+        {
+          "name": "刚轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/刚轮LSS-40:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/2",
+          "source_line": 5190
+        },
+        {
+          "name": "柔轮LSS-40",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/柔轮LSS-40:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/3",
+          "source_line": 5191
+        },
+        {
+          "name": "柔轮垫块LSS-40",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/柔轮垫块LSS-40:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/4",
+          "source_line": 5192
+        },
+        {
+          "name": "EB7310015-40KC-46",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/EB7310015-40KC:1/EB7310015-40KC-46:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/5",
+          "source_line": 5193
+        },
+        {
+          "name": "EB7310015-40KC-01",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/EB7310015-40KC:1/EB7310015-40KC-01:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/6",
+          "source_line": 5194
+        },
+        {
+          "name": "发生器LSS-40-DL-φ19",
+          "occurrence_path": "rosie_1400:1/L3:1/HSS-40-100-I-D19 v1:1/发生器LSS-40-DL-φ19:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/7",
+          "source_line": 5195
+        }
+      ]
+    },
+    "L4": {
+      "cad_occurrence": "rosie_1400:1/L4:1",
+      "direct_component_occurrences": [
+        "J4-J5 LINK STRUCTURE:1",
+        "J4-J5 BRACE:1",
+        "j4-j5 link:1",
+        "A6M60-400H2B1-M17 v1:1",
+        "belt tensioner:1",
+        "SLEW RING:1",
+        "TG60-G20 v1:1"
+      ],
+      "components": [
+        {
+          "name": "J4-J5 LINK STRUCTURE",
+          "occurrence_path": "rosie_1400:1/L4:1/J4-J5 LINK STRUCTURE:1",
+          "render_group": "link_4",
+          "source_pointer": "/components/4/source_occurrence_keys/0",
+          "source_line": 589
+        },
+        {
+          "name": "J4-J5 BRACE",
+          "occurrence_path": "rosie_1400:1/L4:1/J4-J5 BRACE:1",
+          "render_group": "link_4",
+          "source_pointer": "/components/4/source_occurrence_keys/1",
+          "source_line": 590
+        },
+        {
+          "name": "j5 housing",
+          "occurrence_path": "rosie_1400:1/L4:1/j4-j5 link:1/j5 housing:1",
+          "render_group": "link_5",
+          "source_pointer": "/components/5/source_occurrence_keys/0",
+          "source_line": 697
+        },
+        {
+          "name": "A6M60-400H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L4:1/A6M60-400H2B1-M17 v1:1",
+          "render_group": "link_5",
+          "source_pointer": "/components/5/source_occurrence_keys/1",
+          "source_line": 698
+        },
+        {
+          "name": "slider",
+          "occurrence_path": "rosie_1400:1/L4:1/belt tensioner:1/slider:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/16",
+          "source_line": 4936
+        },
+        {
+          "name": "housing",
+          "occurrence_path": "rosie_1400:1/L4:1/belt tensioner:1/housing:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/17",
+          "source_line": 4937
+        },
+        {
+          "name": "SLEW RING",
+          "occurrence_path": "rosie_1400:1/L4:1/SLEW RING:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/18",
+          "source_line": 4938
+        },
+        {
+          "name": "60Input shaft",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/60Input shaft:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/19",
+          "source_line": 4939
+        },
+        {
+          "name": "6002",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/6002:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/20",
+          "source_line": 4940
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M4Hexagon socket head screw:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/21",
+          "source_line": 4941
+        },
+        {
+          "name": "M5Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M5Hexagon socket head screw:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/22",
+          "source_line": 4942
+        },
+        {
+          "name": "TG60input flange MC",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/TG60input flange MC:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/23",
+          "source_line": 4943
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M4Hexagon socket head screw:2",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/24",
+          "source_line": 4944
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M4Hexagon socket head screw:3",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/25",
+          "source_line": 4945
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M4Hexagon socket head screw:4",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/26",
+          "source_line": 4946
+        },
+        {
+          "name": "M5Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60Input MC:1/M5Hexagon socket head screw:2",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/27",
+          "source_line": 4947
+        },
+        {
+          "name": "TG60output flange",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/TG60output flange:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/28",
+          "source_line": 4948
+        },
+        {
+          "name": "15Shaft circlip",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/15Shaft circlip:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/29",
+          "source_line": 4949
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/M4Hexagon socket head screw:5",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/30",
+          "source_line": 4950
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/M4Hexagon socket head screw:6",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/31",
+          "source_line": 4951
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/M4Hexagon socket head screw:7",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/32",
+          "source_line": 4952
+        },
+        {
+          "name": "M4Hexagon socket head screw",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/M4Hexagon socket head screw:8",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/33",
+          "source_line": 4953
+        },
+        {
+          "name": "60ring gear2",
+          "occurrence_path": "rosie_1400:1/L4:1/TG60-G20 v1:1/60ring gear2:1",
+          "render_group": "cell_static_residual_positioner_drive_hardware_28",
+          "source_pointer": "/components/38/source_occurrence_keys/8",
+          "source_line": 5196
+        }
+      ]
+    },
+    "L5": {
+      "cad_occurrence": "rosie_1400:1/L5:1",
+      "direct_component_occurrences": [
+        "j5-j6 mount:1",
+        "A6M60-400H2B1-M17 v1:1",
+        "HRP85_D14 v1:1",
+        "ISO end effector adaptor and electrical isolator:1"
+      ],
+      "components": [
+        {
+          "name": "j5-j6 mount",
+          "occurrence_path": "rosie_1400:1/L5:1/j5-j6 mount:1",
+          "render_group": "link_5",
+          "source_pointer": "/components/5/source_occurrence_keys/2",
+          "source_line": 699
+        },
+        {
+          "name": "A6M60-400H2B1-M17 v1",
+          "occurrence_path": "rosie_1400:1/L5:1/A6M60-400H2B1-M17 v1:1",
+          "render_group": "link_5",
+          "source_pointer": "/components/5/source_occurrence_keys/3",
+          "source_line": 700
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/34",
+          "source_line": 4954
+        },
+        {
+          "name": "抱箍",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/抱箍:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/35",
+          "source_line": 4955
+        },
+        {
+          "name": "箱体",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/箱体:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/36",
+          "source_line": 4956
+        },
+        {
+          "name": "光耦挡片",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/光耦挡片:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/37",
+          "source_line": 4957
+        },
+        {
+          "name": "ZK85",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/ZK85:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/38",
+          "source_line": 4958
+        },
+        {
+          "name": "骨架油封",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/骨架油封:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/39",
+          "source_line": 4959
+        },
+        {
+          "name": "端盖",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/端盖:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/40",
+          "source_line": 4960
+        },
+        {
+          "name": "电机安装支架",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/电机安装支架:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/41",
+          "source_line": 4961
+        },
+        {
+          "name": "AAA",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/AAA:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/42",
+          "source_line": 4962
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:2",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/43",
+          "source_line": 4963
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:3",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/44",
+          "source_line": 4964
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:4",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/45",
+          "source_line": 4965
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:5",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_26",
+          "source_pointer": "/components/36/source_occurrence_keys/46",
+          "source_line": 4966
+        },
+        {
+          "name": "hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1",
+          "occurrence_path": "rosie_1400:1/L5:1/HRP85_D14 v1:1/hexagon socket head cap screw_jis_JIS B 1176 M3 x 10 (10) --N_1:6",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_27",
+          "source_pointer": "/components/37/source_occurrence_keys/0",
+          "source_line": 5073
+        },
+        {
+          "name": "Adaptor-for-05",
+          "occurrence_path": "rosie_1400:1/L5:1/ISO end effector adaptor and electrical isolator:1/Adaptor-for-05:1",
+          "render_group": "cell_static_residual_rosie_1400_1_visible_geometry_27",
+          "source_pointer": "/components/37/source_occurrence_keys/1",
+          "source_line": 5074
+        }
+      ]
+    },
+    "end_effector": {
+      "cad_occurrence": "rosie_1400:1/end_effector:1",
+      "direct_component_occurrences": [
+        "Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1"
+      ],
+      "components": [
+        {
+          "name": "536P101906",
+          "occurrence_path": "rosie_1400:1/end_effector:1/Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1/536P101906:1",
+          "render_group": "tool0",
+          "source_pointer": "/components/6/source_occurrence_keys/0",
+          "source_line": 808
+        },
+        {
+          "name": "471P010520",
+          "occurrence_path": "rosie_1400:1/end_effector:1/Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1/471P010520:1",
+          "render_group": "tool0",
+          "source_pointer": "/components/6/source_occurrence_keys/1",
+          "source_line": 809
+        },
+        {
+          "name": "471P101010",
+          "occurrence_path": "rosie_1400:1/end_effector:1/Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1/471P101010:1",
+          "render_group": "tool0",
+          "source_pointer": "/components/6/source_occurrence_keys/2",
+          "source_line": 810
+        },
+        {
+          "name": "481P101026",
+          "occurrence_path": "rosie_1400:1/end_effector:1/Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1/481P101026:1",
+          "render_group": "tool0",
+          "source_pointer": "/components/6/source_occurrence_keys/3",
+          "source_line": 811
+        },
+        {
+          "name": "536P001011_1",
+          "occurrence_path": "rosie_1400:1/end_effector:1/Keine_-_471P101010_536P101906_536P001011_-_-_Standard_Mit( _ _ ):1/536P001011_1:1",
+          "render_group": "tool0",
+          "source_pointer": "/components/6/source_occurrence_keys/4",
+          "source_line": 812
+        }
+      ]
+    }
+  }
+}

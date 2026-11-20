@@ -1,0 +1,33 @@
+# gitleaks rules for the public mirror: the default rules, minus the reviewed
+# false positives below. Each entry is a value that only looks like a secret;
+# add one only after reading the match, never to silence a real credential.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Placeholder tokens and keys in tests and fixtures"
+regexTarget = "match"
+regexes = [
+  '''0123456789abcdef(0123456789abcdef)?''',
+  '''idempotency-[a-z0-9-]+''',
+]
+
+[[allowlists]]
+description = "Cell ids named as credential references (names, not secrets)"
+regexTarget = "match"
+regexes = ['''credential_?[Rr]ef"?\s*[:=]\s*"[a-z0-9-]+"''']
+
+[[allowlists]]
+description = "Program extension keys"
+regexTarget = "match"
+regexes = ['''(WELD|MOVE)_EXTENSION_KEY = "gradient_[a-z]+_v1"''']
+
+[[allowlists]]
+description = "Content hashes and tuning keys printed as key=... in reports"
+paths = [
+  '''motion-server/v1/tests/SO3_INTERP_(NOTES|REPORT)\.md''',
+]
+
+[[allowlists]]
+description = "Configuration template prose"
+paths = ['''rt-core/config/templates/machine\.json''']

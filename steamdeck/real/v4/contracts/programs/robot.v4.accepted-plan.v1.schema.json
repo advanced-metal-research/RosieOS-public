@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gradient.systems/schemas/robot/v4/robot.v4.accepted-plan.v1.schema.json",
+  "title": "Robot V4 immutable accepted plan",
+  "type": "object",
+  "required": [
+    "schema",
+    "authority_classification",
+    "plan_id",
+    "plan_revision",
+    "trajectory_digest",
+    "program_id",
+    "program_revision",
+    "program_digest",
+    "planner",
+    "target",
+    "evidence",
+    "trajectory",
+    "created_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "robot.v4.accepted-plan.v1"
+    },
+    "authority_classification": {
+      "enum": [
+        "simulation_only",
+        "physical_target"
+      ]
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "trajectory_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "program_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "program_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "program_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "planner": {
+      "type": "object",
+      "required": [
+        "owner",
+        "backend",
+        "trajectory_method",
+        "build_digest"
+      ],
+      "properties": {
+        "owner": {
+          "const": "motion-server"
+        },
+        "backend": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trajectory_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "request_subject": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "target_id",
+        "robot_model",
+        "joint_order",
+        "manifest_revision",
+        "cell_config_revision",
+        "calibration_digest",
+        "urdf_digest",
+        "collision_world_digest",
+        "settings_revision"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "robot_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "joint_order": {
+          "const": [
+            "J1",
+            "J2",
+            "J3",
+            "J4",
+            "J5",
+            "J6",
+            "J7",
+            "J8",
+            "J9"
+          ]
+        },
+        "manifest_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cell_config_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calibration_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "urdf_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "mesh_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "collision_world_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "settings_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tool_frame": {
+          "type": "string"
+        },
+        "work_frame": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "planning_contract_accepted",
+        "collision",
+        "singularity",
+        "limits",
+        "runtime_playable"
+      ],
+      "properties": {
+        "planning_contract_accepted": {
+          "type": "boolean"
+        },
+        "collision": {
+          "enum": [
+            "clear",
+            "collision",
+            "unavailable"
+          ]
+        },
+        "singularity": {
+          "enum": [
+            "clear",
+            "warning",
+            "hard_stop",
+            "unavailable"
+          ]
+        },
+        "limits": {
+          "enum": [
+            "clear",
+            "outside_limits",
+            "unavailable"
+          ]
+        },
+        "start_pose": {
+          "enum": [
+            "converged",
+            "mismatch",
+            "unavailable"
+          ]
+        },
+        "runtime_playable": {
+          "type": "boolean"
+        },
+        "collision_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "singularity_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "trajectory": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/sample"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "tcpPose": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "jointVector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 9,
+      "maxItems": 9
+    },
+    "sample": {
+      "type": "object",
+      "required": [
+        "sample_index",
+        "row_id",
+        "row_index",
+        "time_s",
+        "tcp_pose_m",
+        "joint_positions_rad",
+        "weld_on"
+      ],
+      "properties": {
+        "sample_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "row_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "row_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tcp_pose_m": {
+          "$ref": "#/$defs/tcpPose"
+        },
+        "joint_positions_rad": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "weld_on": {
+          "type": "boolean"
+        },
+        "path_parent": {
+          "type": "string"
+        },
+        "path_segment": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

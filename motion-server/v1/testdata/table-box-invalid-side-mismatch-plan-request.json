@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "program_id": "robot-v4-tour-calibration-box",
+  "revision": 1,
+  "program_reference_only": true,
+  "rows_omitted_by_client": true,
+  "constraints": {
+    "harmonious_external_axis": {
+      "joint": "J7",
+      "active_side": "B",
+      "selector_joint": "J9",
+      "selector_rad": 3.141592653589793,
+      "selector_tolerance_rad": 0.02,
+      "center_rad": 0,
+      "amplitude_rad": 0.18,
+      "phase_deg": -90,
+      "work_frame": "positioner_table_b",
+      "workplane_relative": true,
+      "workplane_pivot_m": [1.1256, -0.62200026, 0.0700413],
+      "workplane_axis_xyz": [0, 1, 0],
+      "reference_rad": 0,
+      "tool_axis_follows_workplane": true
+    }
+  }
+}

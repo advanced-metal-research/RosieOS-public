@@ -1,0 +1,29 @@
+name: Advisory · Deployment surface
+on:
+  pull_request:
+    paths: ["steamdeck/real/v4/**", "daemon/v1/orchestrator/**", "rt-core/config/cells/**", "**/manifest/**", "**/manifests/**", "**/cmd/**", "**/*.service", "quality/deployment-*", ".github/workflows/deployment-surface.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - run: node --test quality/deployment-tools.test.mjs
+      - name: Summarize declared additions and removals
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before || 'HEAD^' }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          node quality/deployment-surface.mjs "$BASE" "$HEAD" > deployment-surface.txt
+          printf '## Deployment surface (advisory)\n\n```text\n' >> "$GITHUB_STEP_SUMMARY"
+          cat deployment-surface.txt >> "$GITHUB_STEP_SUMMARY"
+          printf '\n```\n' >> "$GITHUB_STEP_SUMMARY"

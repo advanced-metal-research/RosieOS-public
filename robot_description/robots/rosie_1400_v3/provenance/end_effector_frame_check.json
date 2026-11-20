@@ -1,0 +1,47 @@
+{
+  "schema": "rosie.robot-v4.end-effector-frame-check.v1",
+  "status": "pass",
+  "source_of_truth": "autodesk/v1 full_cell_iges Fusion document (the CAD workstation) via urdf/v1/rosie_1400_v3 fusion_part_export",
+  "urdf": "urdf/v1/rosie_1400_v3/robot.urdf",
+  "joint": "link_6_to_end_effector",
+  "origin_xyz_m": [
+    0.004682724,
+    0,
+    -0.398382724
+  ],
+  "origin_rpy_rad": [
+    3.141592654,
+    0.785398163,
+    -3.141592654
+  ],
+  "daemon_constants_match_urdf": true,
+  "daemon_source": "motion-server/v1/src/robot_v4_cartesian_daemon.cpp kEndEffectorOriginXYZ/RPY",
+  "x_axis_in_link_6": [
+    -0.707106781467586,
+    2.9006005041088583e-10,
+    -0.7071067809055092
+  ],
+  "z_axis_in_link_6": [
+    0.7071067809055092,
+    -7.002669072109803e-10,
+    -0.707106781467586
+  ],
+  "x_axis_world_zero_pose": [
+    -0.707106781467586,
+    2.9006005041088583e-10,
+    -0.7071067809055092
+  ],
+  "z_axis_world_zero_pose": [
+    0.7071067809055092,
+    -7.002669072109803e-10,
+    -0.707106781467586
+  ],
+  "torch_centerline_in_link_6": [
+    0.011753523078629969,
+    0,
+    -0.9999309249619396
+  ],
+  "x_dot_torch_centerline": 0.6987469416026703,
+  "x_angle_to_torch_centerline_deg": 45.673442795687016,
+  "convention": "TCP +X points from the wrist toward the torch tip / into the workpiece side; the 45-degree work angle is baked into the fixed link_6-\u003eend_effector rotation from CAD."
+}

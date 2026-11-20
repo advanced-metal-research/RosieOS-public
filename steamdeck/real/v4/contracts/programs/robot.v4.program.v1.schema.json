@@ -1,0 +1,801 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gradient.systems/schemas/robot/v4/robot.v4.program.v1.schema.json",
+  "title": "Robot V4 editable program",
+  "description": "The shared editable spreadsheet program used by Offline Programming, SteamDeck, and Motion Server. Planned trajectories are separate accepted-plan artifacts.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "program_id",
+    "program_name",
+    "robot_model",
+    "program_state",
+    "execution_mode",
+    "units",
+    "program_revision",
+    "base_program_revision",
+    "rows"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "program_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "program_name": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "part_name": {
+      "type": "string"
+    },
+    "part_number": {
+      "type": "string"
+    },
+    "part_revision": {
+      "type": "string"
+    },
+    "robotic-cell-type": {
+      "type": "string"
+    },
+    "robotic_cell_type": {
+      "type": "string"
+    },
+    "robot_model": {
+      "enum": [
+        "rosie_1400_v3",
+        "rosie_1400_h",
+        "rosie_1420_v1"
+      ]
+    },
+    "cell_config_revision": {
+      "type": "string"
+    },
+    "program_state": {
+      "enum": [
+        "draft",
+        "saved_unplanned",
+        "needs_plan",
+        "planning",
+        "planned",
+        "accepted_simulation",
+        "accepted_physical",
+        "execution_ready",
+        "running",
+        "completed",
+        "stopped",
+        "faulted"
+      ]
+    },
+    "execution_mode": {
+      "enum": [
+        "simulation",
+        "dry_run",
+        "production"
+      ]
+    },
+    "units": {
+      "$ref": "#/$defs/units"
+    },
+    "program_revision": {
+      "$ref": "#/$defs/revision"
+    },
+    "base_program_revision": {
+      "$ref": "#/$defs/nonNegativeRevision"
+    },
+    "program_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_project_id": {
+      "type": "string"
+    },
+    "source_project_revision": {
+      "$ref": "#/$defs/nonNegativeRevision"
+    },
+    "edit_source": {
+      "enum": [
+        "offline_programming",
+        "steamdeck",
+        "motion_server",
+        "import"
+      ]
+    },
+    "edited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "defaults": {
+      "$ref": "#/$defs/defaults"
+    },
+    "settings": {
+      "$ref": "#/$defs/settings"
+    },
+    "constraints": {
+      "$ref": "#/$defs/constraints"
+    },
+    "planner_status": {
+      "enum": [
+        "not_planned",
+        "needs_plan",
+        "planning",
+        "planned",
+        "stale",
+        "rejected"
+      ]
+    },
+    "validation_state": {
+      "enum": [
+        "unknown",
+        "valid",
+        "invalid"
+      ]
+    },
+    "collision_check_state": {
+      "type": "string"
+    },
+    "limit_check_state": {
+      "type": "string"
+    },
+    "planned_path_revision": {
+      "$ref": "#/$defs/nonNegativeRevision"
+    },
+    "planned_sample_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "rows": {
+      "type": "array",
+      "description": "maxItems is a generous memory-safety backstop, not an authoring budget (P2.11, ledger L27). Sized on 2026-09-07 for the planner's wires at the 10 ms certificate density on a cell limited to 0.09 rad/s: a two-seam bracket program is 8747 rows (one per knot), so 65536 rows is ~11 minutes of motion, about 7x that program; a full-fidelity wire document at 65536 rows measures ~85 MB. The former 4096 was >5x the worst real part at 0.2 s knots (exact Dog Box, 730 rows); the historical 64 was a Steam Deck demo-fixture constant, never a controller limit.",
+      "minItems": 1,
+      "maxItems": 65536,
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "robotic-cell-type"
+      ]
+    },
+    {
+      "required": [
+        "robotic_cell_type"
+      ]
+    }
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonNegativeRevision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "finiteNumber": {
+      "type": "number"
+    },
+    "vec3": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "tcpPose": {
+      "description": "XYZ metres followed by roll/pitch/yaw radians.",
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        }
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "jointVector": {
+      "description": "Canonical J1 through J9 order, radians.",
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        },
+        {
+          "$ref": "#/$defs/finiteNumber"
+        }
+      ],
+      "items": false,
+      "minItems": 9,
+      "maxItems": 9
+    },
+    "units": {
+      "type": "object",
+      "required": [
+        "length",
+        "angle",
+        "time",
+        "joint_order"
+      ],
+      "properties": {
+        "length": {
+          "const": "m"
+        },
+        "angle": {
+          "const": "rad"
+        },
+        "time": {
+          "const": "s"
+        },
+        "joint_order": {
+          "const": [
+            "J1",
+            "J2",
+            "J3",
+            "J4",
+            "J5",
+            "J6",
+            "J7",
+            "J8",
+            "J9"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "default_tool_frame": {
+          "type": "string"
+        },
+        "default_work_frame": {
+          "type": "string"
+        },
+        "default_move_type": {
+          "enum": [
+            "line_tcp",
+            "curve_tcp",
+            "joint_ptp"
+          ]
+        },
+        "default_tcp_velocity_m_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "default_joint_velocity_rad_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "default_accel_m_s2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "default_joint_accel_rad_s2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "default_blend_radius_m": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "global_joint_speed_limits_rad_s": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "global_joint_position_limits_rad": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "singularity_protection_enabled": {
+          "type": "boolean"
+        },
+        "singularity_behavior": {
+          "enum": [
+            "avoid",
+            "warn",
+            "stop"
+          ]
+        },
+        "singularity_warning_threshold": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "singularity_hard_stop_threshold": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "singularity_speed_limit_rad_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "revision": {
+          "$ref": "#/$defs/revision"
+        }
+      },
+      "additionalProperties": true
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "tip_link": {
+          "type": "string"
+        },
+        "tool_axis_constraint": {
+          "type": "object",
+          "required": [
+            "tool_frame",
+            "tip_link",
+            "world_frame",
+            "tool_axis_xyz",
+            "world_axis_xyz",
+            "offset_reference_axis_xyz",
+            "offset_deg",
+            "tolerance_minus_deg",
+            "tolerance_plus_deg",
+            "weight"
+          ],
+          "properties": {
+            "tool_frame": {
+              "type": "string"
+            },
+            "tip_link": {
+              "type": "string"
+            },
+            "world_frame": {
+              "type": "string"
+            },
+            "tool_axis_xyz": {
+              "$ref": "#/$defs/vec3"
+            },
+            "world_axis_xyz": {
+              "$ref": "#/$defs/vec3"
+            },
+            "offset_reference_axis_xyz": {
+              "$ref": "#/$defs/vec3"
+            },
+            "offset_deg": {
+              "type": "number"
+            },
+            "tolerance_minus_deg": {
+              "type": "number",
+              "minimum": 0
+            },
+            "tolerance_plus_deg": {
+              "type": "number",
+              "minimum": 0
+            },
+            "weight": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": true
+        },
+        "harmonious_external_axis": {
+          "type": "object",
+          "required": [
+            "joint",
+            "active_side",
+            "selector_joint",
+            "selector_rad",
+            "selector_tolerance_rad",
+            "center_rad",
+            "amplitude_rad",
+            "phase_deg",
+            "trajectory_source",
+            "work_frame",
+            "workplane_relative",
+            "workplane_pivot_m",
+            "workplane_axis_xyz",
+            "reference_rad",
+            "tool_axis_follows_workplane"
+          ],
+          "properties": {
+            "joint": {
+              "type": "string"
+            },
+            "active_side": {
+              "type": "string"
+            },
+            "selector_joint": {
+              "type": "string"
+            },
+            "selector_rad": {
+              "type": "number"
+            },
+            "selector_tolerance_rad": {
+              "type": "number",
+              "minimum": 0
+            },
+            "center_rad": {
+              "type": "number"
+            },
+            "amplitude_rad": {
+              "type": "number"
+            },
+            "phase_deg": {
+              "type": "number"
+            },
+            "trajectory_source": {
+              "type": "string"
+            },
+            "work_frame": {
+              "type": "string"
+            },
+            "workplane_relative": {
+              "type": "boolean"
+            },
+            "workplane_pivot_m": {
+              "$ref": "#/$defs/vec3"
+            },
+            "workplane_axis_xyz": {
+              "$ref": "#/$defs/vec3"
+            },
+            "reference_rad": {
+              "type": "number"
+            },
+            "tool_axis_follows_workplane": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "row": {
+      "type": "object",
+      "required": [
+        "row_id",
+        "revision",
+        "row_hash",
+        "enabled",
+        "row_type"
+      ],
+      "properties": {
+        "row_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "row_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4095
+        },
+        "row_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "revision": {
+          "$ref": "#/$defs/nonNegativeRevision"
+        },
+        "row_hash": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        },
+        "row_type": {
+          "enum": [
+            "motion",
+            "command",
+            "comment",
+            "capture",
+            "calibration",
+            "io"
+          ]
+        },
+        "command": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "loop_target_row_id": {
+          "type": "string"
+        },
+        "loop_iterations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "return_home_before_repeat": {
+          "type": "boolean"
+        },
+        "move_type": {
+          "enum": [
+            "line_tcp",
+            "curve_tcp",
+            "joint_ptp",
+            "none"
+          ]
+        },
+        "target_frame_type": {
+          "type": "string"
+        },
+        "tool_frame": {
+          "type": "string"
+        },
+        "work_frame": {
+          "type": "string"
+        },
+        "fixture_side": {
+          "type": "string"
+        },
+        "motion_phase": {
+          "type": "string"
+        },
+        "calibration_section": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "harmonious_phase_deg": {
+          "type": "number"
+        },
+        "capture_source": {
+          "type": "string"
+        },
+        "speed_source": {
+          "type": "string"
+        },
+        "seam_id": {
+          "type": "string"
+        },
+        "pass_id": {
+          "type": "string"
+        },
+        "pass_role": {
+          "type": "string"
+        },
+        "source_project_id": {
+          "type": "string"
+        },
+        "source_project_revision": {
+          "$ref": "#/$defs/nonNegativeRevision"
+        },
+        "source_state": {
+          "enum": [
+            "cad_derived",
+            "teach_modified",
+            "manual",
+            "imported"
+          ]
+        },
+        "target_tcp_m": {
+          "$ref": "#/$defs/tcpPose"
+        },
+        "nominal_tcp_m": {
+          "$ref": "#/$defs/vec3"
+        },
+        "target_joints_rad": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "current_tcp_pose": {
+          "$ref": "#/$defs/tcpPose"
+        },
+        "current_joints_rad": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "positioner_targets_rad": {
+          "$ref": "#/$defs/jointVector"
+        },
+        "segment_meters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tcp_velocity_m_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "joint_velocity_rad_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "accel_m_s2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "joint_accel_rad_s2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "blend_radius_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "fine_stop": {
+          "type": "boolean"
+        },
+        "playback_step_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "weld_enable": {
+          "type": "boolean"
+        },
+        "arc_state": {
+          "enum": [
+            "on",
+            "off"
+          ]
+        },
+        "wire_feed_m_per_min": {
+          "type": "number",
+          "minimum": 0
+        },
+        "voltage_v": {
+          "type": "number",
+          "minimum": 0
+        },
+        "amperage_a": {
+          "type": "number",
+          "minimum": 0
+        },
+        "weld_profile_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "weave_profile_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "weld_process": {
+          "type": "string"
+        },
+        "revpi_io_slot": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "revpi_io_action": {
+          "type": "string"
+        },
+        "revpi_io_pending": {
+          "type": "boolean"
+        },
+        "planner_status": {
+          "type": "string"
+        },
+        "validation_state": {
+          "type": "string"
+        },
+        "collision_check_state": {
+          "type": "string"
+        },
+        "limit_check_state": {
+          "type": "string"
+        },
+        "planned_path_revision": {
+          "$ref": "#/$defs/nonNegativeRevision"
+        },
+        "planned_sample_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "row_type": {
+                "const": "motion"
+              }
+            },
+            "required": [
+              "row_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "move_type",
+              "target_frame_type",
+              "tool_frame",
+              "work_frame",
+              "target_tcp_m",
+              "target_joints_rad",
+              "tcp_velocity_m_s",
+              "joint_velocity_rad_s",
+              "accel_m_s2",
+              "joint_accel_rad_s2",
+              "blend_radius_m",
+              "fine_stop"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "row_type": {
+                "const": "command"
+              },
+              "command": {
+                "const": "LOOP"
+              }
+            },
+            "required": [
+              "row_type",
+              "command"
+            ]
+          },
+          "then": {
+            "required": [
+              "loop_target_row_id",
+              "loop_iterations",
+              "return_home_before_repeat"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": true
+    }
+  }
+}

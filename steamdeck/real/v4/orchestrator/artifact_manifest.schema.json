@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gradient.robot/steamdeck/real/v4/orchestrator/artifact_manifest.schema.json",
+  "title": "Robot v4 Orchestrator Artifact Manifest",
+  "description": "Content-addressed build/deploy manifest for daemon/v1 + NATS steamdeck/real/v4 orchestration. Git commit fields are diagnostic only; binary transport is by blob/hash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build-session-id",
+    "source_tree_hash",
+    "created_at",
+    "created_by",
+    "hot_path_isolated",
+    "cold_path_subjects",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "robot_v4_orchestrator_artifact_manifest_v1",
+        "robot_v4_orchestrator_artifact_manifest_v2"
+      ]
+    },
+    "manifest_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "build-session-id": {
+      "type": "string",
+      "pattern": "^build-[A-Za-z0-9._:-]+$"
+    },
+    "test-session-id": {
+      "type": "string",
+      "description": "Optional until a manifest is bound to a proof run; required in validation sidecars for live evidence."
+    },
+    "source_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "kind", "repository", "ref", "commit_sha", "controller_main_sha"],
+      "properties": {
+        "schema": { "const": "robot.v4.deploy-source-identity.v2" },
+        "kind": { "enum": ["main", "pull-request"] },
+        "repository": { "const": "gradient-industrial-robotics/RosieOS" },
+        "ref": { "type": "string", "pattern": "^refs/(heads/main|pull/[1-9][0-9]*/head)$" },
+        "commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "controller_main_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "pull_request_number": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "source_identity_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_tree_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_commit": {
+      "type": "string",
+      "description": "Diagnostic provenance only. Remote deployment must not depend on git checkout or GitHub."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hot_path_isolated": {
+      "const": true,
+      "description": "Build/blob/NATS orchestration must not be synchronous with UDP/QUIC jogging or playback."
+    },
+    "cold_path_subjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "build_requested",
+        "build_completed",
+        "deploy_verified",
+        "test_started",
+        "test_completed"
+      ],
+      "properties": {
+        "build_requested": { "const": "robot/v4/orchestrator.build.requested" },
+        "build_completed": { "const": "robot/v4/orchestrator.build.completed" },
+        "deploy_verified": { "const": "robot/v4/orchestrator.deploy.verified" },
+        "test_started": { "const": "robot/v4/orchestrator.test.started" },
+        "test_completed": { "const": "robot/v4/orchestrator.test.completed" }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_name",
+          "artifact_kind",
+          "target_host",
+          "source_tree_hash",
+          "build_input_paths",
+          "source_bundle_sha256",
+          "source_bundle_uri",
+          "build_command",
+          "binary_sha256",
+          "blob_uri",
+          "sync_transport",
+          "whole_repo_sync",
+          "git_required",
+          "ssh_required",
+          "required_runtime_path",
+          "install_strategy",
+          "health_check",
+          "active_hash_report_field"
+        ],
+        "properties": {
+          "artifact_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_kind": {
+            "enum": [
+              "motion-server-cartesiand",
+              "daemon-v1",
+              "realtime-core",
+              "rt-core",
+              "steamdeck-game",
+              "test-binary",
+              "config",
+              "helper"
+            ]
+          },
+        "target_node": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_host": {
+            "enum": [
+              "rosie",
+              "motion-server",
+              "realtime-core",
+              "steamdeck",
+              "steamdeck-mm",
+              "build-host"
+          ]
+        },
+        "target_peer": {
+          "type": "string",
+          "description": "Concrete peer identity. When present, auto-apply must match it exactly and must not expand a shared role alias.",
+          "minLength": 1
+        },
+        "target_role": {
+          "type": "string",
+          "minLength": 1
+        },
+          "source_tree_hash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "build_input_paths": {
+            "type": "array",
+            "description": "Minimal source/config paths needed to build or validate this artifact. Do not ship the whole checkout.",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "not": {
+                "enum": [
+                  ".",
+                  "./",
+                  "gradient-cli",
+                  "/"
+                ]
+              }
+            }
+          },
+          "build_recipe_sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "source_bundle_sha256": {
+            "type": "string",
+            "description": "Digest of the minimal source bundle selected from build_input_paths.",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "source_bundle_uri": {
+            "type": "string",
+            "description": "daemon/v1-published minimal source bundle, fetched by peers before local builds when a prebuilt binary is not enough.",
+            "pattern": "^(iroh-blob|iroh-blobs|nats-object)://"
+          },
+        "build_command": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_from_source": {
+          "type": "boolean",
+          "description": "When true, the target skips binary blob hydration and builds immediately from the verified component source bundle."
+        },
+        "binary_sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "blob_uri": {
+            "type": "string",
+            "pattern": "^(iroh-blob|iroh-blobs|nats-object)://"
+          },
+          "sync_transport": {
+            "enum": [
+              "daemon-v1-iroh-blob",
+              "daemon-v1-iroh-blobs",
+              "daemon-v1-nats-object-mirror"
+            ]
+          },
+          "whole_repo_sync": {
+            "const": false,
+            "description": "Remote hosts must not receive a whole source checkout as the deploy/build sync primitive."
+          },
+          "git_required": {
+            "const": false,
+            "description": "Remote convergence must not require git clone, fetch, checkout, or pull."
+          },
+          "ssh_required": {
+            "const": false,
+            "description": "Remote convergence must not require SSH copy or shell execution in the normal path."
+          },
+          "required_runtime_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "install_strategy": {
+            "enum": [
+              "atomic-replace",
+              "service-restart",
+              "side-by-side",
+              "rt-core-package-install-only"
+            ]
+          },
+          "health_check": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "command_or_subject",
+              "expected_field",
+              "expected_value"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "nats-status",
+                  "daemon-status",
+                  "local-command",
+                  "udp-feedback"
+                ]
+              },
+              "command_or_subject": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expected_field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expected_value": {}
+            }
+          },
+          "active_hash_report_field": {
+            "type": "string",
+            "description": "Status/sidecar field that must report this artifact's active binary_sha256 before live motion.",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": { "const": "robot_v4_orchestrator_artifact_manifest_v2" }
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": ["manifest_id", "source_identity", "source_identity_sha256"],
+        "properties": {
+          "artifacts": {
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+            "required": ["target_node", "target_peer", "target_role", "build_recipe_sha256"],
+            "properties": {
+                "target_node": { "const": "steamdeck-mm" },
+                "target_peer": { "const": "steamdeck-mm" },
+                "target_host": { "const": "steamdeck-mm" },
+                "target_role": { "const": "routing-only" }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "artifact_name": { "const": "rosie-daemon-v1" },
+                    "artifact_kind": { "const": "daemon-v1" }
+                  }
+                },
+                {
+                  "properties": {
+                    "artifact_name": { "const": "robot-v4-steamdeck-game" },
+                    "artifact_kind": { "const": "steamdeck-game" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

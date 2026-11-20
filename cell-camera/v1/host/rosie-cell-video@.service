@@ -1,0 +1,36 @@
+# The cell camera's WebRTC sender for instance %i (cell-camera/v1/video): it
+# reads /etc/rosie-cell-camera/%i.env (the camera's settings; CELL_CAMERA_VIDEO_*)
+# and sends the camera's H.264 stream to viewers as UDP on the host's
+# Tailscale address only. A separate process from the OLP server, so a video
+# fault never stops jog control. Read-only: no robot or cabinet interface.
+[Unit]
+Description=RosieOS cell camera %i video sender (WebRTC, on demand)
+After=network-online.target tailscaled.service rosie-cell-camera@%i.service
+Wants=network-online.target
+[Service]
+Type=simple
+DynamicUser=yes
+EnvironmentFile=/etc/rosie-cell-camera/%i.env
+ExecStart=/opt/rosie-cell-camera/current/bin/cell-video
+# Tailscale's address appears some seconds after boot: until then the bind
+# fails and systemd retries.
+Restart=on-failure
+RestartSec=5
+Nice=10
+CPUWeight=5
+CPUQuota=50%
+IOWeight=1
+MemoryHigh=128M
+MemoryMax=256M
+TasksMax=64
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+TimeoutStopSec=5
+[Install]
+WantedBy=multi-user.target

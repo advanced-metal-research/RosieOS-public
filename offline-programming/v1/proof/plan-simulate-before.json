@@ -1,0 +1,56 @@
+﻿{
+    "result":  "FAIL",
+    "clicked":  true,
+    "acceptedTrajectorySeen":  false,
+    "robotJointMotionSeen":  false,
+    "initial":  {
+                    "observedAt":  "2026-07-31T12:40:09.231Z",
+                    "readyState":  "complete",
+                    "buttonText":  "Plan \u0026 simulate offline",
+                    "buttonDisabled":  false,
+                    "planState":  "MISSING",
+                    "planSource":  "not generated",
+                    "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                    "planEvidence":  "Planner evidence unavailable",
+                    "plannerStatus":  "PLANNER: CANONICAL_PROBE_FAILED · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                    "localStatus":  "Local simulator unavailable · canonical probe failed · canonical planner process failed: signal: killed",
+                    "storageStatus":  "IndexedDB project revisions active",
+                    "playbackTime":  "0.0 / 0.0 s",
+                    "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                    "poseMode":  "home"
+                },
+    "observations":  [
+                         {
+                             "observedAt":  "2026-07-31T12:40:09.710Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Plan \u0026 simulate offline",
+                             "buttonDisabled":  false,
+                             "planState":  "MISSING",
+                             "planSource":  "not generated",
+                             "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                             "planEvidence":  "Planner evidence unavailable",
+                             "plannerStatus":  "PLANNER: BLOCKED · canonical local planner unavailable: canonical planner process failed: signal: killed · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "Local simulator unavailable · canonical probe failed · canonical planner process failed: signal: killed",
+                             "storageStatus":  "Offline simulation blocked: canonical local planner unavailable: canonical planner process failed: signal: killed",
+                             "playbackTime":  "0.0 / 0.0 s",
+                             "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                             "poseMode":  "home"
+                         }
+                     ],
+    "final":  {
+                  "observedAt":  "2026-07-31T12:40:09.728Z",
+                  "readyState":  "complete",
+                  "buttonText":  "Plan \u0026 simulate offline",
+                  "buttonDisabled":  false,
+                  "planState":  "MISSING",
+                  "planSource":  "not generated",
+                  "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                  "planEvidence":  "Planner evidence unavailable",
+                  "plannerStatus":  "PLANNER: BLOCKED · canonical local planner unavailable: canonical planner process failed: signal: killed · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                  "localStatus":  "Local simulator unavailable · canonical probe failed · canonical planner process failed: signal: killed",
+                  "storageStatus":  "Offline simulation blocked: canonical local planner unavailable: canonical planner process failed: signal: killed",
+                  "playbackTime":  "0.0 / 0.0 s",
+                  "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                  "poseMode":  "home"
+              }
+}

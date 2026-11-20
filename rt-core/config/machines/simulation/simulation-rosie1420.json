@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "backend": "simulation",
+  "cycle_ns": 1000000,
+  "drive_supervision": {
+    "enable_timeout_ms": 1000,
+    "release_slack_ms": 500,
+    "disarm_motion_tolerance": 0.02
+  },
+  "_drive_supervision_source": "Mirrors the Rosie 1430 cells' machine configuration drive_supervision (previous values from the brake_opening_guard timeout and the 1430 limits.following_error); unverified, issue #158.",
+  "tracking_lag_allowance": {
+    "lag_allowance_ms": 50
+  },
+  "_tracking_lag_allowance_source": "Mirrors the Rosie 1430 cells' machine configuration tracking_lag_allowance (~27 ms lag measured on Rosie 1430 stop dumps 2026-10-06; 50 ms is the owner's chosen margin); unverified, issue #158.",
+  "jog_jerk": {
+    "jerk_rad_s3": 150
+  },
+  "_jog_jerk_source": "One jerk for all six joints: rtctl sizes one smoothing window N = ceil(2 x a_max / jerk / cycle) = ceil(2 x 4*pi / 150 / 0.001) = 168 cycles (a_max = the description's 4*pi rad/s^2 jog/trajectory acceleration on every joint), so every jog start, EndJog, input expiry and Halt ramp keeps acceleration <= 4*pi rad/s^2 and jerk <= 150 rad/s^3 (75 rad/s^3 for a start or stop from steady speed). 168 ms spans one period of the ~5.9 Hz J4 ringing on the Rosie 1430 stop dumps 2026-10-06 (velocity sign changes every 82-85 ms after the 17:40:06 stop), where jog acceleration was 720 deg/s^2 reached in one 1 ms cycle. Cost: a stop from v takes 168 ms longer and travels v x 0.084 s further (0.07 rad at 0.8 rad/s). Unverified on the arm (issue #158): measure J4 ringing and stopping distance before changing it.",
+  "robot": {
+    "robot_description": {
+      "path": "robot_description/robots/rosie_1420_v1",
+      "sha256": "sha256:198f759144aaf29c6013dba8e1bbc4d6e180a9fc362194c95decb09138dcb0ad",
+      "source": "Pinned Rosie 1420 V1 description, the public arm: a six-axis A6-EC simulation for composed tests. Simulation only."
+    }
+  },
+  "axes": [
+    {
+      "robot_joint": "J1",
+      "slave_position": 0,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J2",
+      "slave_position": 1,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J3",
+      "slave_position": 2,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J4",
+      "slave_position": 3,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J5",
+      "slave_position": 4,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J6",
+      "slave_position": 5,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    }
+  ],
+  "max_cycle_lateness_ns": 20000000,
+  "runtime": {
+    "cpu": 2,
+    "priority": 90
+  },
+  "bus": {
+    "unknown_slaves": "refuse"
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "test": "^TestAdapterMemoryDuringLargePreparation(?:/(?:json|binary|program))?$",
+    "note": "lease expired during the .* preparation; renewal starved under host load, measurement inconclusive",
+    "reason": "Host load can starve the lease renewal during the memory measurement; that measurement remains inconclusive.",
+    "tracker_id": "P8-03"
+  },
+  {
+    "test": "^TestMatrix/e_statusword_unique_name$",
+    "note": "exhaustive unique fault classification is not enforced",
+    "reason": "The unique output fault classification contract is not enforced yet.",
+    "tracker_id": "P4-04"
+  },
+  {
+    "test": "^TestMatrix/j_digest$",
+    "note": "modified-artifact rejection is not enforced",
+    "reason": "The daemon does not yet recompute the effective configuration digest.",
+    "tracker_id": "P1-02"
+  },
+  {
+    "test": "^TestDaemonResidentMemoryWithinDeclaredBudget/locked-plan-pages$",
+    "note": "WSL refused daemon mlockall; plain prefaulting, RSS/HWM and cyclic fault assertions still run",
+    "reason": "WSL can refuse mlockall; page locking remains unqualified on that host.",
+    "tracker_id": "P8-10"
+  },
+  {
+    "test": "^TestDaemonResidentMemoryWithinDeclaredBudget/(declared-budget|locked-plan-pages)$",
+    "note": "sanitizer shadow mapping present \\(VmSize=[0-9]+ bytes\\)",
+    "reason": "An ASan-instrumented daemon maps its shadow at startup, the shadow pages it touches count toward VmHWM, and the simulation mlockall is compiled out under sanitizers; the declared resident budget and page locking bind the production binary, which the uninstrumented test-go step still checks.",
+    "tracker_id": "P8-01"
+  },
+  {
+    "test": "",
+    "note": "^systemd-analyze verify status=skipped reason=not-installed$",
+    "reason": "systemd-analyze is not installed on the host.",
+    "tracker_id": "P8-01"
+  }
+]

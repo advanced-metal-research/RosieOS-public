@@ -1,0 +1,14 @@
+[Unit]
+Description=Rosie joint trajectory daemon
+After=network-online.target
+
+[Service]
+Type=simple
+# Unverified repository default; approved native bindings are required.
+Environment=JOINT_TRAJECTORY_BACKEND=rt_core
+EnvironmentFile=-/etc/robot-v4/joint-trajectory.env
+ExecStart=/bin/bash /opt/rosie/motion-server/joint-trajectory/v1/start-joint-trajectory.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

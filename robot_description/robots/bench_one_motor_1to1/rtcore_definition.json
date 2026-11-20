@@ -1,0 +1,47 @@
+{
+  "calibration": {
+    "identity": "home_calibration",
+    "note": "Offsets and encoder anchors live in the Home calibration record with its own revision, which does not invalidate plans; this file carries none."
+  },
+  "defaults": {
+    "coordinate_evidence_mode": "multi_turn",
+    "drive_profile": "a6ec_bench_1to1",
+    "home_policy": "required"
+  },
+  "joints": [
+    {
+      "cartesian_participates": false,
+      "drive_profile": null,
+      "gear_ratio": {
+        "_source": "owner direction 2026-11-03: software ratio 100/1 on the bare bench motor so jogs and limits read as an arm-like output joint; the shaft has no reduction",
+        "_unverified": "unverified: no physical gearbox; the 100/1 ratio is software only (one output radian is 100 motor radians). Verify that no mechanism has been attached before using this bare-motor model",
+        "denominator": 1,
+        "denominator_source": "owner direction 2026-11-03: software ratio 100/1 on the bare bench motor so jogs and limits read as an arm-like output joint; the shaft has no reduction",
+        "numerator": 100,
+        "numerator_source": "owner direction 2026-11-03: software ratio 100/1 on the bare bench motor so jogs and limits read as an arm-like output joint; the shaft has no reduction",
+        "source": "owner direction 2026-11-03: software ratio 100/1 on the bare bench motor so jogs and limits read as an arm-like output joint; the shaft has no reduction"
+      },
+      "kind": "external",
+      "mechanical_travel": {
+        "max": 12.566370614359172,
+        "max_unverified": "unverified: owner-approved linear-mode bench qualification envelope, +4*pi rad of output (owner 2026-11-03: unchanged numbers at ratio 100/1, i.e. +200 motor turns)",
+        "min": -12.566370614359172,
+        "min_unverified": "unverified: owner-approved linear-mode bench qualification envelope, -4*pi rad of output (owner 2026-11-03: unchanged numbers at ratio 100/1, i.e. -200 motor turns)"
+      },
+      "encoder_battery": "present",
+      "encoder_battery_source": "Owner statement 2026-10-28: a battery-backed encoder cable is fitted to the mini bench (Er20.8 battery alarm cleared and HM35 run on it that day). Supersedes the 2026-09-15 no-battery statement. Power-cycle turn retention is unverified until the 2026-10-28 power-cycle test.",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/source-excerpts.md, v4 bridge.go:77 software constant 131072 counts/rev; docs/robots/rosie_1400/spec-sheet-axis-table.md documents the arm 17-bit motor-side absolute count model, not an identification of this bare bench motor",
+      "motor_encoder_counts_per_rev_unverified": "unverified: encoder part number and independent counts per physical motor revolution measurement are missing",
+      "name": "J1",
+      "sign": 1,
+      "urdf_joint": null,
+      "sign_unverified": "unverified: +1 is a placeholder; measure physical shaft direction on the local mini bench before motion qualification"
+    }
+  ],
+  "name": "bench_one_motor_1to1",
+  "revision": 5,
+  "revision_source": "Owner direction 2026-11-03: software gear ratio 100/1 (was 1/1) so the bare motor reads as an arm-like output joint; the +/-4*pi rad travel is now output radians (+/-2 output turns = +/-200 motor turns). Revision 4: owner-approved A6-EC linear-mode migration 2026-10-19, multi-turn evidence, battery required and a +/-4*pi bench qualification envelope.",
+  "robot_id": "bench_one_motor_1to1",
+  "schema": "rosie.robot-definition.v1"
+}

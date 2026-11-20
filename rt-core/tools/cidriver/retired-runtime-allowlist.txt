@@ -1,0 +1,7 @@
+docs/** # Historical design and validation records retain original commands.
+tests/parity/*.json # Recorded oracle commands establish the completed parity gate.
+tools/rtctl/testdata/** # Compiler goldens retain the retired oracle's captured output.
+tools/cidriver/absence.go # Defines the scan; the tokens it rejects are its own source.
+tools/cidriver/absence_test.go # Exercises the scan with the tokens it rejects.
+adapters/rosie/densejointtraj/densejointtraj.go # Cites the external weld planner exporter as the format's provenance; nothing executes it.
+adapters/rosie/densejointtraj/testdata/corpus/SOURCES.md # Provenance of external corpus files from motion-server/v2.

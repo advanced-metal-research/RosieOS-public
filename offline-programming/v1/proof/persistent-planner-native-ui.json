@@ -1,0 +1,108 @@
+﻿{
+    "result":  "PASS",
+    "clicked":  true,
+    "acceptedTrajectorySeen":  true,
+    "robotJointMotionSeen":  true,
+    "initial":  {
+                    "observedAt":  "2026-07-31T14:35:55.646Z",
+                    "readyState":  "complete",
+                    "buttonText":  "Plan \u0026 simulate",
+                    "buttonDisabled":  false,
+                    "planState":  "MISSING",
+                    "planSource":  "not generated",
+                    "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                    "planEvidence":  "Planner evidence unavailable",
+                    "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                    "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                    "storageStatus":  "IndexedDB project revisions active",
+                    "playbackTime":  "0.0 / 0.0 s",
+                    "visiblePlanButtons":  [
+                                               "Plan \u0026 simulate"
+                                           ],
+                    "duplicateLocalPlanButtonPresent":  false,
+                    "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                    "poseMode":  "home"
+                },
+    "observations":  [
+                         {
+                             "observedAt":  "2026-07-31T14:35:56.334Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Planning \u0026 preparing simulation…",
+                             "buttonDisabled":  true,
+                             "planState":  "MISSING",
+                             "planSource":  "not generated",
+                             "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                             "planEvidence":  "Planner evidence unavailable",
+                             "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                             "storageStatus":  "Autosave queued",
+                             "playbackTime":  "0.0 / 0.0 s",
+                             "visiblePlanButtons":  [
+                                                        "Planning \u0026 preparing simulation…"
+                                                    ],
+                             "duplicateLocalPlanButtonPresent":  false,
+                             "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                             "poseMode":  "home"
+                         },
+                         {
+                             "observedAt":  "2026-07-31T14:35:56.842Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Plan \u0026 simulate",
+                             "buttonDisabled":  false,
+                             "planState":  "SERVER VALIDATED",
+                             "planSource":  "local canonical simulation",
+                             "planDetail":  "180 accepted Tesseract J1–J9 samples · the exact simulation accepted-plan trajectory",
+                             "planEvidence":  "Collisionclear · 0Singularityclear · 1Limitsclear · 0Runtimeplayable in simulation · 180Correlationrevision matchedAccepted artifactsimulation only · sha256:064ca59cb1d744c5…Planner buildmotion_server_tesseract_trajectory_v1 · sha256:9b429923fcc66b42…",
+                             "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                             "storageStatus":  "MOVEJ TO PROGRAM planning · current J1–J9 to requested target · no browser-generated trajectory",
+                             "playbackTime":  "0.0 / 360.0 s",
+                             "visiblePlanButtons":  [
+                                                        "Plan \u0026 simulate"
+                                                    ],
+                             "duplicateLocalPlanButtonPresent":  false,
+                             "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                             "poseMode":  "home"
+                         },
+                         {
+                             "observedAt":  "2026-07-31T14:35:57.708Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Plan \u0026 simulate",
+                             "buttonDisabled":  false,
+                             "planState":  "SERVER VALIDATED",
+                             "planSource":  "local canonical simulation",
+                             "planDetail":  "180 accepted Tesseract J1–J9 samples · the exact simulation accepted-plan trajectory",
+                             "planEvidence":  "Collisionclear · 0Singularityclear · 1Limitsclear · 0Runtimeplayable in simulation · 180Correlationrevision matchedAccepted artifactsimulation only · sha256:064ca59cb1d744c5…Planner buildmotion_server_tesseract_trajectory_v1 · sha256:9b429923fcc66b42…",
+                             "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                             "storageStatus":  "MOVEJ TO PROGRAM planning · current J1–J9 to requested target · no browser-generated trajectory",
+                             "playbackTime":  "MOVEJ TO PROGRAM 0.2 / 4.5 s",
+                             "visiblePlanButtons":  [
+                                                        "Plan \u0026 simulate"
+                                                    ],
+                             "duplicateLocalPlanButtonPresent":  false,
+                             "poseJointsRad":  "-0.010687351190577059,-0.010276811268246411,0.02517322064606148,0.013892343357918328,-0.045125,0.018613451361322773,0,0,0",
+                             "poseMode":  "last-known"
+                         }
+                     ],
+    "final":  {
+                  "observedAt":  "2026-07-31T14:35:57.751Z",
+                  "readyState":  "complete",
+                  "buttonText":  "Plan \u0026 simulate",
+                  "buttonDisabled":  false,
+                  "planState":  "SERVER VALIDATED",
+                  "planSource":  "local canonical simulation",
+                  "planDetail":  "180 accepted Tesseract J1–J9 samples · the exact simulation accepted-plan trajectory",
+                  "planEvidence":  "Collisionclear · 0Singularityclear · 1Limitsclear · 0Runtimeplayable in simulation · 180Correlationrevision matchedAccepted artifactsimulation only · sha256:064ca59cb1d744c5…Planner buildmotion_server_tesseract_trajectory_v1 · sha256:9b429923fcc66b42…",
+                  "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                  "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                  "storageStatus":  "MOVEJ TO PROGRAM planning · current J1–J9 to requested target · no browser-generated trajectory",
+                  "playbackTime":  "MOVEJ TO PROGRAM 0.2 / 4.5 s",
+                  "visiblePlanButtons":  [
+                                             "Plan \u0026 simulate"
+                                         ],
+                  "duplicateLocalPlanButtonPresent":  false,
+                  "poseJointsRad":  "-0.013647836284919735,-0.013123573392414392,0.03214641196075996,0.017740637916898477,-0.057625,0.02376953207083047,0,0,0",
+                  "poseMode":  "last-known"
+              }
+}

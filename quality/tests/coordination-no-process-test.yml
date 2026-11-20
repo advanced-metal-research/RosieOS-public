@@ -1,0 +1,9 @@
+id: coordination-no-process
+valid:
+  - 'import { parse } from "./child_process_contract";'
+  - 'import { webcrypto } from "node:crypto";'
+  - 'const description = "node:child_process";'
+invalid:
+  - 'import { exec } from "node:child_process";'
+  - 'import * as processes from "child_process";'
+  - 'import "node:child_process";'

@@ -1,0 +1,46 @@
+{
+  "result": "PASS",
+  "appUrl": "http://127.0.0.1:8796/offline-programming/v1/ui/?home-button-proof=1785488805244",
+  "program": "Accepted trajectory motion proof",
+  "jointOrder": "J1,J2,J3,J4,J5,J6,J7,J8,J9",
+  "activePlaybackBeforeHome": true,
+  "movingTime": "37.9 / 55.8 s",
+  "movingJoints": [
+    0.017982687805307762,
+    -1.1423579078838064,
+    0.8682499934219363,
+    3.050296498180833,
+    -1.845867250975138,
+    3.0478776723309258,
+    0,
+    0,
+    0
+  ],
+  "homeTime": "0.0 / 55.8 s",
+  "homeJoints": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "playbackStopped": true,
+  "timelineResetToZero": true,
+  "acceptedPlanUnchanged": true,
+  "noRobotOutputSent": true,
+  "renderedDifference": {
+    "changedPixels": 242326,
+    "changedFraction": 0.385780967421483,
+    "absoluteDifference": 80087862
+  },
+  "screenshots": {
+    "moving": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-button-moving.png",
+    "zero": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-button-zero.png",
+    "visibleApplication": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-button-visible-app.png",
+    "diff": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-button-diff.png"
+  }
+}

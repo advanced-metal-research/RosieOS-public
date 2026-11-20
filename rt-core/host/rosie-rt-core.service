@@ -1,0 +1,54 @@
+[Unit]
+Description=Rosie standalone realtime motion core
+Requires=ethercat.service
+After=ethercat.service
+Conflicts=robot-v4-rtcore.service gradient-rt-motion.service
+ConditionPathExists=/etc/rosie-rt-core/control.env
+
+[Service]
+Type=simple
+# unverified deployment identities: clients traverse the parent, only the adapter traverses native/.
+# Native peer admission explicitly authorizes the separate rosie-ctl account.
+User=rosie-rt
+Group=rosie-rt-clients
+# unverified device group default; install.sh renders ROSIE_RT_ETHERCAT_GROUP here.
+SupplementaryGroups=rosie-rt rosie-ctl ethercat
+# unverified on hardware: main.cpp requires FIFO admission and mlockall, not administrative capabilities.
+AmbientCapabilities=CAP_SYS_NICE CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_SYS_NICE CAP_IPC_LOCK
+NoNewPrivileges=yes
+EnvironmentFile=/etc/rosie-rt-core/control.env
+# Home anchors: install.sh creates the directory; the core only reads it.
+Environment=ROSIE_RT_ANCHOR_DIR=/var/lib/rosie-rt-anchors
+# unverified permission policy: native/ is setgid and excludes application clients.
+ExecStartPre=/usr/bin/install -d -m 2750 -g rosie-ctl /run/rosie-rt-core/native
+# Stable public names resolve into the adapter's independently cleaned runtime directory.
+ExecStartPre=/usr/bin/ln -s public/control.sock /run/rosie-rt-core/control.sock
+# The adapter binds public/jog.sock mode 0660 next to control.sock.
+ExecStartPre=/usr/bin/ln -s public/jog.sock /run/rosie-rt-core/jog.sock
+# Use the compiler's argv from the same deployment as the adapter's configuration digest.
+ExecStart=/opt/rosie/rt-core/build/rosie-rt-core $ROSIE_RT_CORE_ARGS --socket-path /run/rosie-rt-core/native/ipc.sock --ipc-group rosie-ctl --adapter-user rosie-ctl
+WorkingDirectory=/opt/rosie/rt-core
+RuntimeDirectory=rosie-rt-core
+# unverified permission policy: setgid makes public entries inherit the application-client group.
+RuntimeDirectoryMode=2770
+RuntimeDirectoryPreserve=no
+LimitMEMLOCK=infinity
+LimitRTPRIO=95
+Restart=on-failure
+RestartSec=2
+KillSignal=SIGTERM
+# SIGTERM: outputs are inhibited at once; disabled frames keep flowing until the
+# commissioning worker has exited and the cyclic thread owns the mailbox lock
+# (at least 250 ms; normally well under 1 s), then the master is released. A
+# drain still waiting after 5 s logs "shutdown mailbox drain exceeded" and keeps
+# exchanging. 15 s is the residual bound: SIGKILL cannot end an IgH request that
+# is already BUSY (the caller waits uninterruptibly and keeps the device open),
+# so a kill during an in-flight mailbox call leaves the master reserved until a
+# host reboot. Never SIGKILL rosie-rt-core by hand; read the journal's
+# "shutdown:" lines first. KillMode stays control-group (one process).
+TimeoutStopSec=15
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

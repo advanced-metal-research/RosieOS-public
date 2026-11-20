@@ -1,0 +1,27 @@
+{
+  "name": "gradient-cadquery-v1-ui",
+  "private": true,
+  "license": "Apache-2.0",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "tsc --noEmit --pretty false",
+    "test": "tsc --noEmit --pretty false",
+    "test:tour": "tsc --noEmit --pretty false && tsc --project tsconfig.tour.json --pretty false && node .tour-build/scripts/seam_tour_test.js"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.53.0",
+    "three": "^0.170.0",
+    "urdf-loader": "^0.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "@types/three": "^0.170.0",
+    "puppeteer-core": "^25.2.1",
+    "puppeteer-screen-recorder": "^3.0.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}

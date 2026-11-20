@@ -1,0 +1,42 @@
+{
+  "schema": "rosie.motor-catalog.v1",
+  "_doc": "Motor nameplate data the tuning tools need and the runtime does not: rated torque (the 1000 permille of 0x6077) and rotor inertia (the 100 % of C00.06). Read by rt-core/tools/tuningreport (inertia, inertia-plan) through a per-robot joint-motor file in this directory; never compiled into a configuration. Every value is copied from the A6-EC manual in this repository, rt-core/docs/drives/a6ec/A6-EC_series_servo_drive_manual.pdf, chapter 12 'Motor and Options' tables; the page is in each entry's source.",
+  "motors": [
+    {
+      "model": "A6M60-400H2B1-M17",
+      "rated_torque_nm": 1.27,
+      "rotor_inertia_kg_m2": 0.000060,
+      "source": "A6-EC manual PDF p.264 (printed 262), '400 W (60 frame)' table, column 400H2B1-M17 (with brake): rated torque 1.27 N.m, maximum 4.45 N.m, rotor inertia 0.60 x 10^-4 kg.m^2, rated 3000 rpm."
+    },
+    {
+      "model": "A6M60-400H2A1-M17",
+      "rated_torque_nm": 1.27,
+      "rotor_inertia_kg_m2": 0.000059,
+      "source": "A6-EC manual PDF p.264 (printed 262), '400 W (60 frame)' table, column 400H2A1-M17 (without brake): rated torque 1.27 N.m, rotor inertia 0.59 x 10^-4 kg.m^2."
+    },
+    {
+      "model": "A6M80-750H2B1-M17",
+      "rated_torque_nm": 2.39,
+      "rotor_inertia_kg_m2": 0.000177,
+      "source": "A6-EC manual PDF p.265 (printed 263), '750 W (80 frame)' table, column 750H2B1-M17 (with brake): rated torque 2.39 N.m, rotor inertia 1.77 x 10^-4 kg.m^2."
+    },
+    {
+      "model": "A6M80-750H2A1-M17",
+      "rated_torque_nm": 2.39,
+      "rotor_inertia_kg_m2": 0.000172,
+      "source": "A6-EC manual PDF p.265 (printed 263), '750 W (80 frame)' table, column 750H2A1-M17 (without brake): rated torque 2.39 N.m, rotor inertia 1.72 x 10^-4 kg.m^2."
+    },
+    {
+      "model": "A6M80-1000H2B1-M17",
+      "rated_torque_nm": 3.18,
+      "rotor_inertia_kg_m2": 0.000228,
+      "source": "A6-EC manual PDF p.266 (printed 264), '1 kW (80 frame)' table, column 1000H2B1-M17 (with brake): rated torque 3.18 N.m, maximum 11.13 N.m, rotor inertia 2.28 x 10^-4 kg.m^2, rated 3000 rpm."
+    },
+    {
+      "model": "A6M80-1000H2A1-M17",
+      "rated_torque_nm": 3.18,
+      "rotor_inertia_kg_m2": 0.000223,
+      "source": "A6-EC manual PDF p.266 (printed 264), '1 kW (80 frame)' table, column 1000H2A1-M17 (without brake): rated torque 3.18 N.m, rotor inertia 2.23 x 10^-4 kg.m^2."
+    }
+  ]
+}

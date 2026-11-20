@@ -1,0 +1,13 @@
+{
+  "trajectory_digest": "sha256:ea9641e180f5587714a52927ab18f3cc4babc75ae8696ed0bc9b9184fa136990",
+  "total_sample_count": 11,
+  "segment_sample_counts": [
+    5,
+    6
+  ],
+  "blob_bytes": 2796,
+  "block_sha256": [
+    "9e065ff4563bc3634c632c51d46cc5040a7bff1a8625eada83eb53c645dee0bb",
+    "d30f2bac21fd6cf3a494959ebabc3af440cb42a2481e871d1bdb8a9033c3a30c"
+  ]
+}

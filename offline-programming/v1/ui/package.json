@@ -1,0 +1,29 @@
+{
+  "name": "gradient-offline-programming-v1-ui",
+  "private": true,
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "stage:assets": "node scripts/stage-assets.mjs",
+    "dev": "npm run stage:assets && vite",
+    "build": "npm run stage:assets && tsc --noEmit && vite build",
+    "lint": "tsc --noEmit --pretty false",
+    "test": "node scripts/test.mjs",
+    "test:targets": "node --experimental-strip-types --test src/simulation/local-service.test.ts src/targets/connectedClient.test.ts src/targets/stateMachine.test.ts",
+    "tour": "node scripts/tour.mjs",
+    "tour:check": "node scripts/tour.mjs --check"
+  },
+  "dependencies": {
+    "three": "^0.170.0",
+    "urdf-loader": "^0.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "@types/three": "^0.170.0",
+    "happy-dom": "^20.14.5",
+    "lucide": "^1.45.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}

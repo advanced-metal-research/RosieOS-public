@@ -1,0 +1,6 @@
+package main
+
+const (
+	robotV4ColdRuntimeAdmittedJetsonConfigSHA256 = "sha256:5601bcd90a9c2410b202ccfe450cc6b4d5e6a73e1d0c3c7c3609b7b1ec21bff1"
+	robotV4ColdRuntimeAdmittedRevPiConfigSHA256  = "sha256:08bcc959636740b30ee6c2b96ae40e1627b3a25bc8251bddb88de21d409deec1"
+)

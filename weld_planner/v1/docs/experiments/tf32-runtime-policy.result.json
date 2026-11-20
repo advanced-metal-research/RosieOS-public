@@ -1,0 +1,36 @@
+{
+  "schema": "amr.rosie-tf32-runtime-policy-result.v1",
+  "verdict": "passed",
+  "verdict_scope": "portable_runtime_numerical_policy_and_differential_source_gate",
+  "source_revision": "740d920",
+  "source_archive_sha256": "d7fed50a02456c50d49469fb1ab170f0d6a3b1616a5ceb352895fd60c5874323",
+  "baseline_revision": "f352f7913fba570ccebdb4781e0b93fd4e802cd1",
+  "runtime": {
+    "host": "thor-a",
+    "device": "NVIDIA Thor",
+    "image": "nvcr.io/nvidia/pytorch@sha256:edbbf7492e7a9111974a0e58debbc51371b131e19acf4aa033577cc39d4399a5",
+    "variable": "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE",
+    "qualified_value": "0",
+    "observed_allow_tf32": false,
+    "observed_precision": "highest"
+  },
+  "gates": {
+    "malformed_flag": "exit 2 before dependency installation or planner start",
+    "nodes": "51 passed",
+    "graph": "42 passed",
+    "plan": "20 passed",
+    "tracking": "9 passed",
+    "control_solver": "5 passed",
+    "thor_runner_contract": "2 passed",
+    "free_space_candidate": "18 passed, 2 failed",
+    "free_space_baseline_same_runtime": "18 passed, 2 failed",
+    "free_space_new_failures": []
+  },
+  "retained_baseline_failures": [
+    "test_no_link_carries_motion_nobody_asked_for",
+    "test_without_rewinding_the_approach_still_dives_through_the_part"
+  ],
+  "portability": "The shared motion Pixi feature exports the same standard PyTorch runtime variable on linux-x86_64 and linux-aarch64; the Thor container runner forwards it explicitly. No platform branch exists in planner Python.",
+  "residual_uncertainty": "The current JS host was not independently executed in this experiment; its shared Pixi launch contract is covered statically. The two baseline-identical free-space failures remain source debt.",
+  "execution_authority": "none"
+}

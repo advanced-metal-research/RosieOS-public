@@ -1,0 +1,213 @@
+{
+ "schema_version": 1,
+ "program_id": "motion-server-spreadsheet-reorient",
+ "program_name": "Dog Box inter-seam torch reorientation",
+ "part_name": "spreadsheet_so3_reorientation_fixture",
+ "robotic-cell-type": "rosie_1400_v3",
+ "robot_model": "rosie_1400_v3",
+ "tesseract_urdf_source": "robot_description/robots/rosie_1400_v3/robot.urdf",
+ "tesseract_collision_geometry": "visual_meshes_as_collision_meshes",
+ "tesseract_collision_mesh_package": "package://rosie_1400_v3/meshes",
+ "execution_mode": "dry_run",
+ "samples_per_segment": 8,
+ "defaults": {
+  "default_tool_frame": "torch_tcp",
+  "default_work_frame": "world",
+  "default_tcp_velocity_m_s": 0.05,
+  "default_blend_radius_m": 0.0
+ },
+ "rows": [
+  {
+   "row_id": "row-top-seam-end",
+   "row_index": 0,
+   "row_number": 1,
+   "enabled": true,
+   "label": "TopEnd",
+   "row_type": "motion",
+   "move_type": "line_tcp",
+   "target_frame_type": "tcp_cartesian",
+   "target_tcp_m": [
+    0.9,
+    -0.05,
+    0.55,
+    0.0,
+    0.3490658503988659,
+    0.0
+   ],
+   "target_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "current_tcp_pose": [
+    0.9,
+    -0.05,
+    0.55,
+    0.0,
+    0.3490658503988659,
+    0.0
+   ],
+   "current_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tcp_velocity_m_s": 0.05,
+   "blend_radius_m": 0.0,
+   "planner_status": "stale",
+   "validation_state": "unknown"
+  },
+  {
+   "row_id": "row-inter-seam",
+   "row_index": 1,
+   "row_number": 2,
+   "enabled": true,
+   "label": "Between",
+   "row_type": "motion",
+   "move_type": "line_tcp",
+   "target_frame_type": "tcp_cartesian",
+   "target_tcp_m": [
+    0.9,
+    0.05,
+    0.5,
+    0.0,
+    1.0471975511965976,
+    1.5707963267948966
+   ],
+   "target_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "current_tcp_pose": [
+    0.9,
+    0.05,
+    0.5,
+    0.0,
+    1.0471975511965976,
+    1.5707963267948966
+   ],
+   "current_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tcp_velocity_m_s": 0.05,
+   "blend_radius_m": 0.0,
+   "planner_status": "stale",
+   "validation_state": "unknown"
+  },
+  {
+   "row_id": "row-front-approach",
+   "row_index": 2,
+   "row_number": 3,
+   "enabled": true,
+   "label": "FrontIn",
+   "row_type": "motion",
+   "move_type": "line_tcp",
+   "target_frame_type": "tcp_cartesian",
+   "target_tcp_m": [
+    0.9,
+    -0.02,
+    0.48,
+    -3.0212545394448225,
+    0.7703190329009694,
+    6.455119020278552
+   ],
+   "target_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "current_tcp_pose": [
+    0.9,
+    -0.02,
+    0.48,
+    -3.0212545394448225,
+    0.7703190329009694,
+    6.455119020278552
+   ],
+   "current_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tcp_velocity_m_s": 0.05,
+   "blend_radius_m": 0.0,
+   "planner_status": "stale",
+   "validation_state": "unknown"
+  },
+  {
+   "row_id": "row-front-weld",
+   "row_index": 3,
+   "row_number": 4,
+   "enabled": true,
+   "label": "FrontWeld",
+   "row_type": "motion",
+   "move_type": "line_tcp",
+   "target_frame_type": "tcp_cartesian",
+   "target_tcp_m": [
+    0.85,
+    -0.02,
+    0.48,
+    -3.0212545394448225,
+    0.7703190329009694,
+    6.455119020278552
+   ],
+   "target_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "current_tcp_pose": [
+    0.85,
+    -0.02,
+    0.48,
+    -3.0212545394448225,
+    0.7703190329009694,
+    6.455119020278552
+   ],
+   "current_joints_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tcp_velocity_m_s": 0.05,
+   "blend_radius_m": 0.0,
+   "planner_status": "stale",
+   "validation_state": "unknown"
+  }
+ ]
+}

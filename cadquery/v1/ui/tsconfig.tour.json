@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "outDir": ".tour-build",
+    "rootDir": "."
+  },
+  "include": ["scripts/seam_tour_test.ts"]
+}

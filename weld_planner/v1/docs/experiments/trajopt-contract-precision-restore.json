@@ -1,0 +1,31 @@
+{
+  "schema": "amr.rosie-trajopt-contract-precision-restore.v1",
+  "decision": "Does restoring both M5 and M6 working precision recover the five free-space contracts first lost at be40055 without changing algorithms, budgets, objectives, or tests?",
+  "lifecycle": "not_evaluated",
+  "source": {
+    "base_revision": "2b04cb8bae870968e8e5774cc9ec3d576270816d",
+    "last_green_commit": "ed217c98947d7aa21dc0e9e44412b36b33b9d4be",
+    "first_failing_commit": "be40055008ae9fb6bc2f222ba28cd733a07f81ed",
+    "branch": "agent/trajopt-contract-precision-restore"
+  },
+  "candidate": [
+    "weld_trajopt.WELD_DTYPE: torch.float32 to torch.float64",
+    "control_solver.SOLVER_DTYPE: torch.float32 to torch.float64"
+  ],
+  "unchanged": [
+    "iteration budgets",
+    "objectives and weights",
+    "shortcut and retime algorithms",
+    "collision, verifier, and test tolerances"
+  ],
+  "judges": [
+    "held-stop endpoint contract",
+    "independent verifier collision and limit verdict",
+    "detour below 1.2",
+    "velocity and acceleration limits",
+    "positive self-clearance"
+  ],
+  "negative_control": "The separately owned winding-determinism failure remains visible.",
+  "stop_condition": "Pass only if the five control contracts recover under the pinned Thor runtime with no new failures. Do not modify winding logic in this branch.",
+  "execution_authority": "none"
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "rosie.qualification-scenarios.v1",
+  "scenarios": [
+    {
+      "id": "pr-admission-contract",
+      "claim": "admission-contract",
+      "environment": "source",
+      "test": "quality/pr-admission.test.mjs",
+      "runner": "pr-admission-contract",
+      "deterministic": true,
+      "motionAllowed": false,
+      "requiredCapabilities": [],
+      "timeoutSeconds": 120,
+      "evidenceOutputs": ["test-result"],
+      "finalSafe": "not_applicable",
+      "owner": "quality"
+    }
+  ]
+}

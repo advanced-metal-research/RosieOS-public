@@ -1,0 +1,281 @@
+{
+  "schema_version": 3,
+  "model": "rosie_1400_v3",
+  "status": "pass",
+  "generated_at_utc": "2026-07-03T05:42:32.789Z",
+  "source": "Autodesk export-model occurrence transforms (parent-relative)",
+  "fk": {
+    "status": "enabled",
+    "semantics": "URDF revolute chain J1-J6 plus J7/J8/J9 uses parent-relative Autodesk occurrence transforms as joint origins; the mig_torch_v1 body is the J6 child (link_6) and end_effector is a fixed TCP marker at the torch tip."
+  },
+  "ik": {
+    "status": "not_solved_here",
+    "reason": "Viewer demonstrates FK playback of a Tesseract-style joint trajectory; a numerical IK solver is not run in this browser path."
+  },
+  "joints": [
+    {
+      "name": "world_to_floor",
+      "type": "fixed",
+      "parent": "world",
+      "child": "floor",
+      "origin_m": [
+        0,
+        0,
+        0
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": null,
+      "lower": null,
+      "upper": null
+    },
+    {
+      "name": "J1",
+      "type": "revolute",
+      "parent": "floor",
+      "child": "link_1",
+      "origin_m": [
+        0.7874,
+        0.6858,
+        0.4808375
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "lower": -6.3,
+      "upper": 6.3
+    },
+    {
+      "name": "J2",
+      "type": "revolute",
+      "parent": "link_1",
+      "child": "link_2",
+      "origin_m": [
+        0.159999735,
+        -0.125500489,
+        0.269888605
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "lower": -1.9,
+      "upper": 1.9
+    },
+    {
+      "name": "J3",
+      "type": "revolute",
+      "parent": "link_2",
+      "child": "link_3",
+      "origin_m": [
+        0,
+        0,
+        0.6
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "lower": -4.2,
+      "upper": 1.53
+    },
+    {
+      "name": "J4",
+      "type": "revolute",
+      "parent": "link_3",
+      "child": "link_4",
+      "origin_m": [
+        0.159,
+        0.125499999,
+        0.105000002
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "lower": -6.3,
+      "upper": 6.3
+    },
+    {
+      "name": "J5",
+      "type": "revolute",
+      "parent": "link_4",
+      "child": "link_5",
+      "origin_m": [
+        0.4877,
+        -0.047833043,
+        0
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "lower": -6.3,
+      "upper": 6.3
+    },
+    {
+      "name": "J6",
+      "type": "revolute",
+      "parent": "link_5",
+      "child": "link_6",
+      "origin_m": [
+        0,
+        0.047833043,
+        -0.0933
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "lower": -10,
+      "upper": 10
+    },
+    {
+      "name": "link_6_to_end_effector",
+      "type": "fixed",
+      "parent": "link_6",
+      "child": "end_effector",
+      "origin_m": [
+        0.004682724,
+        0,
+        -0.398382724
+      ],
+      "rpy": [
+        3.141592654,
+        0.785398163,
+        -3.141592654
+      ],
+      "axis": null,
+      "lower": null,
+      "upper": null
+    },
+    {
+      "name": "end_effector_to_tool0",
+      "type": "fixed",
+      "parent": "end_effector",
+      "child": "tool0",
+      "origin_m": [
+        0,
+        0,
+        0
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": null,
+      "lower": null,
+      "upper": null
+    },
+    {
+      "name": "J9",
+      "type": "revolute",
+      "parent": "floor",
+      "child": "h_frame",
+      "origin_m": [
+        2.413,
+        0.6858,
+        0.0448788
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "lower": -3.141592654,
+      "upper": 3.141592654
+    },
+    {
+      "name": "J7",
+      "type": "revolute",
+      "parent": "h_frame",
+      "child": "positioner_table_a",
+      "origin_m": [
+        -0.5,
+        0.62200026,
+        0.506
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "lower": -3.141592654,
+      "upper": 3.141592654
+    },
+    {
+      "name": "J8",
+      "type": "revolute",
+      "parent": "h_frame",
+      "child": "positioner_table_b",
+      "origin_m": [
+        0.5,
+        0.62200026,
+        0.506
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "lower": -3.141592654,
+      "upper": 3.141592654
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<robot name="rosie_1420_v1">
+  <link name="world"/>
+  <link name="pedestal">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/pedestal.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/pedestal.dae"/></geometry></collision>
+  </link>
+  <link name="base">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/base.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/base.dae"/></geometry></collision>
+  </link>
+  <link name="link_1">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_1.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_1.dae"/></geometry></collision>
+  </link>
+  <link name="link_2">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_2.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_2.dae"/></geometry></collision>
+  </link>
+  <link name="link_3">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_3.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_3.dae"/></geometry></collision>
+  </link>
+  <link name="link_4">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_4.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_4.dae"/></geometry></collision>
+  </link>
+  <link name="link_5">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_5.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_5.dae"/></geometry></collision>
+  </link>
+  <link name="link_6">
+    <visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_6.dae"/></geometry></visual>
+    <collision><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://rosie_1420_v1/meshes/link_6.dae"/></geometry></collision>
+  </link>
+  <joint name="world_to_pedestal" type="fixed">
+    <parent link="world"/>
+    <child link="pedestal"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="pedestal_to_base" type="fixed">
+    <parent link="pedestal"/>
+    <child link="base"/>
+    <origin xyz="0.4127 0.4 0.8636" rpy="0 0 0"/>
+  </joint>
+  <!-- Position limits, degrees, measured on the arm 2026-09-12 by driving each
+       joint to where it stops:
+           J1 -180..180   J2 -108..90    J3  -80..80
+           J4 -180..180   J5 -270..60    J6 -120..120
+       What they replaced were round numbers, not measurements: J2 and J3 were
+       symmetric at +/-1.9 and +/-2.6 rad, J5 at +/-2.2, and J6 at +/-6.283,
+       which is two full turns on a wrist that reaches 120 degrees. J1 and J4
+       were already +/-pi and are unchanged.
+
+       J5 is deliberately asymmetric and wider than a half turn: -270..60. A
+       reader checking it against a +/-pi range will find the lower bound
+       outside, and that is the arm, not a typo.
+
+       Changing this file is a cell-wide change. It is copied byte-for-byte to
+       realtime-core/natsbridge/rosie_1420_v1_factory.urdf, embedded in the
+       pair owner, and hashed: pairConfigFactoryURDFSHA256 pins it, the pair's
+       canonical snapshot carries these very numbers, and the home profile key
+       is derived from both. All three move together. -->
+  <joint name="J1" type="revolute">
+    <parent link="base"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 0.0294" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <calibration rising="0"/>
+    <limit lower="-6.265732015" upper="6.265732015" effort="100" velocity="3.14159265"/>
+  </joint>
+  <joint name="J2" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="0.16 -0.1255 0.15" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <calibration rising="0"/>
+    <limit lower="-1.9" upper="1.9" effort="100" velocity="3.14159265"/>
+  </joint>
+  <joint name="J3" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <origin xyz="0 0 0.6" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <calibration rising="0"/>
+    <limit lower="-4.2" upper="1.53" effort="100" velocity="3.14159265"/>
+  </joint>
+  <joint name="J4" type="revolute">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <origin xyz="0.159 0.125499999 0.105000002" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <calibration rising="0"/>
+    <limit lower="-6.265732015" upper="6.265732015" effort="50" velocity="17.45329252"/>
+  </joint>
+  <joint name="J5" type="revolute">
+    <parent link="link_4"/>
+    <child link="link_5"/>
+    <origin xyz="0.513989 -0.0425 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <calibration rising="0"/>
+    <limit lower="-6.265732015" upper="6.265732015" effort="50" velocity="3.14159265"/>
+  </joint>
+  <joint name="J6" type="revolute">
+    <parent link="link_5"/>
+    <child link="link_6"/>
+    <origin xyz="0 0.0425 -0.0933" rpy="0 0 0"/>
+    <axis xyz="0 0 -1"/>
+    <calibration rising="0"/>
+    <limit lower="-10" upper="10" effort="25" velocity="31.41592654"/>
+  </joint>
+  <!-- Rosie 1420 owns this torch frame in its own URDF. Both models expose the
+       same rotated end_effector/tool0 orientation: rpy (pi, pi/4, -pi), placing
+       tool X 45 degrees down and forward. tool0 is coincident with end_effector
+       so planning, rendering, and the visible torch coordinate frame agree.
+
+       The translation equals Rosie 1400's, and that is a measurement rather
+       than a copy: link_6 carries the identical mig_torch_v1 at the identical
+       place on both models. The two link_6.dae files have the same 867-point
+       vertex set, and this bundle's OWN Fusion export puts mig_torch_v1_1 at
+       link_6's origin with a bounding box matching that mesh to 10 um. One
+       torch, one tip, two robots. Measured 2026-09-12 from the meshes: the
+       last 213.3 mm of the gun is a tube whose centreline runs 0.061 degrees
+       off tool +X, and this origin sits 0.16 mm off that centreline, 0.01 mm
+       short of the tube end, and 11.11 mm from the nearest vertex, which is
+       the tube radius.
+
+       Until 2026-09-12 the translation was (0.090505385, 0.001675337 negated,
+       0.406250448 negated): the centre of the bottom face of the torch's
+       axis-aligned bounding box, x and y at the box centre and z at the box
+       minimum, all three matching to under a nanometre. That rule finds the
+       tip of a STRAIGHT tool, and this gun is a swan neck, so its tip is at a
+       corner of the box and not the middle of the bottom face. The frame sat
+       55.7 mm off the gun, in free air. Nothing that jogs or teaches saw it,
+       because the orientation was already right and a pure translation of
+       86.20 mm cancels in any relative move; the weld planner computes
+       absolute TCP targets from CAD and cannot absorb it. -->
+  <link name="end_effector">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://rosie_1420_v1/meshes/end_effector.dae"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://rosie_1420_v1/meshes/end_effector.dae"/></geometry>
+    </collision>
+  </link>
+  <link name="tool0"/>
+  <joint name="link_6_to_end_effector" type="fixed">
+    <parent link="link_6"/>
+    <child link="end_effector"/>
+    <origin xyz="0.004682724 0 -0.398382724" rpy="3.141592654 0.785398163 -3.141592654"/>
+  </joint>
+  <joint name="end_effector_to_tool0" type="fixed">
+    <parent link="end_effector"/>
+    <child link="tool0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <transmission name="J1_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J1">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J1_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="100" denominator="1">100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="J2_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J2">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J2_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="100" denominator="1">100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="J3_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J3">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J3_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="100" denominator="1">100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="J4_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J4">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J4_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="18" denominator="1">18</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="J5_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J5">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J5_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="100" denominator="1">100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="J6_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="J6">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="J6_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction numerator="10" denominator="1">10</mechanicalReduction>
+    </actuator>
+  </transmission>
+</robot>

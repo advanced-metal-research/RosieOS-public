@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "backend": "live",
+  "cycle_ns": 1000000,
+  "drive_speed_limit_motor_rpm": 3000,
+  "drive_speed_limit_motor_rpm_source": "Owner decision 2026-09-15: A6M rated speed 3000 rpm, spec sheet and A6M60-400H2B1-M17 / A6M80-1000H2B1-M17 part numbers. One motor revolution is 131072 counts in the drive frame regardless of the electronic gear ratio, so a motor speed cap does not scale with the gear: 0x607F counts/s = drive_speed_limit_motor_rpm / 60 * motor_encoder_counts_per_rev. Independent of the inhibited start-up verification speed bound and software limits.max_velocity.",
+  "bus_bringup": {
+    "startup_passive_ms": 0,
+    "startup_passive_ms_unverified": "unverified machine semantics: measure passive startup needed by A6-EC firmware on the bench (ms, 0..4294967295); 0 disables it. Defaults and notes are omitted from legacy artifact identity and argv.",
+    "explicit_pdo_config": false,
+    "explicit_pdo_config_unverified": "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8. Mapping objects are read-only (0x06010002); use fixed mapping and verify assignment/entries off-cycle before configuration readiness.",
+    "disable_output_watchdog": false,
+    "disable_output_watchdog_unverified": "unverified machine semantics: measure drive output-watchdog behavior on the bench; false keeps the watchdog enabled.",
+    "no_dc": false,
+    "no_dc_unverified": "unverified machine semantics: measure distributed-clock startup and synchronization on the bench; false keeps DC enabled.",
+    "wait_before_safeop_ms": 250,
+    "wait_before_safeop_ms_unverified": "unverified machine semantics: measure firmware convergence before SAFEOP on the bench (ms, 0..2147483647); 0 leaves the master default.",
+    "preop_safeop_timeout_ms": 5000,
+    "preop_safeop_timeout_ms_unverified": "unverified machine semantics: measure PREOP to SAFEOP on the bench (ms, 0..4294967295); 0 leaves the master default.",
+    "safeop_op_timeout_ms": 5000,
+    "safeop_op_timeout_ms_unverified": "unverified machine semantics: measure SAFEOP to OP on the bench (ms, 0..4294967295); 0 leaves the master default."
+  },
+  "axes": [
+    {
+      "name": "bench_axis",
+      "coordinate_evidence_mode": "multi_turn",
+      "coordinate_evidence_mode_note": "Owner decision 2026-10-19: linear absolute mode, software ratio 1/1 and exact continuous multi-turn evidence. Anchor source version 3 fences all prior modes.",
+      "slave_position": 0,
+      "profile_source": "Bare 1/1 motor: use the same linear-mode profile as the nine-motor bench. Its inhibited acquisition-speed bound remains unverified.",
+      "profile": "a6ec_bench_1to1",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_unverified": "unverified 17-bit motor encoder model; confirm on the drive",
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": true,
+      "limits": {
+        "min": -0.25,
+        "max": 0.25,
+        "max_velocity": 0.05,
+        "jog_acceleration": 0.5,
+        "max_target_lead": 0.010000000000000002,
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0001,
+        "completion_timeout_ms": 1000
+      }
+    }
+  ],
+  "max_cycle_lateness_ns": 1000000,
+  "runtime": {
+    "cpu": 2,
+    "priority": 90
+  }
+}

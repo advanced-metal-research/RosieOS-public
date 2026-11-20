@@ -1,0 +1,2147 @@
+:root {
+  color: #e5e7eb;
+  background: #020617;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#seam-app {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #020617;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.tool-switcher {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top, 0px));
+  left: max(18px, env(safe-area-inset-left, 0px));
+  z-index: 60;
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.tool-switcher a,
+.tool-switcher button {
+  display: grid;
+  min-height: 38px;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgb(247 240 228 / 18%);
+  color: rgb(249 246 238 / 82%);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: rgb(7 8 10 / 76%);
+  box-shadow: 0 0.65rem 1.35rem rgb(0 0 0 / 30%);
+  backdrop-filter: blur(14px);
+}
+
+.tool-switcher a:hover,
+.tool-switcher a:focus-visible,
+.tool-switcher a.is-active,
+.tool-switcher button:hover,
+.tool-switcher button:focus-visible {
+  border-color: rgb(184 28 28 / 72%);
+  color: #ff2020;
+  background: rgb(184 28 28 / 22%);
+  outline: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.seam-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 320px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 15%, rgb(14 116 144 / 22%), transparent 30%),
+    linear-gradient(145deg, #020617 0%, #030712 55%, #000000 100%);
+  color: #e5e7eb;
+}
+
+.seam-stage,
+.stage,
+.stage canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.stage {
+  z-index: 1;
+}
+
+.stage canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.stage-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(2 6 23 / 78%) 0%, transparent 24%, transparent 76%, rgb(2 6 23 / 70%) 100%),
+    linear-gradient(180deg, rgb(2 6 23 / 72%) 0%, transparent 24%, transparent 72%, rgb(2 6 23 / 62%) 100%);
+}
+
+.seam-topbar {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, auto);
+  gap: 16px;
+  align-items: start;
+  pointer-events: none;
+}
+
+.seam-topbar > * {
+  pointer-events: auto;
+}
+
+.eyebrow,
+.section-kicker {
+  margin: 0 0 5px;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  color: #f8fafc;
+  font-size: clamp(1.4rem, 2.4vw, 2.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.status,
+.hover-readout,
+.panel,
+.tour-panel,
+.onboarding-card,
+.z-up-badge {
+  border: 1px solid rgb(148 163 184 / 18%);
+  background: rgb(2 6 23 / 78%);
+  box-shadow:
+    0 18px 80px rgb(0 0 0 / 45%),
+    inset 0 1px 0 rgb(255 255 255 / 5%);
+  backdrop-filter: blur(16px);
+}
+
+.status {
+  justify-self: end;
+  max-width: min(42vw, 620px);
+  min-height: 38px;
+  padding: 9px 12px;
+  overflow-wrap: anywhere;
+  border-radius: 12px;
+  color: #dbeafe;
+  font-size: 0.84rem;
+}
+
+.hover-readout {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 5;
+  transform: translateX(-50%);
+  max-width: min(720px, calc(100vw - 40px));
+  min-height: 34px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #bfdbfe;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.76rem;
+  pointer-events: none;
+}
+
+.z-up-badge {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 5;
+  min-height: 34px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #bbf7d0;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.76rem;
+  pointer-events: none;
+}
+
+.onboarding-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 50% 35%, rgb(14 116 144 / 22%), transparent 34%),
+    rgb(2 6 23 / 56%);
+  backdrop-filter: blur(9px);
+}
+
+.onboarding-card {
+  display: grid;
+  gap: 12px;
+  width: min(640px, calc(100vw - 36px));
+  padding: 20px;
+  border-radius: 22px;
+}
+
+.onboarding-card h2 {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  letter-spacing: -0.04em;
+}
+
+.onboarding-card p {
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+.onboarding-card ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: #dbeafe;
+}
+
+.onboarding-card li::marker {
+  color: #22c55e;
+  font-weight: 900;
+}
+
+.tour-panel {
+  position: absolute;
+  top: 92px;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  gap: 10px;
+  width: min(520px, calc(100vw - 850px));
+  min-width: 330px;
+  padding: 12px;
+  border-radius: 18px;
+  transform: translateX(-50%);
+}
+
+.tour-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.tour-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tour-steps li {
+  display: grid;
+  min-height: 54px;
+  align-items: center;
+  padding: 7px;
+  border: 1px solid rgb(148 163 184 / 12%);
+  border-radius: 11px;
+  background: rgb(15 23 42 / 62%);
+  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.tour-steps li.is-active {
+  border-color: rgb(250 204 21 / 72%);
+  background: rgb(113 63 18 / 42%);
+  color: #fef3c7;
+}
+
+.tour-steps li.is-complete {
+  border-color: rgb(34 197 94 / 64%);
+  background: rgb(20 83 45 / 42%);
+  color: #bbf7d0;
+}
+
+.tour-coach {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(150px, 0.9fr);
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgb(148 163 184 / 12%);
+  border-radius: 14px;
+  background: rgb(2 6 23 / 45%);
+}
+
+.tour-coach h3 {
+  margin: 0 0 5px;
+  color: #f8fafc;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.tour-coach p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.tour-coach .tour-hint {
+  margin-top: 7px;
+  color: #fed7aa;
+}
+
+.tour-log {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  max-height: 126px;
+  min-height: 0;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.bottom-panel * {
+  min-width: 0;
+}
+
+.tour-log li {
+  padding: 6px 7px;
+  border: 1px solid rgb(34 197 94 / 18%);
+  border-radius: 9px;
+  background: rgb(20 83 45 / 22%);
+  color: #bbf7d0;
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.tour-actions,
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.panel {
+  position: absolute;
+  top: 104px;
+  bottom: 18px;
+  z-index: 4;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  width: min(390px, calc(50vw - 28px));
+  min-width: 300px;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 18px;
+}
+
+.panel-left {
+  left: 16px;
+}
+
+.panel-right {
+  right: 16px;
+}
+
+.panel-section {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgb(148 163 184 / 14%);
+  border-radius: 14px;
+  background: rgb(15 23 42 / 62%);
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.file-drop {
+  display: grid;
+  gap: 6px;
+  min-height: 92px;
+  align-content: center;
+  padding: 14px;
+  border: 1px dashed rgb(34 211 238 / 42%);
+  border-radius: 14px;
+  background: rgb(8 47 73 / 38%);
+  color: #e0f2fe;
+  cursor: pointer;
+}
+
+.file-drop span {
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-drop small,
+.hint {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.control-row,
+.range-control {
+  display: grid;
+  gap: 7px;
+}
+
+.saved-seams {
+  display: grid;
+  gap: 8px;
+}
+
+.saved-seam-row,
+.empty-state {
+  display: grid;
+  width: 100%;
+  min-height: 58px;
+  padding: 9px 10px;
+  border: 1px solid rgb(148 163 184 / 14%);
+  border-radius: 12px;
+  background: rgb(2 6 23 / 52%);
+  color: #dbeafe;
+}
+
+.saved-seam-row {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 3px 9px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.saved-seam-row:hover,
+.saved-seam-row:focus-visible,
+.saved-seam-row.is-selected {
+  border-color: rgb(249 115 22 / 72%);
+  background: rgb(124 45 18 / 42%);
+}
+
+.saved-seam-row strong {
+  grid-row: 1 / span 2;
+  color: #fed7aa;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.saved-seam-row span,
+.saved-seam-row em {
+  min-width: 0;
+  overflow: hidden;
+  color: #94a3b8;
+  font-size: 0.73rem;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-state {
+  align-items: center;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.control-row {
+  grid-template-columns: minmax(0, 1fr) 92px;
+  align-items: center;
+}
+
+.control-row label,
+.range-control label,
+.edge-meta dt {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+input[type="number"],
+textarea {
+  width: 100%;
+  border: 1px solid rgb(148 163 184 / 24%);
+  border-radius: 10px;
+  background: rgb(2 6 23 / 86%);
+  color: #f8fafc;
+}
+
+input[type="number"] {
+  min-height: 38px;
+  padding: 7px 9px;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #f97316;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+.file-drop:focus-within {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+.primary-action,
+.secondary-action {
+  display: inline-grid;
+  min-height: 38px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: #f8fafc;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-action {
+  background: linear-gradient(135deg, #0891b2, #22c55e);
+}
+
+.secondary-action {
+  border: 1px solid rgb(148 163 184 / 24%);
+  background: rgb(15 23 42 / 72%);
+}
+
+.primary-action:disabled,
+.secondary-action:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.metrics-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metrics-grid div,
+.edge-meta div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid rgb(148 163 184 / 12%);
+  border-radius: 12px;
+  background: rgb(2 6 23 / 48%);
+}
+
+.metrics-grid span {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.metrics-grid strong,
+.edge-meta dd {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: #f8fafc;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edge-browser {
+  min-height: 300px;
+}
+
+.edge-list {
+  display: grid;
+  gap: 8px;
+  max-height: min(42vh, 520px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.edge-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px;
+  border: 1px solid rgb(148 163 184 / 14%);
+  border-radius: 12px;
+  background: rgb(2 6 23 / 52%);
+  color: #dbeafe;
+  text-align: left;
+  cursor: pointer;
+}
+
+.edge-row:hover,
+.edge-row:focus-visible {
+  border-color: rgb(250 204 21 / 80%);
+  background: rgb(30 41 59 / 82%);
+}
+
+.edge-row.is-selected {
+  border-color: rgb(34 197 94 / 82%);
+  background: rgb(20 83 45 / 42%);
+  box-shadow: 0 0 0 1px rgb(34 197 94 / 38%);
+}
+
+.edge-row strong,
+.edge-row span,
+.edge-row em {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edge-row strong {
+  color: #f8fafc;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.8rem;
+}
+
+.edge-row span,
+.edge-row em {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-style: normal;
+}
+
+.edge-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.range-control label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-control output {
+  color: #fed7aa;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.pill {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 5px 9px;
+  border: 1px solid rgb(249 115 22 / 38%);
+  border-radius: 999px;
+  background: rgb(124 45 18 / 42%);
+  color: #fed7aa;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.seam-json {
+  min-height: 220px;
+  resize: vertical;
+  padding: 10px;
+  color: #dbeafe;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+/* Robot v4 rosie_1400_v3 "war machine" visual language. */
+:root {
+  --v3-ink: #f7f0e4;
+  --v3-muted: rgb(247 240 228 / 66%);
+  --v3-dim: rgb(247 240 228 / 45%);
+  --v3-line: rgb(247 240 228 / 18%);
+  --v3-panel: rgb(7 8 10 / 86%);
+  --v3-panel-soft: rgb(247 240 228 / 4.5%);
+  --v3-red: #b81c1c;
+  --v3-red-soft: rgb(184 28 28 / 22%);
+  --v3-green: #72d6a4;
+  --v3-warn: #ffd166;
+}
+
+html,
+body,
+#seam-app,
+.seam-shell {
+  color: var(--v3-ink);
+  background: #000;
+}
+
+.seam-shell {
+  background:
+    radial-gradient(circle at 54% 45%, rgb(184 28 28 / 12%), transparent 26%),
+    linear-gradient(130deg, rgb(6 9 11) 0%, rgb(3 5 7) 42%, rgb(12 13 11) 100%),
+    #030507;
+}
+
+.stage canvas {
+  background: #030507 !important;
+}
+
+.stage-vignette {
+  background:
+    radial-gradient(circle at 50% 48%, transparent 0%, transparent 44%, rgb(0 0 0 / 36%) 100%),
+    linear-gradient(90deg, rgb(0 0 0 / 72%) 0%, transparent 20%, transparent 80%, rgb(0 0 0 / 72%) 100%);
+}
+
+.seam-topbar {
+  position: fixed;
+  left: max(1.5rem, env(safe-area-inset-left, 0px));
+  right: auto;
+  top: auto;
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  z-index: 21;
+  display: block;
+  width: min(44rem, calc(100vw - 40px));
+  pointer-events: none;
+}
+
+.seam-topbar .eyebrow {
+  margin: 0 0 0.45rem;
+  color: rgb(255 247 236 / 68%);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.seam-topbar h1 {
+  margin: 0;
+  color: #050505;
+  font-family: Impact, Haettenschweiler, "Arial Black", "DIN Condensed", sans-serif;
+  font-size: clamp(3.8rem, 7.4vw, 7.4rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  -webkit-text-stroke: 2px rgb(255 247 236 / 96%);
+  text-shadow:
+    0.045em 0.045em 0 rgb(255 247 236 / 90%),
+    0.075em 0.075em 0 rgb(184 28 28 / 86%),
+    0 0.18rem 1.4rem rgb(255 247 236 / 22%);
+  transform: skewX(-7deg);
+}
+
+.status {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top, 0px));
+  right: max(18px, env(safe-area-inset-right, 0px));
+  z-index: 28;
+  justify-self: auto;
+  max-width: min(30rem, calc(100vw - 40px));
+  min-height: 0;
+  border: 1px solid var(--v3-line);
+  border-radius: 999px;
+  color: rgb(255 247 236 / 82%);
+  background: rgb(7 8 10 / 72%);
+  font-size: 0.74rem;
+  font-weight: 800;
+  backdrop-filter: blur(14px);
+}
+
+.tour-panel {
+  position: fixed;
+  left: auto;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  top: max(18px, env(safe-area-inset-top, 0px));
+  bottom: auto;
+  z-index: 24;
+  width: min(30rem, calc(100vw - 40px));
+  min-width: 0;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--v3-line);
+  border-top: 3px solid var(--v3-red);
+  border-radius: 0;
+  color: var(--v3-ink);
+  background: var(--v3-panel);
+  box-shadow: 0 1rem 2rem rgb(0 0 0 / 34%);
+  backdrop-filter: blur(14px);
+  transform: none;
+}
+
+.tour-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.tour-head .section-kicker,
+.section-kicker,
+.eyebrow {
+  color: var(--v3-red);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tour-head h2,
+.tour-coach h3,
+.panel-section h2,
+.selected-edge h2,
+h2 {
+  color: var(--v3-ink);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.pill {
+  margin-left: auto;
+  border: 1px solid rgb(184 28 28 / 58%);
+  border-radius: 0;
+  color: #ff2020;
+  background: rgb(184 28 28 / 22%);
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.tour-steps {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.tour-steps li,
+.edge-row,
+.saved-seam-row,
+.primary-action,
+.secondary-action {
+  border: 1px solid var(--v3-line);
+  border-radius: 0;
+  color: var(--v3-ink);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  background: rgb(247 240 228 / 6%);
+}
+
+.tour-steps li {
+  min-height: 2.15rem;
+  padding: 0.32rem 0.2rem;
+  justify-items: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tour-steps li.is-active,
+.edge-row.is-selected {
+  border-color: var(--v3-red);
+  color: #ff2020;
+  background: var(--v3-red-soft);
+  box-shadow: inset 0 0 0 1px rgb(184 28 28 / 55%), 0 0 1rem rgb(184 28 28 / 28%);
+}
+
+.tour-steps li.is-complete {
+  border-color: rgb(114 214 164 / 44%);
+  color: var(--v3-green);
+  background: rgb(114 214 164 / 9%);
+}
+
+.tour-coach {
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.92fr);
+  padding: 0.55rem 0.6rem;
+  border: 1px solid rgb(247 240 228 / 14%);
+  border-radius: 0;
+  background: var(--v3-panel-soft);
+}
+
+.tour-coach p,
+.tour-log li,
+.file-drop small,
+.hint,
+.edge-row span,
+.edge-row em,
+.saved-seam-row span,
+.saved-seam-row em,
+.empty-state {
+  color: var(--v3-muted);
+}
+
+.tour-coach .tour-hint,
+.range-control output {
+  color: var(--v3-warn);
+}
+
+.tour-log li {
+  border: 1px solid rgb(247 240 228 / 12%);
+  border-radius: 0;
+  background: rgb(247 240 228 / 4%);
+}
+
+.panel {
+  border: 1px solid var(--v3-line);
+  border-top: 3px solid var(--v3-red);
+  border-radius: 0;
+  color: var(--v3-ink);
+  background: var(--v3-panel);
+  box-shadow: 0 1rem 2rem rgb(0 0 0 / 34%);
+  backdrop-filter: blur(14px);
+}
+
+.panel-left {
+  top: max(18px, env(safe-area-inset-top, 0px));
+  left: max(18px, env(safe-area-inset-left, 0px));
+  bottom: auto;
+  width: min(23rem, calc(50vw - 28px));
+  max-height: calc(100vh - 190px);
+}
+
+.panel-right {
+  top: calc(max(18px, env(safe-area-inset-top, 0px)) + 23.5rem);
+  right: max(18px, env(safe-area-inset-right, 0px));
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  width: min(23rem, calc(50vw - 28px));
+  max-height: calc(100vh - 25rem);
+}
+
+.panel-section,
+.metrics-grid div,
+.edge-meta div,
+.file-drop,
+input[type="number"],
+textarea,
+.saved-seam-row,
+.empty-state {
+  border-color: rgb(247 240 228 / 14%);
+  border-radius: 0;
+  background: rgb(247 240 228 / 4.5%);
+}
+
+.file-drop {
+  border-style: solid;
+  color: var(--v3-ink);
+}
+
+.file-drop span,
+.metrics-grid strong,
+.edge-meta dd,
+.edge-row strong,
+.saved-seam-row strong,
+textarea,
+input[type="number"] {
+  color: var(--v3-ink);
+}
+
+.control-row label,
+.range-control label,
+.edge-meta dt,
+.metrics-grid span {
+  color: var(--v3-red);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+input[type="range"] {
+  accent-color: var(--v3-red);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+.file-drop:focus-within {
+  outline: 2px solid var(--v3-red);
+  outline-offset: 2px;
+}
+
+.primary-action {
+  border-color: rgb(184 28 28 / 58%);
+  color: #ff2020;
+  background: rgb(184 28 28 / 22%);
+}
+
+.primary-action:hover,
+.secondary-action:hover,
+.edge-row:hover,
+.saved-seam-row:hover,
+.saved-seam-row.is-selected {
+  border-color: rgb(184 28 28 / 72%);
+  color: #ff2020;
+  background: rgb(184 28 28 / 18%);
+}
+
+.saved-seam-row.is-selected {
+  box-shadow: inset 0 0 0 1px rgb(184 28 28 / 55%), 0 0 1rem rgb(184 28 28 / 28%);
+}
+
+.hover-readout,
+.z-up-badge {
+  border: 1px solid var(--v3-line);
+  border-radius: 999px;
+  color: rgb(255 247 236 / 78%);
+  background: rgb(7 8 10 / 72%);
+  backdrop-filter: blur(14px);
+}
+
+.z-up-badge {
+  right: auto;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+}
+
+.onboarding-panel {
+  background:
+    radial-gradient(circle at 50% 34%, rgb(184 28 28 / 18%), transparent 34%),
+    rgb(0 0 0 / 72%);
+}
+
+.onboarding-card {
+  border: 1px solid var(--v3-line);
+  border-top: 3px solid var(--v3-red);
+  border-radius: 0;
+  color: var(--v3-ink);
+  background: var(--v3-panel);
+}
+
+.onboarding-card h2 {
+  color: #050505;
+  font-family: Impact, Haettenschweiler, "Arial Black", "DIN Condensed", sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  font-weight: 900;
+  line-height: 0.86;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1.5px rgb(255 247 236 / 96%);
+  text-shadow:
+    0.045em 0.045em 0 rgb(255 247 236 / 90%),
+    0.075em 0.075em 0 rgb(184 28 28 / 86%);
+  transform: skewX(-7deg);
+}
+
+.onboarding-card p,
+.onboarding-card ol {
+  color: var(--v3-muted);
+}
+
+.onboarding-card li::marker {
+  color: var(--v3-red);
+}
+
+@media (max-width: 1120px) {
+  .seam-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .status {
+    justify-self: start;
+    max-width: min(720px, calc(100vw - 32px));
+  }
+
+  .panel {
+    top: auto;
+    bottom: 12px;
+    width: calc(50vw - 22px);
+    max-height: 48vh;
+    min-width: 0;
+  }
+
+  .tour-panel {
+    top: max(12px, env(safe-area-inset-top, 0px));
+    width: calc(100vw - 32px);
+  }
+
+  .panel-right {
+    top: calc(max(12px, env(safe-area-inset-top, 0px)) + 23.5rem);
+    bottom: 12px;
+    max-height: calc(100vh - 25rem);
+  }
+}
+
+@media (max-width: 760px) {
+  html,
+  body,
+  #seam-app {
+    overflow: auto;
+  }
+
+  .seam-shell {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+    padding: 260px 12px 14px;
+  }
+
+  .seam-stage {
+    position: fixed;
+    height: 260px;
+    bottom: auto;
+  }
+
+  .stage-vignette {
+    background: linear-gradient(180deg, transparent 0%, rgb(2 6 23 / 82%) 100%);
+  }
+
+  .seam-topbar,
+  .panel,
+  .tour-panel,
+  .onboarding-panel,
+  .hover-readout {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .seam-topbar {
+    top: auto;
+    left: auto;
+    right: auto;
+    margin-bottom: 12px;
+  }
+
+  .panel {
+    margin-bottom: 12px;
+    max-height: none;
+  }
+
+  .tour-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-coach {
+    grid-template-columns: 1fr;
+  }
+
+  .hover-readout {
+    display: none;
+  }
+
+  .z-up-badge {
+    display: none;
+  }
+}
+
+/* Top-left overlay authoring layout. Keep the 3D stage dominant and stack all
+   functional UI as compact text/buttons with the title as the first grid item. */
+.bottom-panel {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top, 0px));
+  right: auto;
+  bottom: auto;
+  left: max(14px, env(safe-area-inset-left, 0px));
+  z-index: 25;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: auto;
+  grid-template-areas:
+    "title"
+    "edges"
+    "selected"
+    "seam"
+    "saved";
+  gap: 0.5rem;
+  width: min(27rem, calc(100vw - 28px));
+  height: auto;
+  max-height: calc(100vh - 28px);
+  min-height: 0;
+  padding: 0.7rem;
+  overflow: auto;
+  border: 0;
+  color: var(--v3-ink);
+  background: linear-gradient(90deg, rgb(7 8 10 / 82%), rgb(7 8 10 / 48) 72%, transparent);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+
+.bottom-panel .seam-topbar {
+  position: static;
+  grid-area: title;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.bottom-panel .status {
+  position: static;
+  max-width: none;
+  min-height: 0;
+  margin-top: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: rgb(255 247 236 / 68%);
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.68rem;
+}
+
+.bottom-panel .seam-topbar .eyebrow {
+  margin: 0 0 0.3rem;
+  white-space: nowrap;
+}
+
+.bottom-panel .seam-topbar h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3.3vw, 3.15rem);
+  line-height: 0.9;
+  -webkit-text-stroke: 1.5px rgb(255 247 236 / 92%);
+  text-shadow:
+    0.035em 0.035em 0 rgb(255 247 236 / 72%),
+    0.06em 0.06em 0 rgb(184 28 28 / 76%);
+}
+
+.bottom-panel .seam-topbar .tool-switcher {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, max-content));
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+  align-items: center;
+  justify-content: start;
+}
+
+.bottom-panel .seam-topbar .tool-switcher a,
+.bottom-panel .seam-topbar .tool-switcher button {
+  min-height: 32px;
+  padding: 0.38rem 0.62rem;
+  border-color: rgb(247 240 228 / 14%);
+  font-size: 0.62rem;
+  background: rgb(7 8 10 / 68%);
+  box-shadow: 0 0.45rem 1rem rgb(0 0 0 / 24%);
+}
+
+.title-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  max-width: min(34rem, calc(100vw - 40px));
+  margin-top: 0.55rem;
+  color: rgb(255 247 236 / 58%);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.title-stats span {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: baseline;
+}
+
+.title-stats strong {
+  max-width: 10rem;
+  overflow: hidden;
+  color: rgb(255 247 236 / 88%);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom-panel .panel-section {
+  min-height: 0;
+  padding: 0.3rem 0 0.55rem;
+  overflow: visible;
+  border: 0;
+  border-top: 1px solid rgb(247 240 228 / 10%);
+  background: transparent;
+}
+
+.bottom-panel .panel-section:nth-of-type(1) {
+  grid-area: edges;
+}
+
+.bottom-panel .panel-section:nth-of-type(2) {
+  grid-area: selected;
+}
+
+.bottom-panel .panel-section:nth-of-type(3) {
+  grid-area: seam;
+}
+
+.bottom-panel .panel-section:nth-of-type(4) {
+  grid-area: saved;
+}
+
+.bottom-panel .edge-list,
+.bottom-panel .saved-seams,
+.bottom-panel .seam-json {
+  max-height: none;
+  min-height: 0;
+}
+
+.bottom-panel .edge-browser,
+.bottom-panel .saved-seams,
+.bottom-panel .panel-section:last-child {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.bottom-panel .edge-list {
+  max-height: 16rem;
+  overflow: auto;
+}
+
+.bottom-panel .seam-json {
+  height: 100%;
+  min-height: 5rem;
+}
+
+.bottom-panel .metrics-grid {
+  grid-template-columns: 1fr;
+  align-content: start;
+}
+
+.bottom-panel .edge-meta,
+.bottom-panel .simulation-meta {
+  gap: 0.35rem;
+}
+
+.bottom-panel .metrics-grid div,
+.bottom-panel .edge-meta div,
+.bottom-panel .file-drop,
+.bottom-panel input[type="number"],
+.bottom-panel textarea,
+.bottom-panel .saved-seam-row,
+.bottom-panel .empty-state,
+.bottom-panel .edge-row {
+  border: 0;
+  background: rgb(247 240 228 / 4%);
+  box-shadow: none;
+}
+
+.bottom-panel .button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.bottom-panel .hint {
+  display: none;
+}
+
+.bottom-panel .section-heading {
+  gap: 0.45rem;
+  margin-bottom: 0.4rem;
+}
+
+.bottom-panel .range-control {
+  margin-bottom: 0.45rem;
+}
+
+@media (max-width: 1200px) {
+  .bottom-panel {
+    width: min(25rem, calc(100vw - 28px));
+    height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .bottom-panel {
+    position: fixed;
+    inset: max(10px, env(safe-area-inset-top, 0px)) auto auto max(10px, env(safe-area-inset-left, 0px));
+    grid-template-columns: 1fr;
+    grid-template-areas: "title" "edges" "selected" "seam" "saved";
+    height: auto;
+    max-height: calc(100vh - 20px);
+    min-height: 0;
+    margin-top: 0;
+    overflow: auto;
+  }
+}
+
+.runtime-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Text-overlay skin: no cards, no panel blocks, only subtle text, dividers,
+   and lightweight command buttons over the 3D stage. */
+.bottom-panel {
+  padding: 0.45rem;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.bottom-panel .status,
+.bottom-panel .panel-section,
+.bottom-panel .file-drop,
+.bottom-panel input[type="number"],
+.bottom-panel textarea,
+.bottom-panel .edge-row,
+.bottom-panel .saved-seam-row,
+.bottom-panel .empty-state,
+.bottom-panel .metrics-grid div,
+.bottom-panel .edge-meta div {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.bottom-panel .panel-section {
+  padding: 0.35rem 0 0.5rem;
+  border-top: 1px solid rgb(255 247 236 / 9%);
+}
+
+.bottom-panel .file-drop {
+  padding: 0;
+  color: rgb(255 247 236 / 84%);
+}
+
+.bottom-panel .file-drop small,
+.bottom-panel .hint,
+.bottom-panel .edge-row span,
+.bottom-panel .edge-row em,
+.bottom-panel .saved-seam-row span,
+.bottom-panel .saved-seam-row em,
+.bottom-panel .empty-state {
+  color: rgb(255 247 236 / 50%);
+}
+
+.bottom-panel input[type="number"] {
+  min-height: 1.7rem;
+  padding: 0;
+  color: var(--overlay-body-color);
+  text-align: right;
+}
+
+.bottom-panel .edge-row,
+.bottom-panel .saved-seam-row,
+.bottom-panel .empty-state {
+  padding: 0.22rem 0;
+}
+
+.bottom-panel .edge-row:hover,
+.bottom-panel .edge-row:focus-visible,
+.bottom-panel .edge-row.is-selected,
+.bottom-panel .saved-seam-row:hover,
+.bottom-panel .saved-seam-row:focus-visible,
+.bottom-panel .saved-seam-row.is-selected {
+  color: #ff2020;
+  background: transparent;
+  box-shadow: none;
+}
+
+.bottom-panel .edge-row.is-selected strong,
+.bottom-panel .saved-seam-row.is-selected strong {
+  color: #ff2020;
+}
+
+.bottom-panel .primary-action,
+.bottom-panel .secondary-action {
+  min-height: 1.8rem;
+  padding: 0.25rem 0;
+  border: 0;
+  border-bottom: 1px solid rgb(255 247 236 / 16%);
+  color: rgb(255 247 236 / 78%);
+  background: transparent;
+  box-shadow: none;
+}
+
+.bottom-panel .primary-action:hover:not(:disabled),
+.bottom-panel .secondary-action:hover:not(:disabled),
+.bottom-panel .primary-action:focus-visible:not(:disabled),
+.bottom-panel .secondary-action:focus-visible:not(:disabled) {
+  border-bottom-color: var(--v3-red);
+  color: #ff2020;
+  background: transparent;
+}
+
+.bottom-panel .primary-action:disabled,
+.bottom-panel .secondary-action:disabled,
+.bottom-panel input:disabled {
+  color: rgb(255 247 236 / 24%);
+  background: transparent;
+}
+
+.bottom-panel .pill {
+  border: 0;
+  color: #ff2020;
+  background: transparent;
+}
+
+.bottom-panel .range-control input[type="range"] {
+  opacity: 0.82;
+}
+
+.bottom-panel #reverse-button,
+.bottom-panel #add-seam-button {
+  min-height: 2.65rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgb(255 32 32 / 58%);
+  color: rgb(255 32 32 / 96%) !important;
+  background: rgb(184 28 28 / 14%);
+  font-size: 0.72rem !important;
+  letter-spacing: 0.1em !important;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 32 32 / 14%),
+    0 0.55rem 1.4rem rgb(184 28 28 / 18%);
+}
+
+.bottom-panel #add-seam-button {
+  background: rgb(184 28 28 / 28%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 32 32 / 28%),
+    0 0.65rem 1.8rem rgb(184 28 28 / 28%);
+}
+
+.bottom-panel #reverse-button:hover:not(:disabled),
+.bottom-panel #reverse-button:focus-visible:not(:disabled),
+.bottom-panel #add-seam-button:hover:not(:disabled),
+.bottom-panel #add-seam-button:focus-visible:not(:disabled) {
+  border-color: rgb(255 32 32 / 92%);
+  background: rgb(184 28 28 / 38%);
+  color: #ff2020 !important;
+}
+
+.bottom-panel #reverse-button:disabled,
+.bottom-panel #add-seam-button:disabled {
+  border-color: rgb(255 32 32 / 18%);
+  color: rgb(255 32 32 / 34%) !important;
+  background: rgb(184 28 28 / 8%);
+  box-shadow: none;
+}
+
+.tour-caption {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  left: max(1rem, env(safe-area-inset-left, 0px));
+  z-index: 90;
+  max-width: min(64rem, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 0.55rem 0.75rem;
+  color: rgb(255 247 236 / 92%);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.78rem, 1.2vw, 1rem);
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgb(0 0 0 / 42%);
+  text-shadow: 0 0.08rem 0.25rem rgb(0 0 0 / 92%);
+  pointer-events: none;
+}
+
+.z-up-badge {
+  display: none !important;
+}
+
+.hover-readout {
+  display: none !important;
+}
+
+/* Typography normalization for the overlay grid:
+   - title text: the H1 only
+   - label/control text: section labels, buttons, compact captions
+   - body/value text: headings, values, rows, helper text */
+.bottom-panel {
+  --overlay-label-color: rgb(255 32 32 / 96%);
+  --overlay-body-color: rgb(255 247 236 / 86%);
+  --overlay-muted-color: rgb(255 247 236 / 54%);
+  --overlay-label-size: 0.62rem;
+  --overlay-body-size: 0.74rem;
+  --overlay-label-line: 1.25;
+  --overlay-body-line: 1.38;
+}
+
+.bottom-panel :where(
+  .eyebrow,
+  .section-kicker,
+  .title-stats span,
+  .tool-switcher a,
+  .tool-switcher button,
+  .control-row label,
+  .range-control label,
+  .edge-meta dt,
+  .metrics-grid span,
+  .primary-action,
+  .secondary-action,
+  .pill,
+  output
+) {
+  color: var(--overlay-label-color);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: var(--overlay-label-size);
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: var(--overlay-label-line);
+  text-transform: uppercase;
+}
+
+.bottom-panel :where(
+  h2,
+  h3,
+  p,
+  small,
+  .status,
+  .title-stats strong,
+  .file-drop span,
+  .file-drop small,
+  .edge-row strong,
+  .edge-row span,
+  .edge-row em,
+  .saved-seam-row strong,
+  .saved-seam-row span,
+  .saved-seam-row em,
+  .edge-meta dd,
+  .metrics-grid strong,
+  .empty-state,
+  input,
+  textarea
+) {
+  color: var(--overlay-body-color);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: var(--overlay-body-size);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--overlay-body-line);
+  text-transform: none;
+}
+
+.bottom-panel :where(
+  .file-drop small,
+  .edge-row span,
+  .edge-row em,
+  .saved-seam-row span,
+  .saved-seam-row em,
+  .empty-state,
+  .status
+) {
+  color: var(--overlay-muted-color);
+}
+
+.bottom-panel .seam-topbar h1 {
+  color: #050505;
+  font-family: Impact, Haettenschweiler, "Arial Black", "DIN Condensed", sans-serif;
+  font-size: clamp(2rem, 3.3vw, 3.15rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* Final specificity pass: keep the overlay to exactly two non-title text styles. */
+.bottom-panel :is(
+  .eyebrow,
+  .section-kicker,
+  .title-stats span,
+  .tool-switcher a,
+  .tool-switcher button,
+  .control-row label,
+  .range-control label,
+  .edge-meta dt,
+  .metrics-grid span,
+  .primary-action,
+  .secondary-action,
+  .pill,
+  output
+) {
+  color: var(--overlay-label-color) !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace !important;
+  font-size: var(--overlay-label-size) !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  line-height: var(--overlay-label-line) !important;
+  text-transform: uppercase !important;
+}
+
+/* Operator HUD grid rework: the log gets real space, every 2D cluster uses
+   one standard gap, and seams/edges render as compact button grids. */
+.bottom-panel {
+  --hud-gap: 0.65rem;
+  --hud-gap-sm: 0.42rem;
+  width: min(34rem, calc(100vw - 28px)) !important;
+  max-height: calc(100vh - 28px) !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(9rem, 1fr) auto auto !important;
+  grid-template-areas:
+    "title"
+    "edges"
+    "selected"
+    "seam"
+    "saved" !important;
+  gap: var(--hud-gap) !important;
+  overflow: hidden !important;
+}
+
+.bottom-panel :is(.seam-topbar, .panel-section, .section-heading, .edge-browser, .edge-list, .saved-seams, .button-grid, .edge-meta, .range-control) {
+  gap: var(--hud-gap-sm) !important;
+}
+
+.bottom-panel .seam-topbar {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.bottom-panel .status {
+  display: none !important;
+}
+
+.bottom-panel .fading-log {
+  min-height: 10.5rem !important;
+  max-height: 13rem !important;
+  margin-top: var(--hud-gap-sm) !important;
+  padding: 0.35rem 0 !important;
+  overflow: hidden !important;
+}
+
+.bottom-panel .title-stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, max-content)) !important;
+  gap: var(--hud-gap-sm) !important;
+}
+
+.bottom-panel .edge-list,
+.bottom-panel .saved-seams {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-content: start !important;
+  max-height: none !important;
+  overflow: auto !important;
+}
+
+.bottom-panel .edge-list {
+  min-height: 13rem !important;
+}
+
+.bottom-panel .saved-seams {
+  min-height: 3.2rem !important;
+}
+
+.bottom-panel .edge-row,
+.bottom-panel .saved-seam-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0.12rem !important;
+  min-height: 2.8rem !important;
+  padding: 0.42rem 0.5rem !important;
+  border: 1px solid rgb(245 245 245 / 14%) !important;
+  background: rgb(0 0 0 / 30%) !important;
+  text-align: left !important;
+}
+
+.bottom-panel .edge-row strong,
+.bottom-panel .saved-seam-row strong {
+  overflow: hidden !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace !important;
+  font-size: 0.66rem !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.bottom-panel .edge-row span,
+.bottom-panel .edge-row em,
+.bottom-panel .saved-seam-row span,
+.bottom-panel .saved-seam-row em {
+  overflow: hidden !important;
+  font-size: 0.62rem !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.bottom-panel .edge-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.bottom-panel .panel-section {
+  min-height: 0 !important;
+}
+
+/* Greyscale final pass: only 3D coordinate-frame gizmos keep semantic axis
+   color. The stage, background, and all 2D HUD elements are neutral. */
+:root {
+  --v3-ink: #f2f2f2;
+  --v3-muted: rgb(210 210 210 / 68%);
+  --v3-dim: rgb(180 180 180 / 48%);
+  --v3-line: rgb(235 235 235 / 16%);
+  --v3-panel: rgb(8 8 8 / 86%);
+  --v3-panel-soft: rgb(255 255 255 / 5%);
+  --v3-red: #d8d8d8;
+  --v3-red-soft: rgb(255 255 255 / 10%);
+  --v3-green: #d8d8d8;
+  --v3-warn: #c8c8c8;
+}
+
+html,
+body,
+#seam-app,
+.seam-shell {
+  color: #e8e8e8 !important;
+  background: #030303 !important;
+}
+
+.seam-shell,
+.stage canvas {
+  background:
+    radial-gradient(circle at 54% 45%, rgb(255 255 255 / 7%), transparent 28%),
+    linear-gradient(130deg, #080808 0%, #030303 48%, #101010 100%) !important;
+}
+
+.stage-vignette {
+  background:
+    radial-gradient(circle at 50% 48%, transparent 0%, transparent 44%, rgb(0 0 0 / 42%) 100%),
+    linear-gradient(90deg, rgb(0 0 0 / 74%) 0%, transparent 20%, transparent 80%, rgb(0 0 0 / 74%) 100%) !important;
+}
+
+.bottom-panel {
+  --overlay-label-color: rgb(215 215 215 / 80%) !important;
+  --overlay-body-color: rgb(245 245 245 / 90%) !important;
+  --overlay-muted-color: rgb(190 190 190 / 62%) !important;
+  --overlay-critical-color: rgb(235 235 235 / 92%) !important;
+}
+
+.bottom-panel .seam-topbar h1,
+.seam-topbar h1,
+.hero h1 {
+  color: #060606 !important;
+  -webkit-text-stroke-color: rgb(245 245 245 / 95%) !important;
+  text-shadow:
+    0.045em 0.045em 0 rgb(230 230 230 / 90%),
+    0.075em 0.075em 0 rgb(155 155 155 / 78%),
+    0 0.18rem 1.4rem rgb(255 255 255 / 18%) !important;
+}
+
+.bottom-panel :is(.tool-switcher a, .tool-switcher button, .primary-action, .secondary-action, #reverse-button, #add-seam-button, .edge-row, .saved-seam-row, .pill),
+.tour-caption {
+  border-color: rgb(235 235 235 / 16%) !important;
+  color: rgb(225 225 225 / 86%) !important;
+  background: rgb(0 0 0 / 32%) !important;
+  box-shadow: none !important;
+}
+
+.bottom-panel :is(.tool-switcher a:hover, .tool-switcher a:focus-visible, .tool-switcher a.is-active, .tool-switcher button:hover, .tool-switcher button:focus-visible, .tool-switcher button.is-selected, .primary-action:hover:not(:disabled), .secondary-action:hover:not(:disabled), #reverse-button:hover:not(:disabled), #add-seam-button:hover:not(:disabled), .edge-row:hover, .edge-row:focus-visible, .edge-row.is-selected, .saved-seam-row:hover, .saved-seam-row:focus-visible, .saved-seam-row.is-selected) {
+  border-color: rgb(255 255 255 / 76%) !important;
+  color: #fff !important;
+  background: rgb(255 255 255 / 8%) !important;
+  box-shadow: 0 0 1.1rem rgb(255 255 255 / 10%) !important;
+}
+
+.bottom-panel .fail,
+.fail {
+  color: rgb(245 245 245 / 92%) !important;
+}
+
+input[type="range"] {
+  accent-color: #d8d8d8 !important;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+.file-drop:focus-within,
+/* Single-log HUD mode: every visible 2D report goes through the fading log.
+   Keep only the hero title and the Tour Test button outside that stream. */
+.bottom-panel {
+  width: min(36rem, calc(100vw - 28px)) !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+  grid-template-areas: "title" !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.bottom-panel .title-stats,
+.bottom-panel .panel-section {
+  display: none !important;
+}
+
+.bottom-panel .tool-switcher {
+  display: grid !important;
+  grid-template-columns: max-content !important;
+  gap: 0 !important;
+  margin: 0 !important;
+}
+
+.bottom-panel .tool-switcher a,
+.bottom-panel .tool-switcher button:not(#quick-tour-button) {
+  display: none !important;
+}
+
+.bottom-panel .status,
+.tour-caption {
+  position: fixed !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+}
+
+/* Neutral UI pass: reserve red for critical UI and 3D scene highlights. */
+.bottom-panel {
+  --overlay-label-color: rgb(210 210 210 / 78%);
+  --overlay-body-color: rgb(245 245 245 / 88%);
+  --overlay-muted-color: rgb(185 185 185 / 58%);
+  --overlay-critical-color: rgb(255 32 32 / 94%);
+}
+
+.bottom-panel .tool-switcher a,
+.bottom-panel .tool-switcher button,
+.bottom-panel .primary-action,
+.bottom-panel .secondary-action,
+.bottom-panel #reverse-button,
+.bottom-panel #add-seam-button {
+  border-color: rgb(245 245 245 / 16%) !important;
+  color: rgb(220 220 220 / 82%) !important;
+  background: rgb(0 0 0 / 32%) !important;
+  box-shadow: none !important;
+}
+
+.bottom-panel .tool-switcher a:hover,
+.bottom-panel .tool-switcher a:focus-visible,
+.bottom-panel .tool-switcher a.is-active,
+.bottom-panel .tool-switcher button:hover,
+.bottom-panel .tool-switcher button:focus-visible,
+.bottom-panel .tool-switcher button.is-selected,
+.bottom-panel .primary-action:hover:not(:disabled),
+.bottom-panel .secondary-action:hover:not(:disabled),
+.bottom-panel .primary-action:focus-visible:not(:disabled),
+.bottom-panel .secondary-action:focus-visible:not(:disabled),
+.bottom-panel #reverse-button:hover:not(:disabled),
+.bottom-panel #reverse-button:focus-visible:not(:disabled),
+.bottom-panel #add-seam-button:hover:not(:disabled),
+.bottom-panel #add-seam-button:focus-visible:not(:disabled),
+.bottom-panel .edge-row:hover,
+.bottom-panel .edge-row:focus-visible,
+.bottom-panel .edge-row.is-selected,
+.bottom-panel .saved-seam-row:hover,
+.bottom-panel .saved-seam-row:focus-visible,
+.bottom-panel .saved-seam-row.is-selected {
+  border-color: rgb(255 255 255 / 76%) !important;
+  color: #fff !important;
+  background: rgb(255 255 255 / 8%) !important;
+  box-shadow: 0 0 1.1rem rgb(255 255 255 / 10%) !important;
+}
+
+.bottom-panel .edge-row.is-selected strong,
+.bottom-panel .saved-seam-row.is-selected strong,
+.bottom-panel .pill {
+  color: #fff !important;
+}
+
+.bottom-panel .primary-action:disabled,
+.bottom-panel .secondary-action:disabled,
+.bottom-panel #reverse-button:disabled,
+.bottom-panel #add-seam-button:disabled,
+.bottom-panel input:disabled {
+  border-color: rgb(245 245 245 / 8%) !important;
+  color: rgb(180 180 180 / 28%) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.fail,
+.bottom-panel .fail {
+  color: var(--overlay-critical-color) !important;
+}
+
+/* Shared HUD final pass: bash report log + grouped grey buttons. Red is only
+   for errors/critical UI and 3D scene highlights. */
+.bottom-panel .fading-log {
+  min-height: 4.8rem;
+  max-width: 100%;
+  margin: 0.65rem 0 0;
+  overflow: hidden;
+  color: rgb(245 245 245 / 72%) !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace !important;
+  font-size: 0.66rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  white-space: pre-wrap;
+  text-shadow: 0 0.08rem 0.2rem rgb(0 0 0 / 86%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+}
+
+.bottom-panel .tool-switcher,
+.bottom-panel .button-grid {
+  display: grid !important;
+  gap: 0.45rem !important;
+}
+
+.bottom-panel .tool-switcher {
+  grid-template-columns: repeat(3, minmax(0, max-content)) !important;
+}
+
+.bottom-panel .button-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.bottom-panel :is(
+  h2,
+  h3,
+  p,
+  small,
+  .status,
+  .title-stats strong,
+  .file-drop span,
+  .file-drop small,
+  .edge-row strong,
+  .edge-row span,
+  .edge-row em,
+  .saved-seam-row strong,
+  .saved-seam-row span,
+  .saved-seam-row em,
+  .edge-meta dd,
+  .metrics-grid strong,
+  .empty-state,
+  input,
+  textarea
+) {
+  color: var(--overlay-body-color) !important;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif !important;
+  font-size: var(--overlay-body-size) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: var(--overlay-body-line) !important;
+  text-transform: none !important;
+}
+
+.bottom-panel :is(
+  .file-drop small,
+  .edge-row span,
+  .edge-row em,
+  .saved-seam-row span,
+  .saved-seam-row em,
+  .empty-state,
+  .status
+) {
+  color: var(--overlay-muted-color) !important;
+}
+
+.bottom-panel :is(
+  .eyebrow,
+  .section-kicker,
+  .title-stats span,
+  .tool-switcher a,
+  .tool-switcher button,
+  .control-row label,
+  .range-control label,
+  .edge-meta dt,
+  .metrics-grid span,
+  .primary-action,
+  .secondary-action,
+  .pill,
+  output
+) {
+  color: var(--overlay-label-color) !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace !important;
+  font-size: var(--overlay-label-size) !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  line-height: var(--overlay-label-line) !important;
+  text-transform: uppercase !important;
+}

@@ -1,0 +1,41 @@
+[Unit]
+Description=Rosie public status to v4 NATS telemetry
+Requires=rosie-rt-control.service
+After=rosie-rt-control.service
+PartOf=rosie-rt-control.service
+Conflicts=robot-v4-rtcore-nats-bridge.service
+# Two publishers on one subject are a fault: stop the v4 bridge on the RevPi
+# before enabling this Jetson unit. Conflicts= cannot police another host.
+ConditionPathExists=/etc/rosie-rt-core/natspublisher.env
+ConditionFileIsExecutable=/opt/rosie/rt-core/build/rt-natspublisher
+
+[Service]
+Type=simple
+# unverified identity policy: transient observer has public socket access only.
+DynamicUser=yes
+User=rosie-telemetry
+Group=rosie-rt-clients
+SupplementaryGroups=
+AmbientCapabilities=
+CapabilityBoundingSet=
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+EnvironmentFile=/etc/rosie-rt-core/natspublisher.env
+ExecStart=/opt/rosie/rt-core/build/rt-natspublisher --socket /run/rosie-rt-core/public/control.sock
+WorkingDirectory=/opt/rosie/rt-core
+Restart=on-failure
+# Unverified process exit contract: 2 configuration, 10 contract mismatch,
+# 11 authentication required, 12 TLS required, 13 JetStream unavailable,
+# 14 stream configuration refused, 15 another publisher active. Correct the
+# deployment before starting again; 1 remains an ordinary retryable failure.
+RestartPreventExitStatus=2 10 11 12 13 14 15
+# unverified lifecycle budgets: 2 s restart interval, 10 s shutdown ceiling.
+RestartSec=2
+TimeoutStopSec=10
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

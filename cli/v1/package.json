@@ -1,0 +1,35 @@
+{
+  "name": "rosie-cli",
+  "version": "0.1.0",
+  "description": "rosie: the agent-first command line for RosieOS (OLP programs, verification, 3D scene snapshots, reports, robot actions), and the library the RosieOS MCP server is built on",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "rosie": "dist/src/main.js"
+  },
+  "exports": {
+    "./lib/*.js": {
+      "types": "./dist/src/lib/*.d.ts",
+      "default": "./dist/src/lib/*.js"
+    },
+    "./testing": {
+      "types": "./dist/test/fakes.d.ts",
+      "default": "./dist/test/fakes.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-core.mjs && tsc -p tsconfig.json && node scripts/build-snapshot.mjs",
+    "build:snapshot": "node scripts/build-snapshot.mjs",
+    "test": "npm run build && node --test \"dist/test/*.test.js\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit && node ../../offline-programming/v1/ui/node_modules/typescript/bin/tsc -p core/tsconfig.json"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.1",
+    "esbuild": "0.25.11",
+    "typescript": "5.9.3"
+  }
+}

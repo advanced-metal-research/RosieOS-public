@@ -1,0 +1,2 @@
+# (pattern, path) pairs the leak check tolerates until each cleanup removes them.
+# Regenerate with: node quality/leak-check.mjs --update. Must be empty before the mirror is published.

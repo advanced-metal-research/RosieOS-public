@@ -1,0 +1,133 @@
+#include <array>
+#include <charconv>
+#include <cmath>
+#include <cstdint>
+#include <iomanip>
+#include <limits>
+#include <locale>
+#include <map>
+#include <optional>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
+namespace rosie::rt_control {
+// JSON numbers retain their lexical representation so uint64 identifiers never round through double.
+struct Json {
+  enum class Kind { Null, Boolean, Number, String, Array, Object } kind = Kind::Null;
+  std::string text;
+  std::vector<Json> array;
+  std::vector<std::pair<std::string, Json>> object;
+  static Json object_value() { Json v; v.kind=Kind::Object; return v; }
+};
+
+// UTF-8 validation rejects invalid scalar values instead of emitting invalid JSON strings.
+inline void utf8(std::string_view text) {
+  for (std::size_t i=0; i<text.size();) {
+    unsigned char c=text[i++]; if (c<0x80) continue;
+    unsigned n; std::uint32_t cp, minimum;
+    if (c>=0xc2 && c<=0xdf) { n=1; cp=c&31; minimum=0x80; }
+    else if (c>=0xe0 && c<=0xef) { n=2; cp=c&15; minimum=0x800; }
+    else if (c>=0xf0 && c<=0xf4) { n=3; cp=c&7; minimum=0x10000; }
+    else throw std::runtime_error("invalid UTF-8");
+    while(n--) { if(i==text.size() || (static_cast<unsigned char>(text[i])&0xc0)!=0x80) throw std::runtime_error("invalid UTF-8"); cp=(cp<<6)|(text[i++]&63); }
+    if(cp<minimum || cp>0x10ffff || (cp>=0xd800 && cp<=0xdfff)) throw std::runtime_error("invalid UTF-8 scalar");
+  }
+}
+class Parser {
+  std::string_view wire; std::size_t pos=0;
+  [[noreturn]] void fail() const { throw std::runtime_error("malformed JSON at byte "+std::to_string(pos)); }
+  void space() { while(pos<wire.size() && (wire[pos]==' '||wire[pos]=='\t'||wire[pos]=='\r'||wire[pos]=='\n')) ++pos; }
+  bool take(char c) { if(pos<wire.size()&&wire[pos]==c){++pos;return true;} return false; }
+  void literal(std::string_view s) { if(wire.substr(pos,s.size())!=s)fail();pos+=s.size(); }
+  std::uint32_t hex4() { std::uint32_t out=0; for(int i=0;i<4;++i){if(pos==wire.size())fail();char c=wire[pos++];unsigned d;if(c>='0'&&c<='9')d=c-'0';else if(c>='a'&&c<='f')d=c-'a'+10;else if(c>='A'&&c<='F')d=c-'A'+10;else{fail();}out=(out<<4)|d;}return out; }
+  static void append_utf8(std::string& out,std::uint32_t cp) {
+    if(cp<0x80)out+=char(cp);
+    else if(cp<0x800){out+=char(0xc0|(cp>>6));out+=char(0x80|(cp&63));}
+    else if(cp<0x10000){out+=char(0xe0|(cp>>12));out+=char(0x80|((cp>>6)&63));out+=char(0x80|(cp&63));}
+    else {out+=char(0xf0|(cp>>18));out+=char(0x80|((cp>>12)&63));out+=char(0x80|((cp>>6)&63));out+=char(0x80|(cp&63));}
+  }
+  std::string string() {
+    if(!take('"'))fail();
+    std::string out;
+    while(pos<wire.size()) {
+      unsigned char c=wire[pos++]; if(c=='"'){utf8(out);return out;} if(c<0x20)fail();
+      if(c!='\\'){out+=char(c);continue;} if(pos==wire.size())fail();
+      switch(wire[pos++]) {
+        case '"':out+='"';break;case '\\':out+='\\';break;case '/':out+='/';break;
+        case 'b':out+='\b';break;case 'f':out+='\f';break;case 'n':out+='\n';break;case 'r':out+='\r';break;case 't':out+='\t';break;
+        case 'u':{auto cp=hex4();if(cp>=0xd800&&cp<=0xdbff){if(!take('\\')||!take('u'))fail();auto low=hex4();if(low<0xdc00||low>0xdfff)fail();cp=0x10000+((cp-0xd800)<<10)+(low-0xdc00);}else if(cp>=0xdc00&&cp<=0xdfff)fail();append_utf8(out,cp);break;}
+        default:fail();
+      }
+    }
+    fail();
+  }
+  Json value(unsigned depth) {
+    // Unverified decoder nesting ceiling: 64 containers; prevents unbounded recursive stack use.
+    if(depth>64)fail();
+    space();if(pos==wire.size())fail(); Json out;
+    if(wire[pos]=='"'){out.kind=Json::Kind::String;out.text=string();return out;}
+    if(take('{')) {out.kind=Json::Kind::Object;space();if(take('}'))return out;do{space();auto key=string();for(const auto& f:out.object)if(f.first==key)fail();space();if(!take(':'))fail();out.object.emplace_back(std::move(key),value(depth+1));space();if(take('}'))return out;}while(take(','));fail();}
+    if(take('[')) {out.kind=Json::Kind::Array;space();if(take(']'))return out;do{out.array.push_back(value(depth+1));space();if(take(']'))return out;}while(take(','));fail();}
+    if(wire[pos]=='n'){literal("null");return out;}
+    if(wire[pos]=='t'){literal("true");out.kind=Json::Kind::Boolean;out.text="true";return out;}
+    if(wire[pos]=='f'){literal("false");out.kind=Json::Kind::Boolean;out.text="false";return out;}
+    auto start=pos;take('-');
+    if(!take('0')) {if(pos==wire.size()||wire[pos]<'1'||wire[pos]>'9')fail();while(pos<wire.size()&&wire[pos]>='0'&&wire[pos]<='9')++pos;}
+    if(take('.')){auto begin=pos;while(pos<wire.size()&&wire[pos]>='0'&&wire[pos]<='9')++pos;if(begin==pos)fail();}
+    if(take('e')||take('E')){if(!take('+'))take('-');auto begin=pos;while(pos<wire.size()&&wire[pos]>='0'&&wire[pos]<='9')++pos;if(begin==pos)fail();}
+    out.kind=Json::Kind::Number;out.text=std::string(wire.substr(start,pos-start));return out;
+  }
+public:
+  explicit Parser(std::string_view text):wire(text){}
+  Json parse(){auto out=value(0);space();if(pos!=wire.size())fail();return out;}
+};
+inline std::string quote(std::string_view text) {
+  utf8(text);std::string out="\"";
+  for(unsigned char c:text){if(c=='"'||c=='\\'){out+='\\';out+=char(c);}else if(c<0x20){out+="\\u00";out+="0123456789abcdef"[c>>4];out+="0123456789abcdef"[c&15];}else out+=char(c);}
+  return out+'"';
+}
+inline std::string dump(const Json& json) {
+  switch(json.kind){
+    case Json::Kind::Null:return "null";
+    case Json::Kind::Boolean:if(json.text!="true"&&json.text!="false")throw std::runtime_error("invalid boolean");return json.text;
+    case Json::Kind::Number:if(Parser(json.text).parse().kind!=Json::Kind::Number)throw std::runtime_error("invalid number");return json.text;
+    case Json::Kind::String:return quote(json.text);
+    case Json::Kind::Array:{std::string out="[";for(const auto& v:json.array){if(out.size()>1)out+=',';out+=dump(v);}return out+']';}
+    case Json::Kind::Object:{std::string out="{";for(const auto& f:json.object){if(out.size()>1)out+=',';out+=quote(f.first)+':'+dump(f.second);}return out+'}';}
+  }
+  throw std::runtime_error("invalid JSON kind");
+}
+inline void require_object(const Json& json){if(json.kind!=Json::Kind::Object)throw std::runtime_error("expected object");}
+inline Json to_json(const Json& value){return value;}
+inline void from_json(const Json& json,Json& value){value=json;}
+inline Json to_json(const std::string& value){Json out;out.kind=Json::Kind::String;out.text=value;return out;}
+inline void from_json(const Json& json,std::string& value){if(json.kind!=Json::Kind::String)throw std::runtime_error("expected string");value=json.text;}
+inline Json to_json(bool value){Json out;out.kind=Json::Kind::Boolean;out.text=value?"true":"false";return out;}
+inline void from_json(const Json& json,bool& value){if(json.kind!=Json::Kind::Boolean)throw std::runtime_error("expected boolean");value=json.text=="true";}
+template<class T, std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T,bool>,int> = 0>
+Json to_json(T value){Json out;out.kind=Json::Kind::Number;out.text=std::to_string(value);return out;}
+template<class T, std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T,bool>,int> = 0>
+void from_json(const Json& json,T& value){if(json.kind!=Json::Kind::Number)throw std::runtime_error("expected integer");T next{};auto r=std::from_chars(json.text.data(),json.text.data()+json.text.size(),next);if(r.ec!=std::errc{}||r.ptr!=json.text.data()+json.text.size())throw std::runtime_error("integer out of range or fractional");value=next;}
+inline Json to_json(double value){if(!std::isfinite(value))throw std::runtime_error("nonfinite number");std::ostringstream text;text.imbue(std::locale::classic());text<<std::setprecision(std::numeric_limits<double>::max_digits10)<<value;Json out;out.kind=Json::Kind::Number;out.text=text.str();return out;}
+inline void from_json(const Json& json,double& value){if(json.kind!=Json::Kind::Number)throw std::runtime_error("expected number");double next{};auto r=std::from_chars(json.text.data(),json.text.data()+json.text.size(),next);if(r.ec!=std::errc{}||r.ptr!=json.text.data()+json.text.size()||!std::isfinite(next))throw std::runtime_error("number out of range");value=next;}
+// String-keyed scalar maps use JSON objects; decode commits only after every value
+// passes its scalar codec, preventing partial replacement on malformed input.
+template<class T> Json to_json(const std::map<std::string,T>& values){Json out=Json::object_value();for(const auto& v:values)out.object.emplace_back(v.first,to_json(v.second));return out;}
+template<class T> void from_json(const Json& json,std::map<std::string,T>& values){if(json.kind==Json::Kind::Null){values.clear();return;}require_object(json);std::map<std::string,T> next;for(const auto& v:json.object){T item{};from_json(v.second,item);if(!next.emplace(v.first,std::move(item)).second)throw std::runtime_error("duplicate map key");}values=std::move(next);}
+template<class T> Json to_json(const std::optional<T>& value){return value?to_json(*value):Json{};}
+template<class T> void from_json(const Json& json,std::optional<T>& value){if(json.kind==Json::Kind::Null){value.reset();return;}T next{};from_json(json,next);value=std::move(next);}
+template<class T> Json to_json(const std::vector<T>& values){Json out;out.kind=Json::Kind::Array;for(const auto& v:values)out.array.push_back(to_json(v));return out;}
+template<class T> void from_json(const Json& json,std::vector<T>& values){if(json.kind==Json::Kind::Null){values.clear();return;}if(json.kind!=Json::Kind::Array)throw std::runtime_error("expected array");std::vector<T> next;next.reserve(json.array.size());for(const auto& v:json.array){T item{};from_json(v,item);next.push_back(std::move(item));}values=std::move(next);}
+template<class T,std::size_t N> Json to_json(const std::array<T,N>& values){Json out;out.kind=Json::Kind::Array;for(const auto& v:values)out.array.push_back(to_json(v));return out;}
+template<class T,std::size_t N> void from_json(const Json& json,std::array<T,N>& values){if(json.kind!=Json::Kind::Array||json.array.size()!=N)throw std::runtime_error("wrong array length");std::array<T,N> next{};for(std::size_t i=0;i<N;++i)from_json(json.array[i],next[i]);values=std::move(next);}
+template<class T> void field(const Json& json,std::string_view name,T& value,bool required){for(const auto& f:json.object){if(f.first==name){from_json(f.second,value);return;}}if(required)throw std::runtime_error("missing field "+std::string(name));}
+template<class T> bool empty(const T& value){return value==T{};}
+template<class T> bool empty(const std::optional<T>& value){return !value;}
+template<class T> bool empty(const std::vector<T>& value){return value.empty();}
+template<class T> bool empty(const std::map<std::string,T>& value){return value.empty();}
+inline bool empty(const Json& value){return value.kind==Json::Kind::Null;}

@@ -1,0 +1,677 @@
+{
+  "schema_version": 1,
+  "model": "rosie_1400_v3",
+  "source": "autodesk/v1 active Fusion document",
+  "active_document": "full_cell_iges",
+  "data_file": {
+    "name": "full_cell_iges",
+    "id": "urn:adsk.wipprod:dm.lineage:TOtx8EC1RyinmgZmV1pBeA"
+  },
+  "generated_at_utc": "2026-07-03T05:42:32.789Z",
+  "representation": "articulated_per_part_dae_visuals_with_box_collisions",
+  "unit_source": "centimeters",
+  "unit_urdf": "meters",
+  "link_count": 13,
+  "joint_count": 12,
+  "mesh_count": 11,
+  "parts": [
+    {
+      "name": "floor",
+      "dae": "floor.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/floor_1_1.stl",
+      "source_occurrence": "floor (1):1",
+      "origin_m": [
+        0,
+        0,
+        0
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ],
+      "collision_origin_m": [
+        1.3042500000000001,
+        0.6857999877929686,
+        0.14101874542236328
+      ],
+      "collision_size_m": [
+        2.6085200000000004,
+        1.371619975585938,
+        0.6884574847412109
+      ],
+      "material": "grey_floor_dark",
+      "triangle_count": 2678,
+      "color_rgba": "0.23 0.25 0.28 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_1",
+      "dae": "link_1.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/l1_1_1.stl",
+      "source_occurrence": "l1 (1):1",
+      "origin_m": [
+        0.7874000000000007,
+        0.6858000000000015,
+        0.4808375000000008
+      ],
+      "rpy": [
+        -3.1785425869294916e-15,
+        -6.661338147750938e-16,
+        -4.510102912151551e-19
+      ],
+      "collision_origin_m": [
+        0.05997206878662109,
+        0,
+        0.1799404602050779
+      ],
+      "collision_size_m": [
+        0.3799641375732422,
+        0.26002000000000003,
+        0.3599009204101567
+      ],
+      "material": "grey_body_light",
+      "triangle_count": 1638,
+      "color_rgba": "0.89 0.90 0.91 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_2",
+      "dae": "link_2.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/l2_1.stl",
+      "source_occurrence": "l2:1",
+      "origin_m": [
+        0.9473997345579054,
+        0.5602995110571731,
+        0.7507261047486117
+      ],
+      "rpy": [
+        -1.6048106994202382e-12,
+        -6.661338147750938e-16,
+        -3.941742747710419e-15
+      ],
+      "collision_origin_m": [
+        0,
+        -0.03749999999999999,
+        0.3
+      ],
+      "collision_size_m": [
+        0.12502,
+        0.07502000000000002,
+        0.72502
+      ],
+      "material": "grey_body_mid",
+      "triangle_count": 224,
+      "color_rgba": "0.60 0.63 0.67 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_3",
+      "dae": "link_3.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/l3_1.stl",
+      "source_occurrence": "l3:1",
+      "origin_m": [
+        0.9473997345579049,
+        0.5602995110581359,
+        1.3507261047486114
+      ],
+      "rpy": [
+        -1.6066861588576801e-12,
+        -8.881784197001254e-16,
+        -3.99031500503767e-15
+      ],
+      "collision_origin_m": [
+        0.03450028610229492,
+        0.11349999999999996,
+        0.04000594329833985
+      ],
+      "collision_size_m": [
+        0.24901942779541017,
+        0.22702000000000008,
+        0.26000811340332036
+      ],
+      "material": "grey_body_light",
+      "triangle_count": 1362,
+      "color_rgba": "0.89 0.90 0.91 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_4",
+      "dae": "link_4.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/l4_1.stl",
+      "source_occurrence": "l4:1",
+      "origin_m": [
+        1.106399734557909,
+        0.6857995096972577,
+        1.455726106656373
+      ],
+      "rpy": [
+        -1.6065826416375006e-12,
+        -7.771561172376096e-16,
+        -4.05623449712499e-15
+      ],
+      "collision_origin_m": [
+        0.2638141174316363,
+        0.019329959869384766,
+        0.021266658782958987
+      ],
+      "collision_size_m": [
+        0.5276482348632899,
+        0.2551459994506836,
+        0.15655331756591798
+      ],
+      "material": "grey_body_mid",
+      "triangle_count": 488,
+      "color_rgba": "0.60 0.63 0.67 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_5",
+      "dae": "link_5.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/l5_1.stl",
+      "source_occurrence": "l5:1",
+      "origin_m": [
+        1.594099734557966,
+        0.6379664667248169,
+        1.4557261066564087
+      ],
+      "rpy": [
+        -1.6065797828382e-12,
+        -9.992007221626407e-16,
+        -4.111745648356045e-15
+      ],
+      "collision_origin_m": [
+        0,
+        0.06091652297973628,
+        0.0034899978637695298
+      ],
+      "collision_size_m": [
+        0.08502000000000001,
+        0.12185304595947276,
+        0.19360000183105466
+      ],
+      "material": "grey_body_light",
+      "triangle_count": 542,
+      "color_rgba": "0.89 0.90 0.91 1",
+      "opacity": 1
+    },
+    {
+      "name": "link_6",
+      "dae": "link_6.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/mig_torch_v1_1.stl",
+      "source_occurrence": "mig_torch_v1:1",
+      "origin_m": [
+        1.5940997345579673,
+        0.6857995096970605,
+        1.3624261066563341
+      ],
+      "rpy": [
+        -1.6064275280837017e-12,
+        -1.7763568394002556e-15,
+        -4.108276201404003e-15
+      ],
+      "collision_origin_m": [
+        0.0905053882598877,
+        -0.0016753368377685554,
+        -0.15157675170898438
+      ],
+      "collision_size_m": [
+        0.2505294261169434,
+        0.07286932327270508,
+        0.509347392578125
+      ],
+      "material": "grey_body_mid",
+      "triangle_count": 1730,
+      "color_rgba": "0.60 0.63 0.67 1",
+      "opacity": 1
+    },
+    {
+      "name": "end_effector",
+      "dae": "end_effector.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/end_effector_1.stl",
+      "source_occurrence": "end_effector:1",
+      "origin_m": [
+        1.598782458663904,
+        0.6857995096964212,
+        0.964043382550402
+      ],
+      "rpy": [
+        -3.1415926535875216,
+        0.7853981633974187,
+        -3.141592653588191
+      ],
+      "collision_origin_m": [
+        0.0031749999523162844,
+        0,
+        8.679628372193406e-7
+      ],
+      "collision_size_m": [
+        0.006369999904632569,
+        0.006369132061004639,
+        0.00636826397895813
+      ],
+      "material": "grey_body_light",
+      "triangle_count": 566,
+      "color_rgba": "0.89 0.90 0.91 1",
+      "opacity": 1
+    },
+    {
+      "name": "h_frame",
+      "dae": "h_frame.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/h_frame_1.stl",
+      "source_occurrence": "h_frame:1",
+      "origin_m": [
+        2.412999999999996,
+        0.6858,
+        0.044878800000004306
+      ],
+      "rpy": [
+        -4.809082576153389e-15,
+        0,
+        0
+      ],
+      "collision_origin_m": [
+        0,
+        0,
+        0.2922747339010239
+      ],
+      "collision_size_m": [
+        1.2000199999999999,
+        1.69758005859375,
+        0.5864705321979523
+      ],
+      "material": "grey_fixture",
+      "triangle_count": 9469,
+      "color_rgba": "0.65 0.68 0.72 1",
+      "opacity": 1
+    },
+    {
+      "name": "positioner_table_a",
+      "dae": "positioner_table_a.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/positioner_table_1.stl",
+      "source_occurrence": "positioner_table:1",
+      "origin_m": [
+        1.9129999999999612,
+        1.3078002600002423,
+        0.5508788000001625
+      ],
+      "rpy": [
+        -4.809082576153389e-15,
+        0,
+        0
+      ],
+      "collision_origin_m": [
+        0,
+        -0.622,
+        0
+      ],
+      "collision_size_m": [
+        0.20002,
+        1.24402,
+        0.20002
+      ],
+      "material": "grey_positioner_dark",
+      "triangle_count": 12,
+      "color_rgba": "0.46 0.49 0.53 1",
+      "opacity": 1
+    },
+    {
+      "name": "positioner_table_b",
+      "dae": "positioner_table_b.dae",
+      "source_stl": "urdf/v1/rosie_1400_v3/fusion_part_export/meshes/positioner_table_2.stl",
+      "source_occurrence": "positioner_table:2",
+      "origin_m": [
+        2.913000000000025,
+        1.3078002600002434,
+        0.5508788000001615
+      ],
+      "rpy": [
+        -4.809082576153389e-15,
+        0,
+        0
+      ],
+      "collision_origin_m": [
+        0,
+        -0.622,
+        0
+      ],
+      "collision_size_m": [
+        0.20002,
+        1.24402,
+        0.20002
+      ],
+      "material": "grey_positioner_dark",
+      "triangle_count": 12,
+      "color_rgba": "0.46 0.49 0.53 1",
+      "opacity": 1
+    }
+  ],
+  "dae_dir": "meshes",
+  "fusion_export_manifest": "urdf/v1/rosie_1400_v3/fusion_part_export/export_manifest.json",
+  "cadquery_measurements": "fusion_part_export/cadquery_measurements.json",
+  "material_palette": "bright_alternating_grayscale",
+  "materials": {
+    "floor": {
+      "material": "grey_floor_dark",
+      "rgba": "0.23 0.25 0.28 1"
+    },
+    "link_1": {
+      "material": "grey_body_light",
+      "rgba": "0.89 0.90 0.91 1"
+    },
+    "link_2": {
+      "material": "grey_body_mid",
+      "rgba": "0.60 0.63 0.67 1"
+    },
+    "link_3": {
+      "material": "grey_body_light",
+      "rgba": "0.89 0.90 0.91 1"
+    },
+    "link_4": {
+      "material": "grey_body_mid",
+      "rgba": "0.60 0.63 0.67 1"
+    },
+    "link_5": {
+      "material": "grey_body_light",
+      "rgba": "0.89 0.90 0.91 1"
+    },
+    "link_6": {
+      "material": "grey_body_mid",
+      "rgba": "0.60 0.63 0.67 1"
+    },
+    "end_effector": {
+      "material": "grey_body_light",
+      "rgba": "0.89 0.90 0.91 1"
+    },
+    "h_frame": {
+      "material": "grey_fixture",
+      "rgba": "0.65 0.68 0.72 1"
+    },
+    "positioner_table_a": {
+      "material": "grey_positioner_dark",
+      "rgba": "0.46 0.49 0.53 1"
+    },
+    "positioner_table_b": {
+      "material": "grey_positioner_dark",
+      "rgba": "0.46 0.49 0.53 1"
+    }
+  },
+  "visual_opacity": {
+    "parts": 1,
+    "floor": 1
+  },
+  "origin_gizmos": {
+    "depth_test": false,
+    "h_frame_and_positioners": "larger"
+  },
+  "kinematic_chain": {
+    "semantics": "URDF joint origins are full parent-relative Fusion occurrence transforms (translation + rotation); link meshes stay in occurrence-local frames, so URDF zero pose reproduces the exported CAD pose.",
+    "joints": [
+      {
+        "name": "world_to_floor",
+        "type": "fixed",
+        "parent": "world",
+        "child": "floor",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": null,
+        "lower": null,
+        "upper": null
+      },
+      {
+        "name": "J1",
+        "type": "revolute",
+        "parent": "floor",
+        "child": "link_1",
+        "origin_m": [
+          0.7874,
+          0.6858,
+          0.4808375
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "lower": -6.3,
+        "upper": 6.3
+      },
+      {
+        "name": "J2",
+        "type": "revolute",
+        "parent": "link_1",
+        "child": "link_2",
+        "origin_m": [
+          0.159999735,
+          -0.125500489,
+          0.269888605
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          1,
+          0
+        ],
+        "lower": -1.9,
+        "upper": 1.9
+      },
+      {
+        "name": "J3",
+        "type": "revolute",
+        "parent": "link_2",
+        "child": "link_3",
+        "origin_m": [
+          0,
+          0,
+          0.6
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          1,
+          0
+        ],
+        "lower": -4.2,
+        "upper": 1.53
+      },
+      {
+        "name": "J4",
+        "type": "revolute",
+        "parent": "link_3",
+        "child": "link_4",
+        "origin_m": [
+          0.159,
+          0.125499999,
+          0.105000002
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          1,
+          0,
+          0
+        ],
+        "lower": -6.3,
+        "upper": 6.3
+      },
+      {
+        "name": "J5",
+        "type": "revolute",
+        "parent": "link_4",
+        "child": "link_5",
+        "origin_m": [
+          0.4877,
+          -0.047833043,
+          0
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          1,
+          0
+        ],
+        "lower": -6.3,
+        "upper": 6.3
+      },
+      {
+        "name": "J6",
+        "type": "revolute",
+        "parent": "link_5",
+        "child": "link_6",
+        "origin_m": [
+          0,
+          0.047833043,
+          -0.0933
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "lower": -10,
+        "upper": 10
+      },
+      {
+        "name": "link_6_to_end_effector",
+        "type": "fixed",
+        "parent": "link_6",
+        "child": "end_effector",
+        "origin_m": [
+          0.004682724,
+          0,
+          -0.398382724
+        ],
+        "rpy": [
+          3.141592654,
+          0.785398163,
+          -3.141592654
+        ],
+        "axis": null,
+        "lower": null,
+        "upper": null
+      },
+      {
+        "name": "end_effector_to_tool0",
+        "type": "fixed",
+        "parent": "end_effector",
+        "child": "tool0",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": null,
+        "lower": null,
+        "upper": null
+      },
+      {
+        "name": "J9",
+        "type": "revolute",
+        "parent": "floor",
+        "child": "h_frame",
+        "origin_m": [
+          2.413,
+          0.6858,
+          0.0448788
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          0,
+          1
+        ],
+        "lower": -3.141592654,
+        "upper": 3.141592654
+      },
+      {
+        "name": "J7",
+        "type": "revolute",
+        "parent": "h_frame",
+        "child": "positioner_table_a",
+        "origin_m": [
+          -0.5,
+          0.62200026,
+          0.506
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          1,
+          0
+        ],
+        "lower": -3.141592654,
+        "upper": 3.141592654
+      },
+      {
+        "name": "J8",
+        "type": "revolute",
+        "parent": "h_frame",
+        "child": "positioner_table_b",
+        "origin_m": [
+          0.5,
+          0.62200026,
+          0.506
+        ],
+        "rpy": [
+          0,
+          0,
+          0
+        ],
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "lower": -3.141592654,
+        "upper": 3.141592654
+      }
+    ]
+  },
+  "rendering_notes": "Opaque double-sided materials; generic steel material override is skipped for v3 to avoid transparency sorting/backface artifacts."
+}

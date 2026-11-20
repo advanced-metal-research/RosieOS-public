@@ -1,0 +1,1379 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://gradient.industrial/schema/amr-weld-planner-v1.weld-program.v1.json",
+ "title": "amr-weld-planner-v1.weld-program.v1",
+ "description": "Describes what weld is required. Carries no robot state, no poses, and no joint values. Torch spin about the electrode axis is left free.",
+ "type": "object",
+ "required": [
+  "schema",
+  "program_id",
+  "source",
+  "workpiece",
+  "seams"
+ ],
+ "additionalProperties": false,
+ "properties": {
+  "schema": {
+   "const": "amr-weld-planner-v1.weld-program.v1"
+  },
+  "program_id": {
+   "$ref": "#/$defs/identifier"
+  },
+  "label": {
+   "type": "string"
+  },
+  "created_utc": {
+   "type": "string",
+   "format": "date-time"
+  },
+  "notes": {
+   "type": "string"
+  },
+  "source": {
+   "type": "object",
+   "description": "Provenance. Lets staleness be detected when the CAD changes.",
+   "required": [
+    "kind"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "enum": [
+      "step",
+      "iges",
+      "brep",
+      "authored"
+     ]
+    },
+    "path": {
+     "type": "string"
+    },
+    "sha256": {
+     "type": "string",
+     "pattern": "^[0-9a-f]{64}$"
+    },
+    "unit_scale_to_m": {
+     "type": "number",
+     "exclusiveMinimum": 0,
+     "description": "Scale applied to source units to reach metres. STEP in mm is 0.001."
+    },
+    "importer": {
+     "type": "string"
+    }
+   }
+  },
+  "workpiece": {
+   "type": "object",
+   "description": "All geometry in this document is expressed in this frame. The planner is free to move the positioner, so no world pose is committed to.",
+   "required": [
+    "frame_id"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "frame_id": {
+     "type": "string",
+     "description": "Opaque name for the frame the geometry lives in. Binding it to a URDF link is the planner's job."
+    },
+    "solids": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "$ref": "#/$defs/identifier"
+       },
+       "label": {
+        "type": "string"
+       },
+       "bbox_min_xyz_m": {
+        "$ref": "#/$defs/vec3"
+       },
+       "bbox_max_xyz_m": {
+        "$ref": "#/$defs/vec3"
+       },
+       "volume_m3": {
+        "type": "number",
+        "minimum": 0
+       },
+       "material": {
+        "type": "string"
+       },
+       "thickness_mm": {
+        "type": "number",
+        "exclusiveMinimum": 0
+       }
+      }
+     }
+    }
+   }
+  },
+  "weld_joints": {
+   "type": "array",
+   "description": "Objective CAD fact: where parts meet. Named weld_joints because 'joint' means a robot axis elsewhere in this repository.",
+   "items": {
+    "$ref": "#/$defs/weld_joint"
+   }
+  },
+  "seams": {
+   "type": "array",
+   "description": "Weld intent. One seam is one pass.",
+   "minItems": 1,
+   "items": {
+    "$ref": "#/$defs/seam"
+   }
+  }
+ },
+ "$defs": {
+  "identifier": {
+   "type": "string",
+   "pattern": "^[A-Za-z_][A-Za-z0-9_:.-]*$",
+   "minLength": 1
+  },
+  "vec3": {
+   "type": "array",
+   "items": {
+    "type": "number"
+   },
+   "minItems": 3,
+   "maxItems": 3
+  },
+  "unit_vec3": {
+   "$ref": "#/$defs/vec3",
+   "description": "Expected to be unit length. Consumers should normalize defensively."
+  },
+  "scalar_function": {
+   "description": "A quantity that may vary along the seam, as a function of normalized arc length s in [0,1]. Never a per-waypoint array: the planner chooses sampling density.",
+   "oneOf": [
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "value"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "constant"
+      },
+      "value": {
+       "type": "number"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "knots"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "piecewise_linear"
+      },
+      "knots": {
+       "type": "array",
+       "minItems": 2,
+       "description": "[s, value] pairs. s strictly increasing, first 0.0, last 1.0.",
+       "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+         "type": "number"
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "degree",
+      "knots_u",
+      "control_values"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "bspline"
+      },
+      "degree": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "knots_u": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       },
+       "minItems": 2
+      },
+      "control_values": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       },
+       "minItems": 2
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "s",
+      "values"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "samples"
+      },
+      "s": {
+       "type": "array",
+       "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+       },
+       "minItems": 2
+      },
+      "values": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       },
+       "minItems": 2
+      },
+      "interpolation": {
+       "enum": [
+        "linear",
+        "cubic",
+        "step"
+       ],
+       "default": "linear"
+      }
+     }
+    }
+   ]
+  },
+  "analytic": {
+   "description": "Optional annotation on a segment. The B-spline remains the source of truth; if they disagree, this is stale.",
+   "oneOf": [
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "start_xyz_m",
+      "end_xyz_m"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "line"
+      },
+      "start_xyz_m": {
+       "$ref": "#/$defs/vec3"
+      },
+      "end_xyz_m": {
+       "$ref": "#/$defs/vec3"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "center_xyz_m",
+      "radius_m",
+      "axis_xyz"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "enum": [
+        "arc",
+        "circle"
+       ]
+      },
+      "center_xyz_m": {
+       "$ref": "#/$defs/vec3"
+      },
+      "radius_m": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "axis_xyz": {
+       "$ref": "#/$defs/unit_vec3"
+      },
+      "ref_dir_xyz": {
+       "$ref": "#/$defs/unit_vec3"
+      },
+      "start_angle_rad": {
+       "type": "number"
+      },
+      "sweep_angle_rad": {
+       "type": "number"
+      }
+     }
+    }
+   ]
+  },
+  "curve_segment": {
+   "type": "object",
+   "description": "A clamped rational B-spline. Degree 1 with 2 control points is a line; degree 1 with N is a user-supplied sample list; degree 2 rational is an exact conic.",
+   "required": [
+    "degree",
+    "control_points_xyz_m",
+    "knots_u"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/identifier"
+    },
+    "degree": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 7
+    },
+    "control_points_xyz_m": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "$ref": "#/$defs/vec3"
+     }
+    },
+    "weights": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "type": "number",
+      "exclusiveMinimum": 0
+     },
+     "description": "Omit for a non-rational spline. Length must equal control_points_xyz_m."
+    },
+    "knots_u": {
+     "type": "array",
+     "minItems": 4,
+     "items": {
+      "type": "number"
+     },
+     "description": "Non-decreasing, clamped. Length must equal len(control_points) + degree + 1."
+    },
+    "analytic": {
+     "$ref": "#/$defs/analytic"
+    },
+    "length_m": {
+     "type": "number",
+     "minimum": 0,
+     "description": "Cached, derived, non-authoritative."
+    },
+    "continuity_to_next": {
+     "enum": [
+      "C0",
+      "G1",
+      "C1",
+      "C2"
+     ],
+     "description": "Advisory. C0 marks a corner where a planner may wish to slow or dwell."
+    },
+    "source_edge_id": {
+     "type": "string"
+    }
+   }
+  },
+  "curve": {
+   "type": "object",
+   "required": [
+    "segments"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "segments": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "$ref": "#/$defs/curve_segment"
+     }
+    },
+    "closed": {
+     "type": "boolean",
+     "default": false,
+     "description": "Last segment end coincides with first segment start."
+    },
+    "length_m": {
+     "type": "number",
+     "minimum": 0
+    }
+   }
+  },
+  "weld_joint": {
+   "type": "object",
+   "required": [
+    "id",
+    "type",
+    "members",
+    "weld_line"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/identifier"
+    },
+    "label": {
+     "type": "string"
+    },
+    "type": {
+     "enum": [
+      "butt",
+      "tee",
+      "lap",
+      "corner",
+      "edge",
+      "cruciform",
+      "plug",
+      "unknown"
+     ],
+     "description": "Classified from the contact pair."
+    },
+    "weld_symbol": {
+     "enum": [
+      "fillet",
+      "square_butt",
+      "v_groove",
+      "bevel_groove",
+      "u_groove",
+      "j_groove",
+      "plug",
+      "spot",
+      "seam",
+      "unspecified"
+     ],
+     "description": "ISO 2553."
+    },
+    "members": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "type": "object",
+      "required": [
+       "solid_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "solid_id": {
+        "$ref": "#/$defs/identifier"
+       },
+       "face_ids": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "description": "The CONTACT faces. Not the groove faces."
+       },
+       "role": {
+        "enum": [
+         "base",
+         "branch",
+         "unspecified"
+        ]
+       }
+      }
+     }
+    },
+    "contact": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "enum": [
+        "coincident",
+        "gap",
+        "overlap",
+        "interference"
+       ]
+      },
+      "gap_mm": {
+       "$ref": "#/$defs/scalar_function"
+      },
+      "overlap_area_mm2": {
+       "type": "number",
+       "minimum": 0
+      },
+      "max_face_deviation_mm": {
+       "type": "number",
+       "minimum": 0
+      }
+     }
+    },
+    "weld_line": {
+     "$ref": "#/$defs/curve"
+    },
+    "groove_faces": {
+     "type": "array",
+     "description": "Per weld_line segment: the two faces actually EXPOSED at the line, forming the corner the torch sits in. Distinct from the contact faces in members[]. The bisector rail is generated from these.",
+     "items": {
+      "type": "object",
+      "required": [
+       "segment_index",
+       "face_a",
+       "face_b"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "segment_index": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "face_a": {
+        "$ref": "#/$defs/groove_face"
+       },
+       "face_b": {
+        "$ref": "#/$defs/groove_face"
+       }
+      }
+     }
+    },
+    "dihedral_angle_deg": {
+     "$ref": "#/$defs/scalar_function",
+     "description": "Between the groove faces, measured through the open side. A function, not a constant: welding a straight plate onto a curved surface varies it continuously."
+    },
+    "bisector_rail": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "curve": {
+       "$ref": "#/$defs/curve"
+      },
+      "offset_m": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "continuous": {
+       "type": "boolean",
+       "description": "False when the rail jumps between segments. Expected and correct at a corner: the groove normal flips, so the bisector flips, and the rail steps by offset * |b1 - b2|. This is why rail correspondence is per-segment rather than over the whole curve."
+      },
+      "approximate": {
+       "type": "boolean",
+       "description": "True when any segment was offset approximately rather than in closed form. A planar groove face (constant normal) and a cylinder whose axis is parallel to the base normal both have exact offsets; a cone, torus, bezier, extrusion or B-spline patch does not -- the offset of an ellipse is not an ellipse. Approximation is pole offsetting with knot refinement, measured rather than assumed: see max_deviation_mm."
+      },
+      "max_deviation_mm": {
+       "type": "number",
+       "minimum": 0,
+       "description": "Worst measured gap between this rail and the true offset of the weld line, over the sample points where groove normals were recorded. Absent means every segment is exact."
+      },
+      "within_tolerance": {
+       "type": "boolean",
+       "description": "Whether max_deviation_mm is inside the work-angle error budget the rail is built to (detect.RAIL_TOLERANCE_DEG, converted at this offset). False means the rail is still the best available reference but its error exceeds that budget, and a planner should treat the implied work angle as correspondingly uncertain."
+      }
+     }
+    },
+    "accessible_sides": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/unit_vec3"
+     },
+     "description": "Advisory approach directions in the workpiece frame."
+    },
+    "confidence": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 1
+    },
+    "evidence": {
+     "type": "object",
+     "additionalProperties": true,
+     "properties": {
+      "method": {
+       "type": "string"
+      },
+      "shared_boundary_length_mm": {
+       "type": "number",
+       "minimum": 0
+      }
+     }
+    },
+    "accessibility": {
+     "type": "object",
+     "description": "Which stretches of the weld line no torch can reach. Deliberately TOOLING-INDEPENDENT: a span is blocked only when no direction at all escapes the assembly, which is a fact about the parts. Whether a particular nozzle fits a tight-but-open corner is a fact about that torch and belongs to the planner, so no nozzle radius, reach or approach angle appears here. Marginal clearance is reported through open_fraction instead.",
+     "additionalProperties": false,
+     "properties": {
+      "method": {
+       "enum": [
+        "hemisphere_escape"
+       ]
+      },
+      "intersector": {
+       "type": "object",
+       "description": "Which ray/geometry test produced this answer, and at what tolerances. The METHOD above is unchanged -- hemisphere escape either way, same statistics, same meaning for every field -- but a verdict computed against a tessellation must not be read back as if it were computed against the exact surfaces, so the engine and its tolerances travel with the verdict. engine=bvh is indexed triangles (occlusion.py), about 1500x faster and agreeing with the exact intersector on every blocked span measured; engine=occt is those exact surfaces.",
+       "additionalProperties": false,
+       "required": [
+        "engine"
+       ],
+       "properties": {
+        "engine": {
+         "enum": [
+          "bvh",
+          "occt"
+         ]
+        },
+        "triangles": {
+         "type": "integer",
+         "minimum": 1
+        },
+        "deflection_mm": {
+         "description": "Bound on how far a facet may sit from the true surface.",
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "dilation_mm": {
+         "description": "In-plane growth per triangle, so occlusion can only over-report. A ray through a slit thinner than this is called blocked.",
+         "type": "number",
+         "minimum": 0
+        }
+       }
+      },
+      "ray_count": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "sample_step_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "samples": {
+       "type": "integer",
+       "minimum": 0
+      },
+      "blocked_spans": {
+       "type": "array",
+       "description": "[start_s, end_s] pairs in normalized arc length where no direction escapes.",
+       "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1
+        }
+       }
+      },
+      "blocked_length_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "min_open_fraction": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1
+      },
+      "open_fraction": {
+       "$ref": "#/$defs/scalar_function",
+       "description": "Fraction of tested directions that escape the assembly, along the weld line. Pure geometry with no torch in it; a planner thresholds it against its own tooling. Zero means blocked."
+      },
+      "note": {
+       "type": "string"
+      },
+      "reachable_runs": {
+       "type": "array",
+       "description": "The stretches that ARE weldable, as [start_s, end_s]. A run with start_s > end_s WRAPS through s=0, which happens on a closed loop whose reachable stretch straddles the arbitrary point the wire was chained from. Such a run is one continuous stretch and becomes one seam, not two.",
+       "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1
+        }
+       }
+      },
+      "reachable_lengths_m": {
+       "type": "array",
+       "description": "Arc length of each reachable run, so a planner can apply its own process minimum. Deliberately not filtered here: 'too short to bother welding' is a judgement about a procedure, not about the parts.",
+       "items": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "coarse_ray_count": {
+       "type": "integer",
+       "minimum": 1,
+       "description": "Directions tested in the first pass. Escalates to ray_count only where the coarse pass finds no escape, which is correct because the coarse set is a subset."
+      },
+      "escalated_samples": {
+       "type": "integer",
+       "minimum": 0,
+       "description": "How many samples needed the full ray count. Low is expected: most points on an open fillet escape immediately."
+      },
+      "suggested_start_s": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1,
+       "description": "Start of the longest reachable run. A closed loop is chained from an arbitrary edge, so s=0 can land inside an unreachable pocket; this is where welding can actually begin."
+      }
+     }
+    }
+   }
+  },
+  "groove_face": {
+   "type": "object",
+   "required": [
+    "solid_id",
+    "face_id"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "solid_id": {
+     "$ref": "#/$defs/identifier"
+    },
+    "face_id": {
+     "type": "string"
+    },
+    "surface_type": {
+     "description": "The B-rep surface kind, as the extractor reports it. Every value cadquery's geom_LUT_FACE can produce is named here: a kind missing from this list is a face that cannot be described rather than one that does not occur, and an elliptical tube's side face is an `extrusion`.",
+     "enum": [
+      "plane",
+      "cylinder",
+      "cone",
+      "sphere",
+      "torus",
+      "bezier",
+      "bspline",
+      "revolution",
+      "extrusion",
+      "offset",
+      "other"
+     ]
+    },
+    "outward_normal_xyz": {
+     "$ref": "#/$defs/unit_vec3",
+     "description": "At the weld line, pointing away from the material."
+    }
+   }
+  },
+  "seam": {
+   "type": "object",
+   "required": [
+    "id",
+    "reference",
+    "orientation",
+    "process"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/identifier"
+    },
+    "label": {
+     "type": "string"
+    },
+    "weld_joint_ref": {
+     "oneOf": [
+      {
+       "$ref": "#/$defs/identifier"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "null means hand-authored, with no CAD joint behind it."
+    },
+    "origin": {
+     "type": "object",
+     "description": "How this seam came to exist as a separate record. Inert description, like weld_joints: nothing here constrains motion. It exists because one CAD boundary can be split more than once for reasons that are NOT interchangeable. An unreachable stretch means the arc genuinely stops and there is unweldable material between the pieces; a corner means the pieces touch and the arc may or may not stop. Two seams that share weld_joint_ref alone cannot be told apart, so a consumer would either re-merge across an obstruction or refuse to merge across a corner.",
+     "required": [
+      "group_id"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "group_id": {
+       "$ref": "#/$defs/identifier",
+       "description": "Seams sharing a group_id are consecutive pieces of ONE continuous, reachable stretch of one weld joint's boundary. They meet end to end -- piece i's end_s IS piece i+1's start_s -- so the group can be re-merged into a single seam without inventing geometry."
+      },
+      "index_in_group": {
+       "type": "integer",
+       "minimum": 0
+      },
+      "group_size": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "split_reason": {
+       "enum": [
+        "none",
+        "reachability",
+        "continuity",
+        "manual"
+       ],
+       "description": "Why this seam ends where it does. reachability: no torch can reach the next stretch. continuity: the weld line turns a corner sharper than the authoring threshold. The two compose -- reachability splits a joint into runs, continuity splits a run into pieces."
+      },
+      "boundary_continuity": {
+       "type": "array",
+       "minItems": 2,
+       "maxItems": 2,
+       "description": "[at start_s, at end_s]. null where the boundary is not a curve junction: a run end, or the curve's own end.",
+       "items": {
+        "oneOf": [
+         {
+          "enum": [
+           "C0",
+           "G1",
+           "C1",
+           "C2"
+          ]
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      }
+     }
+    },
+    "pass": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "index": {
+       "type": "integer",
+       "minimum": 0
+      },
+      "role": {
+       "enum": [
+        "single",
+        "root",
+        "fill",
+        "cap",
+        "tack"
+       ]
+      },
+      "offset_in_frame_rb_m": {
+       "type": "array",
+       "minItems": 2,
+       "maxItems": 2,
+       "items": {
+        "type": "number"
+       },
+       "description": "Offset of this pass from the joint's weld line, as [along r, along b] in the seam frame. Lets multi-pass share one curve."
+      }
+     }
+    },
+    "curve": {
+     "description": "Inline curve, or a reference to the joint's weld_line.",
+     "oneOf": [
+      {
+       "$ref": "#/$defs/curve"
+      },
+      {
+       "type": "object",
+       "required": [
+        "from_weld_joint"
+       ],
+       "additionalProperties": false,
+       "properties": {
+        "from_weld_joint": {
+         "const": true
+        }
+       }
+      }
+     ]
+    },
+    "span": {
+     "type": "object",
+     "description": "Weld only part of the curve, in normalized arc length. start_s > end_s means the span WRAPS through s=0 -- valid only on a closed curve, and the way a reachable run that straddles the parametrisation's start is expressed as one seam instead of two fragments. A seam is a continuous stretch of arc: where an unreachable region interrupts a joint, emit SEPARATE seams rather than one span with holes in it, because a planner is entitled to assume the arc stays lit from start_s to end_s.",
+     "additionalProperties": false,
+     "properties": {
+      "start_s": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1,
+       "default": 0
+      },
+      "end_s": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1,
+       "default": 1
+      }
+     }
+    },
+    "direction": {
+     "enum": [
+      "forward",
+      "reverse"
+     ],
+     "default": "forward",
+     "description": "Travel direction along the curve. Sets the sign of the tangent t."
+    },
+    "reference": {
+     "type": "object",
+     "description": "Supplies the 0-degree work-angle reference direction.",
+     "required": [
+      "mode"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "mode": {
+       "enum": [
+        "rail_curve",
+        "fixed_vector",
+        "rotation_minimizing"
+       ]
+      },
+      "rail": {
+       "$ref": "#/$defs/curve",
+       "description": "Required when mode is rail_curve. The 0-degree direction at s is from the seam point toward the rail point."
+      },
+      "correspondence": {
+       "enum": [
+        "normalized_arc_length"
+       ],
+       "default": "normalized_arc_length",
+       "description": "s on the seam maps to s on the rail. When segment counts match, applied per segment, so a bisector rail that flips at corners is handled correctly."
+      },
+      "fixed_direction_xyz": {
+       "$ref": "#/$defs/unit_vec3",
+       "description": "Required when mode is fixed_vector. Orthogonalized against the tangent at each point."
+      },
+      "seed_direction_xyz": {
+       "$ref": "#/$defs/unit_vec3",
+       "description": "Required when mode is rotation_minimizing. Propagated by double reflection. Deliberately not a Frenet frame, which is undefined on straight segments and flips at inflection points."
+      },
+      "semantics": {
+       "enum": [
+        "bisector",
+        "member_face",
+        "gravity_projected",
+        "custom"
+       ],
+       "description": "How the reference was generated. Without this the operator's intent is unrecoverable once the rail is baked, and conversion back to a WPS work-angle number is impossible."
+      },
+      "member_ref": {
+       "$ref": "#/$defs/identifier",
+       "description": "Which member's face, when semantics is member_face."
+      }
+     }
+    },
+    "orientation": {
+     "type": "object",
+     "required": [
+      "work_angle_deg",
+      "travel_angle_deg"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "work_angle_deg": {
+       "$ref": "#/$defs/scalar_function",
+       "description": "Rotation of the reference direction about the tangent t. Positive rotates toward t x r. 0 means the torch sits on the reference direction."
+      },
+      "travel_angle_deg": {
+       "$ref": "#/$defs/scalar_function",
+       "description": "Tilt along travel, applied after the work rotation, about b' = t x r'. Positive is drag / backhand: the torch leans back over the completed weld."
+      },
+      "spin": {
+       "type": "object",
+       "additionalProperties": false,
+       "description": "Rotation about the electrode axis. Free by default: a weld constrains 5 DOF, not 6.",
+       "properties": {
+        "mode": {
+         "enum": [
+          "free",
+          "preferred",
+          "locked"
+         ],
+         "default": "free"
+        },
+        "angle_deg": {
+         "$ref": "#/$defs/scalar_function"
+        },
+        "reference": {
+         "$ref": "#/$defs/unit_vec3"
+        }
+       }
+      },
+      "limits": {
+       "type": "object",
+       "additionalProperties": false,
+       "description": "Bounds the weld places on its own orientation, ALONGSIDE the profiles rather than instead of them. The profiles say what was authored; these say how far a consumer may move from it. A planner that cannot achieve the authored angle can trade inside this band instead of failing or deviating silently.",
+       "properties": {
+        "work_angle_deg": {
+         "$ref": "#/$defs/orientation_limit_axis"
+        },
+        "travel_angle_deg": {
+         "$ref": "#/$defs/orientation_limit_axis"
+        }
+       }
+      }
+     }
+    },
+    "weld_geometry": {
+     "type": "object",
+     "description": "ISO 2553 sizing.",
+     "additionalProperties": false,
+     "properties": {
+      "leg_length_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "throat_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "root_gap_mm": {
+       "type": "number",
+       "minimum": 0
+      },
+      "bevel_angle_deg": {
+       "type": "number",
+       "minimum": 0
+      },
+      "intermittent": {
+       "type": "object",
+       "required": [
+        "length_mm",
+        "pitch_mm"
+       ],
+       "additionalProperties": false,
+       "properties": {
+        "length_mm": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "pitch_mm": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "staggered": {
+         "type": "boolean",
+         "default": false
+        },
+        "start_offset_mm": {
+         "type": "number",
+         "minimum": 0
+        }
+       }
+      }
+     }
+    },
+    "process": {
+     "type": "object",
+     "description": "The WPS. Decomposed along ISO 15609-1 and the vendor arc models.",
+     "required": [
+      "method",
+      "travel_speed_mm_s"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "method": {
+       "enum": [
+        "GMAW",
+        "GTAW",
+        "FCAW",
+        "SMAW",
+        "SAW",
+        "PAW",
+        "LBW",
+        "other"
+       ]
+      },
+      "iso_4063": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "travel_speed_mm_s": {
+       "$ref": "#/$defs/scalar_function",
+       "description": "Speed along the SEAM CURVE ARC LENGTH. Never tip speed. Under weave the tip moves 3.7x to 15x faster over a path 2.5x to 9.7x longer, so misreading this field under-deposits by a factor of several. Heat input is V*I/travel_speed per mm of joint."
+      },
+      "arc": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "wire_feed_speed_mm_s": {
+         "$ref": "#/$defs/scalar_function"
+        },
+        "voltage_v": {
+         "$ref": "#/$defs/scalar_function"
+        },
+        "current_a": {
+         "$ref": "#/$defs/scalar_function"
+        },
+        "mode": {
+         "enum": [
+          "synergic",
+          "manual",
+          "pulsed",
+          "cmt"
+         ]
+        },
+        "synergic_line": {
+         "type": "string"
+        },
+        "polarity": {
+         "enum": [
+          "dcep",
+          "dcen",
+          "ac"
+         ]
+        }
+       }
+      },
+      "wire": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "classification": {
+         "type": "string"
+        },
+        "diameter_mm": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "stickout_mm": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "stickout_limits_mm": {
+         "type": "object",
+         "additionalProperties": false,
+         "description": "How far stickout may be moved from its stated value, if at all. Absent means zero freedom, which is the default and the safe reading. Deliberately asymmetric with the orientation band: moving a work angle 5 degrees does not change the metal, but electrode extension sets the resistive preheat of the wire, so a longer stickout drops current and penetration and past roughly 20-25 mm loses gas coverage. This band is for an authoring tool that has measured a clearance problem; a planner should treat stickout as fixed unless a procedure explicitly opens it.",
+         "properties": {
+          "min": {
+           "type": "number",
+           "exclusiveMinimum": 0
+          },
+          "max": {
+           "type": "number",
+           "exclusiveMinimum": 0
+          }
+         }
+        }
+       }
+      },
+      "gas": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "mixture": {
+         "type": "string"
+        },
+        "flow_l_min": {
+         "type": "number",
+         "minimum": 0
+        },
+        "preflow_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "postflow_s": {
+         "type": "number",
+         "minimum": 0
+        }
+       }
+      },
+      "weave": {
+       "type": "object",
+       "description": "A parameter, never baked into the curve. W(s,phi) = amplitude * (wb(phi)*b' + travel_ratio*wt(phi)*t). Shape functions and the full rationale are in WEAVE-AND-VERIFICATION.md. Weave imposes a transverse-mobility floor on the planner; it is not a set of waypoints.",
+       "additionalProperties": false,
+       "properties": {
+        "shape": {
+         "enum": [
+          "none",
+          "sine",
+          "zigzag",
+          "trapezoidal",
+          "circular",
+          "crescent",
+          "triangular"
+         ],
+         "default": "none",
+         "description": "Each shape is pinned to explicit (wb, wt) functions in WEAVE-AND-VERIFICATION.md section 2, because vendor names for weave shapes disagree."
+        },
+        "amplitude_mm": {
+         "$ref": "#/$defs/scalar_function",
+         "description": "Transverse half-amplitude along b'."
+        },
+        "frequency_hz": {
+         "$ref": "#/$defs/scalar_function",
+         "description": "Hz, matching what real controllers accept. Note dwell extends the period: true cycle is 1/f + dwell_left_s + dwell_right_s, so 3 Hz with 0.1 s dwells is really 1.9 Hz."
+        },
+        "travel_ratio": {
+         "type": "number",
+         "minimum": 0,
+         "default": 0,
+         "description": "Scales the along-travel component wt. Zero for planar shapes (sine, zigzag, trapezoidal); nonzero makes the weave spatial (circular, crescent, triangular)."
+        },
+        "dwell_left_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "dwell_right_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "tilt_deg": {
+         "type": "number",
+         "default": 0,
+         "description": "Rotation of the weave plane about the tangent t. Zero means the plane contains b' and t."
+        },
+        "corner_policy": {
+         "enum": [
+          "ramp_out",
+          "force_zero_crossing",
+          "continue"
+         ],
+         "default": "ramp_out",
+         "description": "At a C0 corner b' flips discontinuously and a torch caught mid-oscillation jumps several mm. ramp_out also relieves peak transverse-mobility demand, which lands exactly at corners because travel slows while frequency holds."
+        },
+        "ramp_in_mm": {
+         "type": "number",
+         "minimum": 0,
+         "description": "Arc length over which amplitude ramps up at seam start. You do not strike an arc mid-weave."
+        },
+        "ramp_out_mm": {
+         "type": "number",
+         "minimum": 0
+        }
+       }
+      },
+      "start": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "ignition": {
+         "enum": [
+          "scratch",
+          "lift",
+          "hf",
+          "touch"
+         ]
+        },
+        "run_in_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "hot_start_scale": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        }
+       }
+      },
+      "end": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "crater_fill_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "burnback_s": {
+         "type": "number",
+         "minimum": 0
+        },
+        "downslope_s": {
+         "type": "number",
+         "minimum": 0
+        }
+       }
+      }
+     }
+    },
+    "lead": {
+     "type": "object",
+     "description": "Run-on and run-off along the seam tangent. The approach MOTION is the planner's concern; only the arc-relevant extension is here.",
+     "additionalProperties": false,
+     "properties": {
+      "lead_in_mm": {
+       "type": "number",
+       "minimum": 0
+      },
+      "lead_out_mm": {
+       "type": "number",
+       "minimum": 0
+      }
+     }
+    },
+    "tolerance": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "position_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "work_angle_deg": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "travel_angle_deg": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      }
+     }
+    },
+    "sampling_hint": {
+     "type": "object",
+     "description": "ADVISORY ONLY. The planner chooses sampling density; the schema may not force one.",
+     "additionalProperties": false,
+     "properties": {
+      "max_chord_deviation_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "max_segment_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      },
+      "min_segment_mm": {
+       "type": "number",
+       "exclusiveMinimum": 0
+      }
+     }
+    }
+   }
+  },
+  "orientation_limit_axis": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "The band this weld permits one of its angles to occupy, and how fast that angle may change. Authored intent, like tolerance: a statement about the weld, not about any torch. A profile outside the band is not a worse weld, it is a different weld -- a consumer should refuse it rather than clamp it.",
+   "properties": {
+    "min": {
+     "$ref": "#/$defs/scalar_function",
+     "description": "Lowest permitted value, as a function of s. A function rather than a number because the admissible window genuinely varies: it narrows where a flange rises beside the seam."
+    },
+    "max": {
+     "$ref": "#/$defs/scalar_function",
+     "description": "Highest permitted value. min <= max at every s; JSON Schema cannot express that, so the validator checks it."
+    },
+    "max_rate_deg_per_mm": {
+     "type": "number",
+     "minimum": 0,
+     "description": "Largest permitted |d(angle)/d(arc length)|, in degrees per MILLIMETRE of seam arc. Per mm rather than per unit s because s is normalized: the same number on a 10 mm seam and an 800 mm seam would otherwise mean rates eighty times apart, and merging two pieces into one weld would silently change what the limit means. Convert with rate_per_unit_s = max_rate_deg_per_mm * seam_arc_length_mm."
+    },
+    "max_deviation_plus_deg": {
+     "type": "number",
+     "minimum": 0,
+     "description": "How far this angle may be moved ABOVE the authored profile, in degrees. Split from the symmetric max_deviation_deg because the two directions are rarely worth the same: dragging further is often free where pushing at all fouls the nozzle. Same kind as its partner: a bound on travel from the intent, following the profile, not a bound on where the angle may be at all."
+    },
+    "max_deviation_minus_deg": {
+     "type": "number",
+     "minimum": 0,
+     "description": "How far this angle may be moved BELOW the authored profile, in degrees. Stated as a magnitude: 2 means 'down to authored - 2'."
+    },
+    "max_deviation_deg": {
+     "type": "number",
+     "minimum": 0,
+     "description": "How far this angle may be moved from the profile AUTHORED beside it, in degrees, at any position along the seam. Different in kind from min/max: those bound where the angle may be AT ALL, this bounds how far it may travel from the intent, and the window therefore follows a varying profile instead of standing still. The two coincide only when the profile is constant and centred in its band. Where both are given both apply and the admissible set is the intersection. Absent means the profile places no bound of its own; min/max may still. SYMMETRIC SHORTHAND: kept for documents that see no reason to split; when either split field is present, the split fields win and this is ignored."
+    }
+   }
+  }
+ }
+}

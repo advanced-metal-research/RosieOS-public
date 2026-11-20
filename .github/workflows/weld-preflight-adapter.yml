@@ -1,0 +1,74 @@
+name: Weld Preflight adapter
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/weld-preflight-adapter.yml"
+      - "weld_planner/v1/python/weld_motion_planner/io/preflight.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/planner_main.py"
+      - "weld_planner/v1/tests/motion_planner/test_preflight*.py"
+      - "weld_planner/v1/tools/install_weld_preflight.py"
+      - "weld_planner/v1/weld-preflight.lock.json"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/weld-preflight-adapter.yml"
+      - "weld_planner/v1/python/weld_motion_planner/io/preflight.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/planner_main.py"
+      - "weld_planner/v1/tests/motion_planner/test_preflight*.py"
+      - "weld_planner/v1/tools/install_weld_preflight.py"
+      - "weld_planner/v1/weld-preflight.lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  adapter-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: "0.12.1"
+          enable-cache: false
+      - name: Test package lock and fail-closed adapter
+        env:
+          PYTHONPATH: weld_planner/v1/python
+        run: >-
+          uv run --with pytest --no-project --python 3.11 --
+          python -m pytest -q
+          weld_planner/v1/tests/motion_planner/test_preflight.py
+          weld_planner/v1/tests/motion_planner/test_preflight_installer.py
+          weld_planner/v1/tests/motion_planner/test_preflight_package_integration.py
+
+  released-wheel:
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs: adapter-contract
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: "0.12.1"
+          enable-cache: false
+      - name: Download, install, and ingest through released package
+        env:
+          PYTHONPATH: weld_planner/v1/python
+        run: |
+          install_root="${RUNNER_TEMP}/weld-preflight-install"
+          python weld_planner/v1/tools/install_weld_preflight.py \
+            --target "${install_root}"
+          WELD_PREFLIGHT_EXECUTABLE="${install_root}/bin/weld-preflight" \
+            uv run --with pytest --no-project --python 3.11 -- \
+            python -m pytest -q \
+            weld_planner/v1/tests/motion_planner/test_preflight_package_integration.py

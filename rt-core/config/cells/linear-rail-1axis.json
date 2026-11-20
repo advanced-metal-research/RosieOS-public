@@ -1,0 +1,61 @@
+{
+  "schema_version": "robot_v4_deployment_manifest_v1",
+  "name": "rail-servo",
+  "leader_controller_roles": ["offline-programming"],
+  "connections": {
+    "rail-servo": {
+      "transport": "ssh",
+      "network": "lan",
+      "host": "192.0.2.10",
+      "ssh_user": "changeme",
+      "working_directory": "/home/changeme"
+    }
+  },
+  "motion_policy": {
+    "automation_mode": "bounded-live",
+    "fixture": "bench-fixtured",
+    "human_authorization": "none",
+    "automated_final_posture": "live-disarmed",
+    "live_transition_peer": "controller"
+  },
+  "robot_axes": {
+    "axes": [
+      {"index": 0, "name": "J1", "kind": "external", "sign": 1.0, "cartesian_participates": false}
+    ]
+  },
+  "nodes": [
+    {
+      "node": "realtime-core",
+      "peer": "rail-servo",
+      "role": "realtime-core",
+      "host_role": "servo-authority",
+      "host": "rail-servo",
+      "ssh_host": "192.0.2.10",
+      "remote_user": "changeme",
+      "platform_os": "linux",
+      "platform_arch": "aarch64",
+      "build_cache_policy": {
+        "mode": "remote-cache-required",
+        "runtime_peer_build": false,
+        "install_only_after_hash_verified": true
+      },
+      "runtime_paths": [
+        "/opt/rosie-rt-core/current/bin/rosie-rt-core",
+        "/opt/rosie-rt-core/current/bin/rt-control",
+        "/opt/rosie-rt-core/current/bin/rtctl",
+        "/opt/rosie-rt-core/current/bin/rt-natspublisher"
+      ],
+      "runtime": "rt-core",
+      "rt_core": {
+        "package_artifact": "rosie-rt-core",
+        "machine_config": "rt-core/config/machines/linear-rail-1axis.json",
+        "configuration_sha256": "8411f4ccfe452b4f0dd733644c0eb4b4cb735a968c3cf6014c7608bb7de9211c",
+        "pair_id": "linear-rail-1axis",
+        "pair_revision": 1,
+        "remote_listen": "192.0.2.10:8443",
+        "ethercat_device_group": "changeme",
+        "activate": false
+      }
+    }
+  ]
+}

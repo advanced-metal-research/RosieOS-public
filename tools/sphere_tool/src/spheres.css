@@ -1,0 +1,244 @@
+/* The dev motion viewer. Deliberately its own stylesheet rather than a
+   corner of the operator app's: this page is allowed to look like an
+   instrument, and it must never inherit a change made for the operator's
+   sake. */
+
+:root {
+  --ink: #10151c;
+  --paper: #f6f7f9;
+  --line: #d9dee6;
+  --muted: #6b7683;
+  --accent: #2f6fb3;
+  --seam: #d1495b;
+  --torch: #2a9d8f;
+  --rail: #8d6cab;
+  --warn: #c9781f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 44px 1fr;
+  font: 13px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+#top {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+#top h1 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+
+.tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--warn);
+  border-radius: 3px;
+  padding: 1px 5px;
+  vertical-align: 2px;
+}
+
+.muted { color: var(--muted); font-size: 12px; }
+#timing { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+#panel {
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  padding: 10px 12px 24px;
+  background: #fff;
+}
+
+#panel h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+#panel section:first-child h2 { margin-top: 4px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 5px 0;
+}
+
+.row span { color: var(--muted); }
+.row input[type="range"] { width: 130px; }
+/* Matches #cell-picker, so a dropdown inside a panel row reads as the same
+   kind of control as the one in the header rather than as raw chrome. */
+.row select {
+  font: inherit;
+  font-size: 12px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  max-width: 175px;
+}
+
+#viewport { position: relative; overflow: hidden; }
+#viewport canvas { display: block; }
+
+#legend { width: 100%; height: 18px; border-radius: 2px; margin-top: 8px; }
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.fact { display: flex; justify-content: space-between; gap: 8px; padding: 1px 0; }
+.fact b { font-weight: 500; }
+.fact span { color: var(--muted); font-variant-numeric: tabular-nums; }
+/* For a fact that invalidates the ones above it, so it does not read as
+   just another row of the same report. */
+.fact.warn { align-items: flex-start; margin-top: 4px; }
+.fact.warn b { color: var(--seam); }
+.fact.warn span { color: var(--seam); text-align: right; font-variant-numeric: normal; }
+
+.gap {
+  border-left: 2px solid var(--warn);
+  padding: 2px 0 2px 7px;
+  margin: 4px 0;
+  color: #6a4a1c;
+  font-size: 11.5px;
+}
+
+.gap.blocking { border-color: var(--seam); color: #7c2733; }
+
+.seam {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.seam:hover { background: #eef2f7; }
+.seam.on { background: #e3ecf7; }
+.seam .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--seam); flex: none; }
+.seam .len { margin-left: auto; color: var(--muted); font-size: 11px; }
+.seam .badge {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0 3px;
+  color: var(--muted);
+}
+
+#error {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  background: #7c2733;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  max-width: 70ch;
+  display: none;
+}
+
+#error.on { display: block; }
+
+/* The sphere tool reuses this sheet; these are the only widgets it adds. */
+
+#panel button {
+  flex: 1;
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* `#panel button:hover` and not `button:hover`: a bare element selector
+   here loses to the id-scoped rule above on specificity, and the hover
+   silently does nothing. */
+#panel button:hover { background: #eef2f7; border-color: var(--accent); }
+
+#cell-picker {
+  font: inherit;
+  font-size: 12px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+}
+
+.badge.arm { border-color: var(--accent); color: var(--accent); }
+.badge.gap { border-color: var(--seam); color: var(--seam); }
+#viewport { background: #171b22; }
+
+#sphere-list { max-height: 200px; overflow-y: auto; margin-bottom: 6px; }
+#sphere-list .seam { font-size: 11.5px; }
+#sphere-list .seam .len { font-size: 10.5px; }
+
+.mode-btn { font-weight: 500; }
+.mode-btn.active { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+#joint-sliders .row { margin: 3px 0; }
+#joint-sliders .row span:first-child { min-width: 28px; font-size: 11.5px; }
+#joint-sliders input[type="range"] { flex: 1; }
+.slider-val { min-width: 32px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink); }
+kbd { font: inherit; font-size: 10px; background: var(--line); border-radius: 2px; padding: 0 3px; margin-left: 2px; }
+
+/* Joint limit editing. The two bounds flank the slider so the row reads
+   lower..upper left to right, the way the joint's range actually runs. */
+.limit-field {
+  width: 3.4rem;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 1px 3px;
+  background: #11141a;
+  color: #c9ced6;
+  border: 1px solid #2a313c;
+  border-radius: 3px;
+}
+.limit-grab {
+  flex: 0 0 auto;
+  padding: 0 3px;
+  min-width: 0;
+  line-height: 1.1;
+}
+/* A joint whose bounds no longer match the URDF. Named on the row rather than
+   only in the summary: the summary scrolls out of view and the row does not. */
+.edited { color: #f0b429; font-weight: 600; }
+
+/* A joint is three lines: `name ......... angle`, the slider at full width,
+   then the bounds sitting under the ends of the track they clamp. */
+.joint { margin-bottom: 10px; }
+.joint-head { margin-bottom: 2px; }
+.joint-head span:first-child { font-weight: 600; }
+.joint-track { margin-bottom: 2px; }
+.joint-track input[type="range"] { flex: 1 1 auto; width: 100%; min-width: 0; }
+.joint-body { justify-content: space-between; gap: 3px; }
+.limit-pair { display: inline-flex; align-items: center; gap: 2px; }

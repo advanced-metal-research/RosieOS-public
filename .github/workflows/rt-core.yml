@@ -1,0 +1,89 @@
+name: Standalone RT core
+
+on:
+  pull_request:
+    paths: ["rt-core/**", "robot_description/**", "motion-server/joint-trajectory/v1/**", "steamdeck/real/v4/**", ".github/workflows/rt-core.yml"]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  standalone:
+    name: standalone (${{ matrix.lane }})
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [native, sanitize, igh-package]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version: "1.26.2"
+          cache-dependency-path: rt-core/go.sum
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - name: Expose the pinned node runtime where the TypeScript golden test expects it
+        # tools/apigen and tools/protocolgen compare generated TypeScript against goldens with the
+        # repository's pinned node at ~/.rosie/node-22.13.1/bin/node; the runner only has setup-node's copy.
+        run: |
+          mkdir -p "$HOME/.rosie/node-22.13.1/bin"
+          ln -sf "$(command -v node)" "$HOME/.rosie/node-22.13.1/bin/node"
+          "$HOME/.rosie/node-22.13.1/bin/node" --version
+      - name: Install test and userspace build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config autoconf automake libtool python3 libatomic1
+      - name: Prepare a standalone copy
+        # rt-core stands on two directories, not one: a machine config pins a robot
+        # description, so compile, the adapter and the package all read
+        # robot_description/robots/, and the contract's Go module is
+        # robot_description/go (rt-core/go.mod replaces it at ../robot_description/go).
+        # Keep only those source directories, with Git metadata for the package's
+        # real commit/version provenance. No other repository sources are checked out.
+        run: |
+          git clone --no-checkout --shared "$GITHUB_WORKSPACE" "${RUNNER_TEMP}/standalone"
+          git -C "${RUNNER_TEMP}/standalone" sparse-checkout set --no-cone /rt-core/ /robot_description/
+          git -C "${RUNNER_TEMP}/standalone" checkout --detach HEAD
+      - name: Test the standalone ${{ matrix.lane }} lane
+        if: matrix.lane != 'igh-package'
+        env:
+          TMPDIR: /dev/shm/rt-core-tests
+          TEST_LANE: ${{ matrix.lane }}
+        run: |
+          mkdir -p "$TMPDIR"
+          # Keep the real locked-page assertion: grant the test shell's children
+          # the host prerequisite, without running the builds/tests as root.
+          sudo prlimit --pid "$$" --memlock=unlimited:unlimited
+          test "$(ulimit -l)" = unlimited
+          cd "${RUNNER_TEMP}/standalone/rt-core"
+          case "$TEST_LANE" in
+            native)
+              make test
+              go test -count=1 ./config/cells/...
+              go test -count=1 ./tools/rtctl -run '^Test(BrakeOverrideDigestParity|ArmBenchBrakeGuards|ConfigurationTemplateFieldCoverage|ConfigurationTemplateStrictObjects)$'
+              ;;
+            sanitize) make test-sanitize ;;
+          esac
+      - name: Managed release and bench slot
+        if: matrix.lane == 'native'
+        run: |
+          cd "${GITHUB_WORKSPACE}/steamdeck/real/v4"
+          go test -race -count=1 . -run '^(TestRelease|TestPairMigrationRetry|TestCellDeployEvaluations|TestCellDeployNineMotorProfilesShareRuntimeSlot|TestCellDeployPrecheckUsesRunningAxisCount)'
+      - name: Compile and link against real IgH without accessing hardware
+        if: matrix.lane == 'igh-package'
+        run: |
+          cd "${RUNNER_TEMP}/standalone/rt-core"
+          bash tools/build-igh-userlib.sh
+          export PKG_CONFIG_PATH="${RUNNER_TEMP}/standalone/rt-core/build/deps/igh-prefix/lib/pkgconfig"
+          make live
+          make control
+          build/rtctl validate --backend live --config config/machines/a6ec-bench.example.json
+          bash -n host/install.sh tools/package-runtime.sh
+          bash tools/package-runtime.sh "${RUNNER_TEMP}/rt-package"
+          ldd "${RUNNER_TEMP}/rt-package/bin/rosie-rt-core" | grep -F "${RUNNER_TEMP}/rt-package/bin/../lib/libethercat.so.1"

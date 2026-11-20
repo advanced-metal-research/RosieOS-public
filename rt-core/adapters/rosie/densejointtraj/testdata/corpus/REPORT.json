@@ -1,0 +1,70 @@
+{
+  "profile": "config/drives/a6ec_bench_1to1.json",
+  "profile_sha256": "sha256:bf68c05a48f5411feef1a938ea4624e13d9ba14ba9d0fff2f2f31f6fe1042fc7",
+  "configuration": "config/machines/a6ec-bench.example.json",
+  "configuration_sha256": "sha256:955ac66471f9cc89fd9b2a60086aa205b1d3a7238da0956e519d546995882188",
+  "analysis_mapping": "bench_axis scaling and limits repeated in source J1..J9 order; analysis only",
+  "axis_ids": [
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6",
+    "J7",
+    "J8",
+    "J9"
+  ],
+  "counts_per_rad": 20860.756700940907,
+  "files": [
+    {
+      "file": "dense_joint_trajectory_reference.rdt",
+      "bytes": 2796,
+      "sha256": "sha256:45a0960f4bd2e58db6edecd5147704949001e6786f3d6be4ff382a2561efe7c0",
+      "source_digest": "sha256:ea9641e180f5587714a52927ab18f3cc4babc75ae8696ed0bc9b9184fa136990",
+      "normalised_digest": "sha256:ea9641e180f5587714a52927ab18f3cc4babc75ae8696ed0bc9b9184fa136990",
+      "source_samples": 11,
+      "normalised_samples": 10,
+      "segment_duration_ns": [
+        40000000,
+        50000000
+      ],
+      "normalisation_verdict": "accept",
+      "adapter_verdict": "native_limit_exceeded: segment=0 sample=1 axis=J1",
+      "boundaries": [
+        {
+          "boundary": 0,
+          "from_segment": 0,
+          "to_segment": 1,
+          "gap_rad": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "local_time_gap_s": -0.04,
+          "assembled_time_gap_ns": 0,
+          "both_stationary": true,
+          "preceding_dwell_ns": 0,
+          "adapter_verdict": "native_limit_exceeded: segment=0 sample=1 axis=J1"
+        }
+      ]
+    }
+  ]
+}

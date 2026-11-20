@@ -1,0 +1,83 @@
+﻿{
+    "result":  "PASS",
+    "pageFillsViewport":  true,
+    "canvasMatchesViewportAndDpr":  true,
+    "url":  "http://127.0.0.1:8796/offline-programming/v1/ui/?views-proof=1",
+    "readyState":  "complete",
+    "viewport":  {
+                     "width":  1678,
+                     "height":  902,
+                     "dpr":  1
+                 },
+    "shell":  {
+                  "x":  0,
+                  "y":  0,
+                  "right":  1678,
+                  "bottom":  902,
+                  "width":  1678,
+                  "height":  902
+              },
+    "uncoveredBottomPx":  0,
+    "workspace":  {
+                      "x":  0,
+                      "y":  43,
+                      "right":  1678,
+                      "bottom":  872,
+                      "width":  1678,
+                      "height":  829
+                  },
+    "panel":  {
+                  "x":  400,
+                  "y":  53,
+                  "right":  1308,
+                  "bottom":  492,
+                  "width":  908,
+                  "height":  439
+              },
+    "stage":  {
+                  "x":  401,
+                  "y":  54,
+                  "right":  1307,
+                  "bottom":  491,
+                  "width":  906,
+                  "height":  437
+              },
+    "canvasCss":  {
+                      "x":  401,
+                      "y":  54,
+                      "right":  1307,
+                      "bottom":  491,
+                      "width":  906,
+                      "height":  437
+                  },
+    "canvasBuffer":  {
+                         "width":  906,
+                         "height":  437
+                     },
+    "expectedCanvasBuffer":  {
+                                 "width":  906,
+                                 "height":  437
+                             },
+    "rendererScale":  {
+                          "x":  1,
+                          "y":  1
+                      },
+    "layout":  "orbit-j6-tcp",
+    "pathPointCount":  "36",
+    "body":  {
+                 "x":  0,
+                 "y":  0,
+                 "right":  1678,
+                 "bottom":  902,
+                 "width":  1678,
+                 "height":  902
+             },
+    "documentElement":  {
+                            "x":  0,
+                            "y":  0,
+                            "right":  1678,
+                            "bottom":  902,
+                            "width":  1678,
+                            "height":  902
+                        }
+}

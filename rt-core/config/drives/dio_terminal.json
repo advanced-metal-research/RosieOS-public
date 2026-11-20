@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "dio_terminal",
+  "_unverified": "Generic 8 DI / 8 DO process-image model in the EL1008/EL2008 class, not a qualified Beckhoff device description. Inventory actual terminals and replace every identity and layout value before hardware use. Readback requires independent input wiring; an output PDO is never readback.",
+  "vendor_id_unverified": 2,
+  "product_code_unverified": 4026585352,
+  "revision_no_unverified": 0,
+  "rx_pdo_unverified": 5632,
+  "tx_pdo_unverified": 6656,
+  "rx_sync_unverified": 2,
+  "tx_sync_unverified": 3,
+  "output_index_unverified": 28672,
+  "output_subindex_unverified": 1,
+  "input_index_unverified": 24576,
+  "input_subindex_unverified": 1,
+  "bits_unverified": 8
+}

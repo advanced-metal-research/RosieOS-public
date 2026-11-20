@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "program_id": "motion-server-spreadsheet-clear",
+  "program_name": "Raised rectangle: IK-reachable, inside limits, collision-free",
+  "part_name": "spreadsheet_honesty_fixture",
+  "robotic-cell-type": "rosie_1400_v3",
+  "robot_model": "rosie_1400_v3",
+  "cell_config_revision": "bench-relay-cell-config-v1",
+  "program_revision": 1,
+  "program_digest": "sha256:9c1a7e9c37979e61c69e5cf69781cb08671a0ea48d83f3a1697a503beac46f8e",
+  "tesseract_urdf_source": "robot_description/robots/rosie_1400_v3/robot.urdf",
+  "tesseract_collision_geometry": "visual_meshes_as_collision_meshes",
+  "tesseract_collision_mesh_package": "package://rosie_1400_v3/meshes",
+  "execution_mode": "dry_run",
+  "samples_per_segment": 5,
+  "defaults": {
+    "default_tool_frame": "end_effector",
+    "default_work_frame": "world"
+  },
+  "settings": {
+    "revision": 1
+  },
+  "constraints": {
+    "tip_link": "tool0",
+    "tool_axis_constraint": {
+      "tool_frame": "end_effector",
+      "tip_link": "tool0",
+      "world_frame": "world",
+      "tool_axis_xyz": [1.0, 0.0, 0.0],
+      "world_axis_xyz": [0.0, 0.0, -1.0],
+      "offset_reference_axis_xyz": [1.0, 0.0, 0.0],
+      "offset_deg": 45.0,
+      "tolerance_minus_deg": 20.0,
+      "tolerance_plus_deg": 20.0,
+      "weight": 0.5
+    }
+  },
+  "rows": [
+    {
+      "row_id": "row-a",
+      "row_index": 0,
+      "row_number": 1,
+      "enabled": true,
+      "label": "RaisedA",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [1.0, 0.0, 0.8, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [1.0, 0.0, 0.8, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    },
+    {
+      "row_id": "row-b",
+      "row_index": 1,
+      "row_number": 2,
+      "enabled": true,
+      "label": "RaisedB",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [1.0, 0.3, 0.8, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [1.0, 0.3, 0.8, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    },
+    {
+      "row_id": "row-c",
+      "row_index": 2,
+      "row_number": 3,
+      "enabled": true,
+      "label": "RaisedC",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [0.7, 0.3, 0.8, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [0.7, 0.3, 0.8, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    },
+    {
+      "row_id": "row-d",
+      "row_index": 3,
+      "row_number": 4,
+      "enabled": true,
+      "label": "RaisedD",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [0.7, 0.0, 0.8, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [0.7, 0.0, 0.8, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.5, 0.3, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    }
+  ]
+}

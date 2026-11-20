@@ -1,0 +1,2143 @@
+{
+  "schema": "robot.v4.program.v2",
+  "program_id": "dog_box_lap_perimeter_v2",
+  "program_name": "Dog box lap perimeter (program.v2 fixture)",
+  "program_revision": 1,
+  "base_program_revision": 0,
+  "program_state": "saved_unplanned",
+  "execution_mode": "simulation",
+  "created_utc": "2026-09-03T00:00:00Z",
+  "units": {
+    "length": "m",
+    "angle": "rad",
+    "time": "s",
+    "joint_order": [
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5",
+      "J6",
+      "J7",
+      "J8",
+      "J9"
+    ]
+  },
+  "producer": {
+    "component": "weld-planner-v1",
+    "source_revision": "fixture",
+    "inputs": [
+      {
+        "kind": "weld_program",
+        "ref": "dog_box_lap_perimeter",
+        "sha256": "9b335c20ee8f0ac1ac421f0f81f2c355246e3e4cf72d94c31ca9a21031afab9c"
+      },
+      {
+        "kind": "cad",
+        "ref": "cadquery/v1/step/dog_box.step",
+        "sha256": "aac02178a17f60d410445fe2049ea80a5d838359f226572a7fe5edfcd2062309"
+      },
+      {
+        "kind": "cell",
+        "ref": "rosie_1400_v3",
+        "sha256": "b2103adffd53cb9a66db1edf842ae1cb34173f1c8ff83c3b30ff7c8dacee9b0a"
+      },
+      {
+        "kind": "tool",
+        "ref": "mig_gas_nozzle_16",
+        "sha256": "07eaf060133b3cf962c54bc76d0d06ebcf2fe195c6f1eb28931cb8f61b84a05b"
+      }
+    ]
+  },
+  "source": {
+    "kind": "step",
+    "path": "cadquery/v1/step/dog_box.step",
+    "sha256": "aac02178a17f60d410445fe2049ea80a5d838359f226572a7fe5edfcd2062309",
+    "unit_scale_to_m": 0.001,
+    "importer": "amr-weld-planner topology.v1 + detect.v1"
+  },
+  "workpiece": {
+    "frame_id": "dog_box_origin",
+    "solids": [
+      {
+        "id": "solid_0",
+        "volume_m3": 0.00675,
+        "bbox_min_xyz_m": [
+          -0.15,
+          -0.075,
+          0.0
+        ],
+        "bbox_max_xyz_m": [
+          0.15,
+          0.075,
+          0.15
+        ],
+        "label": "base block",
+        "thickness_mm": 150.0
+      },
+      {
+        "id": "solid_2",
+        "volume_m3": 6.2671458676e-05,
+        "bbox_min_xyz_m": [
+          -0.125,
+          -0.0625,
+          0.15
+        ],
+        "bbox_max_xyz_m": [
+          0.125,
+          0.0625,
+          0.153
+        ],
+        "label": "top plate",
+        "thickness_mm": 3.0
+      }
+    ],
+    "weld_joints": [
+      {
+        "id": "weld_joint_0001",
+        "label": "top plate dogbone perimeter lapped onto the base block",
+        "type": "lap",
+        "weld_symbol": "fillet",
+        "members": [
+          {
+            "solid_id": "solid_0",
+            "face_ids": [
+              "face_0002"
+            ],
+            "role": "base"
+          },
+          {
+            "solid_id": "solid_2",
+            "face_ids": [
+              "face_0004"
+            ],
+            "role": "branch"
+          }
+        ],
+        "contact": {
+          "kind": "coincident",
+          "gap_mm": {
+            "kind": "constant",
+            "value": 0.0
+          },
+          "overlap_area_mm2": 20890.486225,
+          "max_face_deviation_mm": 0.0
+        },
+        "weld_line": {
+          "segments": [
+            {
+              "id": "edge_0036",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  -0.160355339,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  -0.11767767,
+                  -0.05517767,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  -0.097855339,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                4.712388980385,
+                4.712388980385,
+                4.712388980385,
+                7.068583470577,
+                7.068583470577,
+                9.424777960769,
+                9.424777960769,
+                9.424777960769
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0036",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  -0.1,
+                  -0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 4.712388980385,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0055",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ],
+                [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                175.0,
+                175.0
+              ],
+              "length_m": 0.15,
+              "source_edge_id": "solid_2:edge_0055",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0044",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ],
+                [
+                  0.075,
+                  -0.097855339,
+                  0.15
+                ],
+                [
+                  0.11767767,
+                  -0.05517767,
+                  0.15
+                ],
+                [
+                  0.160355339,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                0.0,
+                0.0,
+                0.0,
+                2.356194490192,
+                2.356194490192,
+                4.712388980385,
+                4.712388980385,
+                4.712388980385
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0044",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  0.1,
+                  -0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 0.0,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0054",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  0.1,
+                  0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                50.0,
+                50.0
+              ],
+              "length_m": 0.025,
+              "source_edge_id": "solid_2:edge_0054",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  0.1,
+                  0.0125,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0048",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  0.1,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  0.160355339,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  0.11767767,
+                  0.05517767,
+                  0.15
+                ],
+                [
+                  0.075,
+                  0.097855339,
+                  0.15
+                ],
+                [
+                  0.075,
+                  0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                1.570796326795,
+                1.570796326795,
+                1.570796326795,
+                3.926990816987,
+                3.926990816987,
+                6.28318530718,
+                6.28318530718,
+                6.28318530718
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0048",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  0.1,
+                  0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 1.570796326795,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0053",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  0.075,
+                  0.0375,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                175.0,
+                175.0
+              ],
+              "length_m": 0.15,
+              "source_edge_id": "solid_2:edge_0053",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  0.075,
+                  0.0375,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0040",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  0.097855339,
+                  0.15
+                ],
+                [
+                  -0.11767767,
+                  0.05517767,
+                  0.15
+                ],
+                [
+                  -0.160355339,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                3.14159265359,
+                3.14159265359,
+                3.14159265359,
+                5.497787143782,
+                5.497787143782,
+                7.853981633974,
+                7.853981633974,
+                7.853981633974
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0040",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  -0.1,
+                  0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 3.14159265359,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0052",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                50.0,
+                50.0
+              ],
+              "length_m": 0.025,
+              "source_edge_id": "solid_2:edge_0052",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ]
+              }
+            }
+          ],
+          "closed": true,
+          "length_m": 0.82123889804
+        },
+        "groove_faces": [
+          {
+            "segment_index": 0,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0000",
+              "surface_type": "cylinder",
+              "outward_normal_xyz": [
+                -0.707106781,
+                -0.707106781,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 1,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0006",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                -1.0,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 2,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0002",
+              "surface_type": "cylinder",
+              "outward_normal_xyz": [
+                0.707106781,
+                -0.707106781,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 3,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0009",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                1.0,
+                0.0,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 4,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0003",
+              "surface_type": "cylinder",
+              "outward_normal_xyz": [
+                0.707106781,
+                0.707106781,
+                -0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 5,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0007",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                1.0,
+                -0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 6,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0001",
+              "surface_type": "cylinder",
+              "outward_normal_xyz": [
+                -0.707106781,
+                0.707106781,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "segment_index": 7,
+            "face_a": {
+              "solid_id": "solid_2",
+              "face_id": "face_0008",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                -1.0,
+                0.0,
+                0.0
+              ]
+            },
+            "face_b": {
+              "solid_id": "solid_0",
+              "face_id": "face_0002",
+              "surface_type": "plane",
+              "outward_normal_xyz": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          }
+        ],
+        "dihedral_angle_deg": {
+          "kind": "constant",
+          "value": 90.0
+        },
+        "bisector_rail": {
+          "offset_m": 0.02,
+          "curve": {
+            "segments": [
+              {
+                "id": "rail_edge_0036",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    -0.1,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.19449747459,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.127677670266,
+                    -0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    -0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    -0.0375,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  4.712388980385,
+                  4.712388980385,
+                  4.712388980385,
+                  7.068583470577,
+                  7.068583470577,
+                  9.424777960769,
+                  9.424777960769,
+                  9.424777960769
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0055",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    -0.075,
+                    -0.051642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.075,
+                    -0.051642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  175.0,
+                  175.0
+                ],
+                "length_m": 0.15
+              },
+              {
+                "id": "rail_edge_0044",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    0.060857864376,
+                    -0.0375,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    -0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    0.127677670266,
+                    -0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    0.19449747459,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.1,
+                    0.001642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  2.356194490192,
+                  2.356194490192,
+                  4.712388980385,
+                  4.712388980385,
+                  4.712388980385
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0054",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    0.114142135624,
+                    -0.0125,
+                    0.164142135624
+                  ],
+                  [
+                    0.114142135624,
+                    0.0125,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  50.0,
+                  50.0
+                ],
+                "length_m": 0.025
+              },
+              {
+                "id": "rail_edge_0048",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    0.1,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.19449747459,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.127677670266,
+                    0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    0.0375,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  1.570796326795,
+                  1.570796326795,
+                  1.570796326795,
+                  3.926990816987,
+                  3.926990816987,
+                  6.28318530718,
+                  6.28318530718,
+                  6.28318530718
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0053",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    0.075,
+                    0.051642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.075,
+                    0.051642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  175.0,
+                  175.0
+                ],
+                "length_m": 0.15
+              },
+              {
+                "id": "rail_edge_0040",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    -0.060857864376,
+                    0.0375,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    -0.127677670266,
+                    0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    -0.19449747459,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.1,
+                    -0.001642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  3.14159265359,
+                  3.14159265359,
+                  3.14159265359,
+                  5.497787143782,
+                  5.497787143782,
+                  7.853981633974,
+                  7.853981633974,
+                  7.853981633974
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0052",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    -0.114142135624,
+                    0.0125,
+                    0.164142135624
+                  ],
+                  [
+                    -0.114142135624,
+                    -0.0125,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  50.0,
+                  50.0
+                ],
+                "length_m": 0.025
+              }
+            ],
+            "closed": false,
+            "length_m": 1.087811874332
+          },
+          "continuous": false
+        },
+        "accessible_sides": [
+          [
+            -0.5,
+            -0.5,
+            0.707106781
+          ]
+        ],
+        "confidence": 1.0,
+        "evidence": {
+          "method": "coincident_face_pair",
+          "shared_boundary_length_mm": 821.238898,
+          "normal_dot": -1.0,
+          "overlap_relation": "a_contains_b",
+          "branch_extent_along_normal_m": 0.003,
+          "branch_extent_across_m": 0.25,
+          "thickness_ratio": 0.012
+        }
+      }
+    ]
+  },
+  "placement": {
+    "cell_id": "rosie_1400_v3",
+    "anchor_xyz_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "offset_xyz_m": [
+      0.1,
+      0.0,
+      0.1
+    ],
+    "rpy_rad": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "robot": {
+    "model_id": "rosie_1400_v3",
+    "robot_description_sha256": "sha256:b2103adffd53cb9a66db1edf842ae1cb34173f1c8ff83c3b30ff7c8dacee9b0a"
+  },
+  "tool": {
+    "id": "mig_gas_nozzle_16",
+    "sha256": "07eaf060133b3cf962c54bc76d0d06ebcf2fe195c6f1eb28931cb8f61b84a05b"
+  },
+  "defaults": {
+    "clearance_min_mm": 20.0,
+    "speed_scale": 1.0,
+    "torch_policy": "free",
+    "positioner_policy": "free"
+  },
+  "nodes": [
+    {
+      "id": "io_gas_on",
+      "op": "io",
+      "enabled": true,
+      "label": "io_gas_on",
+      "comment": "shielding gas on before anything moves; an event before the first motion node",
+      "row_hash": "sha256:4a026413789bbc0bfe2f472835af649e1c511cc0551f5cd32b7b3227863bb4c1",
+      "channel": "revpi:3",
+      "state": true
+    },
+    {
+      "id": "home_start",
+      "op": "home",
+      "enabled": true,
+      "label": "home_start",
+      "comment": "leave the cell's reset pose",
+      "row_hash": "sha256:50d094b627f77a4200b9f29c58b5f0b1d91ed349c9f488833ddbe276bfdf3152"
+    },
+    {
+      "id": "approach_seam_0001",
+      "op": "approach",
+      "enabled": true,
+      "label": "approach_seam_0001",
+      "comment": "rails: no standoff stated, the planner chooses how to arrive",
+      "row_hash": "sha256:ab71e97bbdcd09c04491a3e97442041f5f4a66081fc40fe582ebf0ad22d3b3e9"
+    },
+    {
+      "id": "weld_seam_0001",
+      "op": "weld",
+      "enabled": true,
+      "label": "weld_seam_0001",
+      "comment": "the dog box perimeter lap fillet, rails geometry, one closed pass",
+      "row_hash": "sha256:cdb7289511914338fd93778da32326831bf9384f057285c9b6d40394c81e9a8a",
+      "geometry": {
+        "kind": "seam",
+        "id": "seam_0001",
+        "label": "perimeter fillet, single pass",
+        "weld_joint_ref": "weld_joint_0001",
+        "pass": {
+          "index": 0,
+          "role": "single"
+        },
+        "curve": {
+          "segments": [
+            {
+              "id": "edge_0036",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  -0.160355339,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  -0.11767767,
+                  -0.05517767,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  -0.097855339,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                4.712388980385,
+                4.712388980385,
+                4.712388980385,
+                7.068583470577,
+                7.068583470577,
+                9.424777960769,
+                9.424777960769,
+                9.424777960769
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0036",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  -0.1,
+                  -0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 4.712388980385,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0055",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ],
+                [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                175.0,
+                175.0
+              ],
+              "length_m": 0.15,
+              "source_edge_id": "solid_2:edge_0055",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  -0.075,
+                  -0.0375,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0044",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  0.075,
+                  -0.0375,
+                  0.15
+                ],
+                [
+                  0.075,
+                  -0.097855339,
+                  0.15
+                ],
+                [
+                  0.11767767,
+                  -0.05517767,
+                  0.15
+                ],
+                [
+                  0.160355339,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                0.0,
+                0.0,
+                0.0,
+                2.356194490192,
+                2.356194490192,
+                4.712388980385,
+                4.712388980385,
+                4.712388980385
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0044",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  0.1,
+                  -0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 0.0,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0054",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ],
+                [
+                  0.1,
+                  0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                50.0,
+                50.0
+              ],
+              "length_m": 0.025,
+              "source_edge_id": "solid_2:edge_0054",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  0.1,
+                  -0.0125,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  0.1,
+                  0.0125,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0048",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  0.1,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  0.160355339,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  0.11767767,
+                  0.05517767,
+                  0.15
+                ],
+                [
+                  0.075,
+                  0.097855339,
+                  0.15
+                ],
+                [
+                  0.075,
+                  0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                1.570796326795,
+                1.570796326795,
+                1.570796326795,
+                3.926990816987,
+                3.926990816987,
+                6.28318530718,
+                6.28318530718,
+                6.28318530718
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0048",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  0.1,
+                  0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 1.570796326795,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0053",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  0.075,
+                  0.0375,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                175.0,
+                175.0
+              ],
+              "length_m": 0.15,
+              "source_edge_id": "solid_2:edge_0053",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  0.075,
+                  0.0375,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ]
+              }
+            },
+            {
+              "id": "edge_0040",
+              "degree": 2,
+              "control_points_xyz_m": [
+                [
+                  -0.075,
+                  0.0375,
+                  0.15
+                ],
+                [
+                  -0.075,
+                  0.097855339,
+                  0.15
+                ],
+                [
+                  -0.11767767,
+                  0.05517767,
+                  0.15
+                ],
+                [
+                  -0.160355339,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                3.14159265359,
+                3.14159265359,
+                3.14159265359,
+                5.497787143782,
+                5.497787143782,
+                7.853981633974,
+                7.853981633974,
+                7.853981633974
+              ],
+              "length_m": 0.11780972451,
+              "source_edge_id": "solid_2:edge_0040",
+              "weights": [
+                1.0,
+                0.382683432365,
+                1.0,
+                0.382683432365,
+                1.0
+              ],
+              "analytic": {
+                "kind": "arc",
+                "center_xyz_m": [
+                  -0.1,
+                  0.0375,
+                  0.15
+                ],
+                "radius_m": 0.025,
+                "axis_xyz": [
+                  0.0,
+                  0.0,
+                  1.0
+                ],
+                "start_angle_rad": 3.14159265359,
+                "sweep_angle_rad": 4.712388980385
+              }
+            },
+            {
+              "id": "edge_0052",
+              "degree": 1,
+              "control_points_xyz_m": [
+                [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ],
+                [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ]
+              ],
+              "knots_u": [
+                25.0,
+                25.0,
+                50.0,
+                50.0
+              ],
+              "length_m": 0.025,
+              "source_edge_id": "solid_2:edge_0052",
+              "analytic": {
+                "kind": "line",
+                "start_xyz_m": [
+                  -0.1,
+                  0.0125,
+                  0.15
+                ],
+                "end_xyz_m": [
+                  -0.1,
+                  -0.0125,
+                  0.15
+                ]
+              }
+            }
+          ],
+          "closed": true,
+          "length_m": 0.82123889804
+        },
+        "direction": "forward",
+        "reference": {
+          "mode": "rail_curve",
+          "correspondence": "normalized_arc_length",
+          "semantics": "bisector",
+          "rail": {
+            "segments": [
+              {
+                "id": "rail_edge_0036",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    -0.1,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.19449747459,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.127677670266,
+                    -0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    -0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    -0.0375,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  4.712388980385,
+                  4.712388980385,
+                  4.712388980385,
+                  7.068583470577,
+                  7.068583470577,
+                  9.424777960769,
+                  9.424777960769,
+                  9.424777960769
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0055",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    -0.075,
+                    -0.051642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.075,
+                    -0.051642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  175.0,
+                  175.0
+                ],
+                "length_m": 0.15
+              },
+              {
+                "id": "rail_edge_0044",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    0.060857864376,
+                    -0.0375,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    -0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    0.127677670266,
+                    -0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    0.19449747459,
+                    0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.1,
+                    0.001642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  2.356194490192,
+                  2.356194490192,
+                  4.712388980385,
+                  4.712388980385,
+                  4.712388980385
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0054",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    0.114142135624,
+                    -0.0125,
+                    0.164142135624
+                  ],
+                  [
+                    0.114142135624,
+                    0.0125,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  50.0,
+                  50.0
+                ],
+                "length_m": 0.025
+              },
+              {
+                "id": "rail_edge_0048",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    0.1,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.19449747459,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    0.127677670266,
+                    0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    0.060857864376,
+                    0.0375,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  1.570796326795,
+                  1.570796326795,
+                  1.570796326795,
+                  3.926990816987,
+                  3.926990816987,
+                  6.28318530718,
+                  6.28318530718,
+                  6.28318530718
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0053",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    0.075,
+                    0.051642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.075,
+                    0.051642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  175.0,
+                  175.0
+                ],
+                "length_m": 0.15
+              },
+              {
+                "id": "rail_edge_0040",
+                "degree": 2,
+                "control_points_xyz_m": [
+                  [
+                    -0.060857864376,
+                    0.0375,
+                    0.164142135624
+                  ],
+                  [
+                    -0.060857864376,
+                    0.13199747459,
+                    0.164142135624
+                  ],
+                  [
+                    -0.127677670266,
+                    0.065177670266,
+                    0.164142135624
+                  ],
+                  [
+                    -0.19449747459,
+                    -0.001642135624,
+                    0.164142135624
+                  ],
+                  [
+                    -0.1,
+                    -0.001642135624,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  3.14159265359,
+                  3.14159265359,
+                  3.14159265359,
+                  5.497787143782,
+                  5.497787143782,
+                  7.853981633974,
+                  7.853981633974,
+                  7.853981633974
+                ],
+                "length_m": 0.184452968583,
+                "weights": [
+                  1.0,
+                  0.382683432365,
+                  1.0,
+                  0.382683432365,
+                  1.0
+                ]
+              },
+              {
+                "id": "rail_edge_0052",
+                "degree": 1,
+                "control_points_xyz_m": [
+                  [
+                    -0.114142135624,
+                    0.0125,
+                    0.164142135624
+                  ],
+                  [
+                    -0.114142135624,
+                    -0.0125,
+                    0.164142135624
+                  ]
+                ],
+                "knots_u": [
+                  25.0,
+                  25.0,
+                  50.0,
+                  50.0
+                ],
+                "length_m": 0.025
+              }
+            ],
+            "closed": false,
+            "length_m": 1.087811874332
+          }
+        },
+        "orientation": {
+          "work_angle_deg": {
+            "kind": "constant",
+            "value": 0.0
+          },
+          "travel_angle_deg": {
+            "kind": "constant",
+            "value": 10.0
+          },
+          "spin": {
+            "mode": "free"
+          }
+        },
+        "search_provenance": {
+          "preset_id": "steady",
+          "work_deviation_deg": 15.0,
+          "travel_deviation_deg": 40.0,
+          "standoff_cost_deg_per_mm": 3.0,
+          "work_bin_deg": 5.0,
+          "travel_bin_deg": 5.0,
+          "knot_spacing_mm": 10.0,
+          "sample_step_mm": 2.0,
+          "standoff_mm": 17.0,
+          "intersector": {
+            "engine": "bvh",
+            "deflection_mm": 0.01,
+            "dilation_mm": 0.05
+          }
+        },
+        "weld_geometry": {
+          "leg_length_mm": 3.0,
+          "throat_mm": 2.12
+        },
+        "lead": {
+          "lead_in_mm": 0.0,
+          "lead_out_mm": 10.0
+        },
+        "tolerance": {
+          "position_mm": 0.5,
+          "work_angle_deg": 5.0,
+          "travel_angle_deg": 5.0
+        },
+        "sampling_hint": {
+          "max_chord_deviation_mm": 0.1,
+          "max_segment_mm": 5.0,
+          "min_segment_mm": 0.3
+        }
+      },
+      "travel_speed_mm_s": {
+        "kind": "constant",
+        "value": 8.0
+      },
+      "standoff_mm": {
+        "kind": "constant",
+        "value": 17.0
+      },
+      "weave": {
+        "shape": "none"
+      },
+      "weld_preset_id": "gmaw_steel_fillet",
+      "weld_parameters": {}
+    },
+    {
+      "id": "transit_0001_to_classic",
+      "op": "transit",
+      "enabled": true,
+      "label": "transit_0001_to_classic",
+      "comment": "joins the two welds directly; leaves the rails weld as the planner chooses, arrives at the classic weld by its +Z lift (SequenceStep.approachOffsetM), and asks for more clearance than the program default",
+      "row_hash": "sha256:aeb712df8389e3f7e2cd846484e5814161134b73b41f026b5805821b0ccc049c",
+      "arrive_standoff": {
+        "direction": "workpiece_z",
+        "distance_mm": 10.0
+      },
+      "overrides": {
+        "clearance_min_mm": 40.0
+      }
+    },
+    {
+      "id": "io_marker_on",
+      "op": "io",
+      "enabled": true,
+      "label": "io_marker_on",
+      "comment": "an event on the boundary between transit and weld, executed at rest",
+      "row_hash": "sha256:d366916956bf70790d4f457fb9b251779ffa7e204f9fbe3eb44539d089340f81",
+      "channel": "revpi:5",
+      "state": true
+    },
+    {
+      "id": "weld_classic_edge",
+      "op": "weld",
+      "enabled": true,
+      "label": "weld_classic_edge",
+      "comment": "classic geometry: three posed points along the +X edge of the top plate, RPY as torchOrientationRpy baked it at 45/10/0",
+      "row_hash": "sha256:b0f140aeb8d65ba839a9a4238c886986953ff44abea45f0bc88a64efea886dad",
+      "geometry": {
+        "kind": "posed_polyline",
+        "frame_id": "positioner_table_a",
+        "closed": false,
+        "points": [
+          {
+            "xyz_m": [
+              -0.1,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          },
+          {
+            "xyz_m": [
+              0.0,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          },
+          {
+            "xyz_m": [
+              0.1,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          }
+        ],
+        "torch_angles_deg": {
+          "work": 45.0,
+          "travel": 10.0,
+          "spin": 0.0
+        }
+      },
+      "travel_speed_mm_s": {
+        "kind": "constant",
+        "value": 8.0
+      },
+      "standoff_mm": {
+        "kind": "constant",
+        "value": 17.0
+      },
+      "weave": {
+        "shape": "none"
+      },
+      "weld_parameters": {}
+    },
+    {
+      "id": "dwell_crater",
+      "op": "dwell",
+      "enabled": true,
+      "label": "dwell_crater",
+      "comment": "hold at rest after the arc goes out",
+      "row_hash": "sha256:636441c5c2e90ad41666e6f023d423f2c353983b50d975150dcfc129b1b9d280",
+      "duration_s": 0.5
+    },
+    {
+      "id": "transit_classic_to_manual",
+      "op": "transit",
+      "enabled": true,
+      "label": "transit_classic_to_manual",
+      "comment": "joins the classic edge to the hand-placed weld",
+      "row_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "arrive_standoff": {
+        "direction": "workpiece_z",
+        "distance_mm": 10.0
+      },
+      "overrides": {
+        "clearance_min_mm": 40.0
+      }
+    },
+    {
+      "id": "weld_manual_corner",
+      "op": "weld",
+      "enabled": true,
+      "label": "weld_manual_corner",
+      "comment": "hand-placed torch poses: an L along the top plate with a C0 corner, legs 60 mm and 40 mm, so the corner sits at s = 0.6; the standoff closes from 17 mm to 15 mm there",
+      "row_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "geometry": {
+        "kind": "manual_pose_wp",
+        "frame_id": "dog_box_origin",
+        "points": [
+          {
+            "xyz_m": [
+              -0.1,
+              0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              3.141592653589793,
+              0.0,
+              0.0
+            ],
+            "continuity": "C0"
+          },
+          {
+            "xyz_m": [
+              -0.04,
+              0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              3.141592653589793,
+              0.0,
+              0.0
+            ],
+            "continuity": "C0"
+          },
+          {
+            "xyz_m": [
+              -0.04,
+              0.0225,
+              0.153
+            ],
+            "rpy_rad": [
+              3.141592653589793,
+              0.0,
+              0.0
+            ],
+            "continuity": "C0"
+          }
+        ]
+      },
+      "travel_speed_mm_s": {
+        "kind": "constant",
+        "value": 8.0
+      },
+      "standoff_mm": {
+        "kind": "piecewise_linear",
+        "knots": [
+          [
+            0.0,
+            17.0
+          ],
+          [
+            0.6,
+            15.0
+          ],
+          [
+            1.0,
+            15.0
+          ]
+        ]
+      },
+      "weave": {
+        "shape": "none"
+      },
+      "weld_parameters": {}
+    },
+    {
+      "id": "retract_classic",
+      "op": "retract",
+      "enabled": true,
+      "label": "retract_classic",
+      "comment": "classic retract: the same +Z lift, then wherever the planner takes the arm on its way home",
+      "row_hash": "sha256:1bba8609fa42398ea8befbac5908476dddf444b27cd23ed7fca2b0eba5e56db0",
+      "depart_standoff": {
+        "direction": "workpiece_z",
+        "distance_mm": 10.0
+      }
+    },
+    {
+      "id": "home_end",
+      "op": "home",
+      "enabled": true,
+      "label": "home_end",
+      "comment": "back to the reset pose",
+      "row_hash": "sha256:78918b15db9e539c4a70d889737b03556ff0aa7c15834e4ea01c16204be9bb28"
+    },
+    {
+      "id": "io_gas_off",
+      "op": "io",
+      "enabled": true,
+      "label": "io_gas_off",
+      "comment": "shielding gas off; an event after the last motion node",
+      "row_hash": "sha256:64a312d4e73d4e8ddf278c25030a0dff342d11f8b992a245142f1b3faa1813f4",
+      "channel": "revpi:3",
+      "state": false
+    }
+  ],
+  "planner_owns": [
+    "positioner joint values -- prescribed by the planner, not by this document",
+    "collision meshes for the CELL -- the cell is named and hashed here, its descriptor is the planner's asset",
+    "torch orientation within the admissible bands each seam-geometry weld declares",
+    "sampling density and where waypoints land on a weld",
+    "the joint-space solution of every freespace node -- this document states constraints, never a path",
+    "time parametrization and dynamics"
+  ],
+  "extensions": {},
+  "program_digest": "sha256:46feecdfc47a13217709e299f54d2b87cd399bbdb69a26eef4239500250b8a3f"
+}

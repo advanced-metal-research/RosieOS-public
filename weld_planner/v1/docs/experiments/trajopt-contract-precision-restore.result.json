@@ -1,0 +1,19 @@
+{
+  "schema": "amr.rosie-trajopt-contract-precision-result.v1",
+  "verdict": "passed",
+  "verdict_scope": "five_M5_to_M6_control_contracts_only",
+  "source_revision": "416ce65",
+  "source_archive_sha256": "a38c3a5e934f10e188b33ecf6f02c98a7ab428b1ee8466dd184ed25e231df4e5",
+  "runtime": "agent/thor-sm110-runtime-pin@f352f7913fba570ccebdb4781e0b93fd4e802cd1",
+  "focused_result": "19 passed, 1 failed",
+  "recovered_contracts": [
+    "held-stop endpoint contract",
+    "independent verifier collision and limit verdict",
+    "detour below 1.2",
+    "velocity and acceleration limits",
+    "positive self-clearance"
+  ],
+  "remaining_failure": "test_the_nearest_winding_is_not_always_the_reachable_one",
+  "interpretation": "The first five failures were caused by the combined M5/M6 float32 transition at be40055. The winding failure is separate determinism debt.",
+  "execution_authority": "none"
+}

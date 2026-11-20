@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "backend": "simulation",
+  "cycle_ns": 1000000,
+  "drive_speed_limit_motor_rpm": 3000,
+  "drive_speed_limit_motor_rpm_source": "Owner decision 2026-09-15: A6M rated speed 3000 rpm, spec sheet and A6M60-400H2B1-M17 / A6M80-1000H2B1-M17 part numbers. One motor revolution is 131072 counts in the drive frame regardless of the electronic gear ratio, so a motor speed cap does not scale with the gear: 0x607F counts/s = drive_speed_limit_motor_rpm / 60 * motor_encoder_counts_per_rev. Independent of the inhibited start-up verification speed bound and software limits.max_velocity. Raising the drive cap exposes axis 0's existing software limit: compiled effective_max_velocity increases from 0.0016666412353515624 to 0.005 m/s; the configured limits.max_velocity remains 0.005 m/s.",
+  "axes": [
+    {
+      "name": "axis_0",
+      "slave_position": 0,
+      "profile": "cia402_sim",
+      "type": "linear",
+      "wire_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_unverified": "unverified synthetic encoder matching the declared wire revolution",
+      "coordinate_evidence_mode": "multi_turn",
+      "wire_revs_per_axis_rev": 1,
+      "sign": 1,
+      "require_home": false,
+      "limits": {
+        "min": -0.01,
+        "max": 0.01,
+        "max_velocity": 0.005,
+        "jog_acceleration": 0.05,
+        "max_target_lead": 0.001,
+        "following_error": 0.002,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 1e-05,
+        "completion_timeout_ms": 500
+      },
+      "lead_m_per_rev": 0.01
+    },
+    {
+      "name": "axis_1",
+      "slave_position": 2,
+      "profile": "cia402_sim_other",
+      "type": "rotary",
+      "wire_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_unverified": "unverified synthetic encoder matching the declared wire revolution",
+      "coordinate_evidence_mode": "multi_turn",
+      "wire_revs_per_axis_rev": 1,
+      "sign": -1,
+      "require_home": false,
+      "limits": {
+        "min": -0.5,
+        "max": 0.5,
+        "max_velocity": 0.1,
+        "jog_acceleration": 1.0,
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    }
+  ],
+  "max_cycle_lateness_ns": 20000000,
+  "runtime": {
+    "cpu": 2,
+    "priority": 90
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "amr.rosie-thor-runtime-preregistration.v1",
+  "decision": "Can current olp-export run its locked planner suite on Thor with a real sm_110 CUDA kernel and no ambient Torch substitution?",
+  "lifecycle": "not_evaluated",
+  "source": {
+    "repository": "gradient-industrial-robotics/RosieOS",
+    "base_revision": "2b04cb8bae870968e8e5774cc9ec3d576270816d",
+    "branch": "agent/thor-sm110-runtime-pin"
+  },
+  "runtime": {
+    "image": "nvcr.io/nvidia/pytorch@sha256:edbbf7492e7a9111974a0e58debbc51371b131e19acf4aa033577cc39d4399a5",
+    "container_pull_policy": "never",
+    "container_runtime": "nvidia",
+    "pixi_environment": "motion-thor",
+    "manifest_sha256": "47fefa09be3a94a362bb13fa5f5f35745ac024ac07e78b357ae23dc33fd15452",
+    "lock_sha256": "f179060d289cd7f1812a96d628b506860dd0d253162ae1f44ea89c010bd6b4e2",
+    "runner_sha256": "b926309248c082096aa605058ae8bc5baca20af4ff6ff8adb2436514c79feaa4"
+  },
+  "gates": [
+    "linux-aarch64 host",
+    "pinned image present locally",
+    "real CUDA matrix multiplication succeeds",
+    "torch reports CUDA device NVIDIA Thor",
+    "source-owned runner tests pass",
+    "untouched free-space module runs in this exact environment"
+  ],
+  "stop_condition": "Stop before optimizer or roadmap changes. If the real CUDA gate fails, verdict capability_unavailable. If free-space contracts still fail, retain those as source failures under a now-valid runtime and open separate repair slices.",
+  "non_goals": [
+    "planner objective or budget changes",
+    "M5, M6, roadmap, verifier, UI, deployment, hardware motion, or process behavior",
+    "pulling or installing unpinned Torch",
+    "Motion Server or UDP"
+  ],
+  "execution_authority": "none"
+}

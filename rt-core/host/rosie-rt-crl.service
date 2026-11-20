@@ -1,0 +1,13 @@
+[Unit]
+Description=Re-sign the Rosie controller's remote CRL
+# rt-control refuses every client once the CRL's nextUpdate passes ("remote
+# CRL not current"); remote-pki.sh signs it for 7 days, so rosie-rt-crl.timer
+# re-signs it daily (both cells lapsed on 2026-10-19 without this).
+ConditionPathExists=/etc/rosie-rt-core/pki/ca.cnf
+
+[Service]
+Type=oneshot
+ExecStart=/opt/rosie/rt-core/host/remote-pki.sh crl /etc/rosie-rt-core/pki
+# The servo host runs nothing heavy: one openssl signature, at idle priority.
+Nice=19
+IOSchedulingClass=idle

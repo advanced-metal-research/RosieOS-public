@@ -1,0 +1,263 @@
+[workspace]
+name = "amr-weld-planner-v1"
+description = "CAD to motion planning for arc welding. Stage 1 topology, joint detection, and the weld program contract."
+authors = ["Gradient Industrial Robotics"]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "osx-arm64", "osx-64", "linux-aarch64"]
+version = "0.1.0"
+
+[tasks]
+topology = { cmd = "python -m seam_worker.cad.topology", description = "Extract B-rep topology from a STEP file: solids, faces with surface geometry, edges as B-splines." }
+detect = { cmd = "python -m seam_worker.seam.detect", description = "Detect weld joints from a STEP file or a topology JSON." }
+mesh = { cmd = "python -m seam_worker.cad.tessellate", description = "Tessellate a STEP into a display mesh with CAD face and edge ranges." }
+curve = { cmd = "python -m seam_worker.seam.curve", description = "Evaluate a curve: points, arc length, curvature." }
+continuity = { cmd = "python -m seam_worker.seam.continuity", description = "Measure how each weld-line segment joins the next: corner or tangent." }
+frames = { cmd = "python -m seam_worker.seam.frames", description = "Sample a seam into {P,t,r,b} frames." }
+plan-request = { cmd = "python -m weldplan.plan_request", description = "Read a .weldplan plan request, or self-test the format." }
+program-v2 = { cmd = "python -m weldplan.program_v2", description = "Check a robot.v4.program.v2 document, or self-test the contract." }
+tooling = { cmd = "python -m seam_worker.reach.tooling", description = "The torch model: its dimensions and the narrowest groove it can enter." }
+span = { cmd = "python -m seam_worker.seam.span", description = "Span arithmetic: fraction along a seam to s along its joint, wrap included." }
+scalar = { cmd = "python -m seam_worker.seam.scalar", description = "Evaluate or check a scalar function of normalized arc length." }
+seams = { cmd = "python -m seam_worker.seam.seams", description = "Generate default seams: one per reachable run of each joint." }
+orient = { cmd = "python -m seam_worker.reach.orient", description = "Search the angle lattice: the work and travel profile that welds the most arc." }
+placement = { cmd = "python -m seam_worker.robot.placement", description = "Where the workpiece sits on the cell's work frame." }
+kinematics = { cmd = "python -m seam_worker.robot.kinematics", description = "Forward kinematics for a work cell: where every link is at these joint values." }
+cell = { cmd = "python -m seam_worker.robot.cell", description = "Read a work cell URDF into a placement descriptor." }
+decisions = { cmd = "python -m seam_worker.reach.decisions", description = "Trim, split or accept: what to do about arc the torch cannot reach." }
+clearance = { cmd = "python -m seam_worker.reach.clearance", description = "Torch clearance for one weld: how much of it the barrel can actually reach." }
+occlusion = { cmd = "python -m seam_worker.cad.occlusion", description = "Index a STEP into a triangle BVH: the fast ray-occlusion engine behind accessibility." }
+access = { cmd = "python -m seam_worker.reach.access", description = "Annotate detected joints with unreachable weld-line spans." }
+# The torch-free half of the planner, so it can run in the default
+# environment beside everything else. `curves` and `frames` need torch and
+# live in `[feature.motion.tasks]` with the rest of the GPU stack.
+self-test-motion = { cmd = "python -m weld_motion_planner.io.plan_request --self-test && python -m weld_motion_planner.robot_cell.robot.cell --self-test && python -m weld_motion_planner.robot_cell.robot.profile --self-test && python -m weld_motion_planner.robot_cell.collision.spheres --self-test && python -m weld_motion_planner.robot_cell.collision.pairs --self-test", description = "Fast smoke check for the motion planner's torch-free workers." }
+self-test = { cmd = "python -m weld_motion_planner.io.plan_request --self-test && python -m weld_motion_planner.robot_cell.robot.cell --self-test && python -m weld_motion_planner.robot_cell.robot.profile --self-test && python -m seam_worker.cad.topology --self-test && python -m seam_worker.seam.detect --self-test && python -m seam_worker.cad.tessellate --self-test && python -m seam_worker.reach.access --self-test && python -m seam_worker.cad.occlusion --self-test && python -m seam_worker.seam.curve --self-test && python -m seam_worker.seam.continuity --self-test && python -m seam_worker.seam.frames --self-test && python -m seam_worker.seam.seams --self-test && python -m weldplan.plan_request --self-test && python -m weldplan.program_v2 --self-test && python -m seam_worker.seam.scalar --self-test && python -m seam_worker.seam.span --self-test && python -m seam_worker.reach.tooling --self-test && python -m seam_worker.reach.clearance --self-test && python -m seam_worker.reach.orient --self-test && python -m seam_worker.reach.decisions --self-test && python -m seam_worker.robot.cell --self-test && python -m seam_worker.robot.kinematics --self-test && python -m seam_worker.robot.placement --self-test", description = "Fast worker smoke checks. The real suite is `pixi run test`." }
+test = { cmd = "pytest -q tests", description = "Run the pytest suite." }
+motion-cell = { cmd = "python -m weld_motion_planner.robot_cell.robot.cell", description = "The cell as the planner sees it: which axes are the arm, which reach the work frame, which belong to neither." }
+motion-profile = { cmd = "python -m weld_motion_planner.robot_cell.robot.profile", description = "Check a cell profile -- the merge of the model description and the target machine_planning_calibration.json: axis roles, rates, reset pose, and what is still missing." }
+motion-curves = { cmd = "python -m weld_motion_planner.geometry.curves", description = "Evaluate a weld program's curves: length, curvature, segment count." }
+motion-frames = { cmd = "python -m weld_motion_planner.geometry.seam_frame", description = "Sample seam frames {P,t,r,b} as the planner computes them." }
+motion-request = { cmd = "python -m weld_motion_planner.io.plan_request", description = "Read a .weldplan as the planner sees it: what it carries, and what it still cannot plan from." }
+motion-fixtures = { cmd = "python tools/make_motion_fixtures.py", description = "Rebuild the committed .weldplan fixtures the motion tests read. Output is deterministic; run it when the authoring pipeline changes." }
+motion-test = { cmd = "pytest -q tests/motion_planner", description = "Run the motion planner's tests alone." }
+lint = { cmd = "ruff check python tests tools", description = "Lint Python sources." }
+
+# The motion planner's stack, in a feature of its own rather than in
+# `[dependencies]`. Two reasons, and they are the same two that put the
+# planner behind a file-shaped seam in the first place.
+#
+# It is LARGE and it is linux-only in practice: a CUDA torch build plus warp
+# is gigabytes, and the authoring side -- which runs on the three desktop
+# platforms this workspace lists -- has no use for any of it. Solving it into
+# the default environment would make `pixi run test` on a Mac download a GPU
+# stack to extract topology from a STEP.
+#
+# And the split is load-bearing rather than a convenience: the arrow in
+# `weld_motion_planner/__init__.py` says the planner must be installable without
+# OCCT, cadquery and numba. An environment that carries both halves would
+# never notice the day that stops being true. `pixi run -e motion` is the
+# environment the boundary test is really about.
+[feature.motion]
+platforms = ["linux-64", "linux-aarch64"]
+
+# The cuda floor is DECLARED rather than detected. Pixi normally discovers
+# `__cuda` by probing the driver, and comes back empty when the solve runs
+# somewhere the driver is not visible -- a container, a sandbox, a build host
+# with no card. Every CUDA build of torch is then unsatisfiable and the error
+# reads as "conda-forge has no CUDA torch", which is nothing of the kind.
+# Stating it makes the lock reproducible off the dev box. 12 is the floor,
+# not the ceiling: the runtime comes from conda (2.13 is built for 12.9) and
+# only the driver is the system's, which at 13.2 is backward compatible.
+#
+# This table is deprecated in favour of `platforms = [{ platform = ..., cuda
+# = ... }]`, and the pixi pinned here does not parse that form yet -- it
+# warns about the old spelling and rejects the new one. Left as it is, with
+# the warning, until the toolchain moves.
+[feature.motion.system-requirements]
+cuda = "12"
+
+[feature.motion.dependencies]
+numpy = ">=1.26"
+pytest = ">=8.0"
+# The planner tessellates the plan request's STEP ITSELF. `ARCHITECTURE.md` says
+# the ESDF is baked from the part's real surfaces, and the plan request ships
+# geometry rather than meshes precisely so that the consumer picks its own
+# tolerance. That means an OCCT here -- which is not a crack in the
+# boundary: the rule is that this package never imports `seam_worker`, not
+# that it stays small. `tests/motion_planner/test_boundary.py` still holds.
+cadquery = "*"
+# Mesh BVH and the distance-field kernels, as cuRoboV2 uses it (its own
+# world model is Warp-first). Zero-copy into torch via dlpack.
+warp-lang = "*"
+# The T2 gate's geometry engine, chosen by the spike in `tools/spike_ccd.py`
+# and argued in `ARCHITECTURE.md`. coal is hpp-fcl's continuation. It ties
+# python-fcl on exactness and on discrete throughput, and wins on the two
+# things that decide a GATE rather than a query engine: it carries
+# `security_margin`, which answers "is anything closer than m" 16-26x faster
+# than the exact distance and is exactly the predicate conservative
+# advancement needs, and it does NOT carry a mesh CCD entry point that
+# silently returns "clear" for a certain collision, which python-fcl does.
+# pybullet lost at the first question: it declines every mesh-vs-mesh pair.
+coal-python = "*"
+# The cell's own link geometry is COLLADA beside the URDF -- the plan request
+# ships the workpiece as STEP and omits the robot on purpose. `weld_motion_planner`
+# reads the .dae itself rather than taking a mesh from the authoring side,
+# which is the same arrow every other asset here follows.
+pycollada = "*"
+
+# The redundancy lattice was qualified with full float32 mantissas. Recent
+# NVIDIA/PyTorch runtimes differ in their TF32 default, so pin the numerical
+# policy as a runtime setting shared by x86 and Thor rather than branching the
+# planner source by machine. A caller may explicitly override this to `1` for
+# a benchmark, but that run is outside the qualified planner contract.
+[feature.motion.activation.env]
+TORCH_ALLOW_TF32_CUBLAS_OVERRIDE = "0"
+
+[feature.motion-x86]
+platforms = ["linux-64"]
+
+[feature.motion-x86.dependencies]
+python = ">=3.10,<3.12"
+pytorch-gpu = ">=2.7"
+
+# Jetson commissioning of taught move/dwell programs uses the same planner
+# and exact triangle verifier on CPU. Keep this separate from `motion`: that
+# feature declares CUDA and Warp for weld search. The unchanged default
+# feature supplies Python, CadQuery, the authoring worker and HTTP dependencies.
+# This environment is not qualification of GPU weld search or free-space search.
+[feature.motion-cpu]
+platforms = ["linux-aarch64"]
+
+[feature.motion-cpu.dependencies]
+pytorch-cpu = ">=2.7,<3"
+scipy = ">=1.11"
+coal-python = "*"
+pycollada = "*"
+
+[feature.motion-cpu.tasks]
+# Set AMR_WELD_PLANNER_SOURCE_REVISION to the verified full source commit in
+# the service environment; never infer it from a potentially overlaid checkout.
+motion-cpu-serve = { cmd = "python -m weld_motion_planner.server.motion_planner_server --host 127.0.0.1", description = "Loopback CPU planner for taught moves; exact collision/rate checks remain enabled." }
+motion-cpu-test = { cmd = "pytest -q tests/motion_planner/test_m6_verifier_contract.py tests/motion_planner/test_planning_context.py tests/motion_planner/test_native_result.py tests/motion_planner/test_dense_output.py tests/programmer/test_dense_joint_trajectory.py", description = "Offline taught-motion, planning-context, native-result and dense-trajectory regression tests." }
+
+# NVIDIA's pinned Thor image owns Python and the sm_110 Torch build. Pixi owns
+# every remaining planner dependency in a Python 3.12 prefix. The Thor runner
+# composes the two explicitly; conda Torch 2.13 imports on Thor but has no
+# sm_110 kernel image.
+[feature.thor]
+platforms = ["linux-aarch64"]
+
+[feature.thor.dependencies]
+python = ">=3.12,<3.13"
+jsonschema = ">=4.0"
+fastapi = ">=0.115"
+uvicorn = ">=0.30"
+httpx = ">=0.27"
+python-multipart = ">=0.0.9"
+
+[feature.thor.activation.env]
+PYTHONPATH = "$PIXI_PROJECT_ROOT/python"
+
+[feature.motion.tasks]
+motion-test = { cmd = "pytest -q tests/motion_planner", description = "Run the motion planner's tests in its own environment -- the one without the authoring stack." }
+motion-self-test = { cmd = "python -m weld_motion_planner.io.plan_request --self-test && python -m weld_motion_planner.robot_cell.robot.cell --self-test && python -m weld_motion_planner.robot_cell.robot.profile --self-test && python -m weld_motion_planner.geometry.curves --self-test && python -m weld_motion_planner.geometry.seam_frame --self-test && python -m weld_motion_planner.utils.device --self-test && python -m weld_motion_planner.geometry.mesh --self-test && python -m weld_motion_planner.geometry.esdf --self-test && python -m weld_motion_planner.robot_cell.robot.fk --self-test && python -m weld_motion_planner.robot_cell.collision.pairs --self-test && python -m weld_motion_planner.robot_cell.collision.scene --self-test && python -m weld_motion_planner.robot_cell.collision.positioner --self-test && python -m weld_motion_planner.robot_cell.collision.cost --self-test && python -m weld_motion_planner.robot_cell.robot.mobility --self-test && python -m weld_motion_planner.robot_cell.robot.ik --self-test && python -m weld_motion_planner.robot_cell.robot.tool --self-test && python -m weld_motion_planner.planner.dp_seam_search.engine.nodes --self-test && python -m weld_motion_planner.planner.dp_seam_search.engine.graph --self-test && python -m weld_motion_planner.verifier.verify --self-test", description = "Every motion worker's smoke check, torch included." }
+motion-spheres = { cmd = "python -m weld_motion_planner.robot_cell.collision.spheres", description = "Check a cell's sphere model: which arm links are covered, what the fit missed, and the torch built from tooling.json." }
+motion-mesh = { cmd = "python -m weld_motion_planner.geometry.mesh", description = "Tessellate the plan request's STEP as the planner does, at the planner's own deflection." }
+motion-esdf = { cmd = "python -m weld_motion_planner.geometry.esdf", description = "Bake the part's signed distance field and report its size and timing." }
+motion-debug = { cmd = "python -m weld_motion_planner.io.debug", description = "Write a motion-debug.v0 bundle for the dev viewer at /viz.html." }
+motion-cost = { cmd = "python -m weld_motion_planner.robot_cell.collision.cost --self-test", description = "The collision cost: hinge, augmented Lagrangian, and the multiplier update that makes violation reach zero." }
+motion-tool = { cmd = "python -m weld_motion_planner.robot_cell.robot.tool", description = "Which way a model's electrode points in its tool frame: the torch section of its description, and what is missing without it." }
+motion-nodes = { cmd = "python -m weld_motion_planner.robot_cell.robot.tool --self-test && python -m weld_motion_planner.planner.dp_seam_search.engine.nodes --self-test && python -m weld_motion_planner.planner.dp_seam_search.engine.graph --self-test", description = "The redundancy lattice: every way to weld each seam sample, screened, with a cause per rejection." }
+motion-plan = { cmd = "python -m weld_motion_planner.planner.planner_main", description = "THE PLANNER: a .weldplan in, a program out. M4 alone by default; --trajectories adds M5 and the moves between welds." }
+motion-seams = { cmd = "python -m weld_motion_planner.planner.dp_seam_search.dp_seam_search_main", description = "M4 alone: plan every seam of a .weldplan and report what each one concluded." }
+motion-weld-trajopt = { cmd = "python -m weld_motion_planner.planner.trajectory_optimization.weld_trajopt_main", description = "M5: plan a continuous trajectory for the winner of every crossed seam, and say what each one measured." }
+motion-link = { cmd = "python -m weld_motion_planner.planner.trajectory_optimization.engine.freespace", description = "M6: the moves BETWEEN the welds -- approach from the cell's reset pose, transit seam to seam, retract home." }
+motion-roadmap = { cmd = "python -m weld_motion_planner.planner.trajectory_optimization.engine.roadmap", description = "M6: the probabilistic roadmap the links are seeded from, and which windings of a weld it can reach." }
+motion-serve = { cmd = "AMR_WELD_PLANNER_SOURCE_REVISION=$(git rev-parse HEAD) python -m weld_motion_planner.server.motion_planner_server", description = "Run the motion planning server (FastAPI, CUDA): POST a .weldplan to /api/motion/plan, get candidate paths. Pins the source revision so exported results say which code planned them." }
+motion-ik = { cmd = "python -m weld_motion_planner.robot_cell.robot.ik --self-test", description = "Batched inverse kinematics: joint angles from a torch pose, damped least squares, eight structured seeds." }
+motion-mobility = { cmd = "python -m weld_motion_planner.robot_cell.robot.mobility --self-test", description = "Directional mobility: how fast the tip can move along the seam tangent per unit joint speed, and why the volume index cannot see it." }
+motion-graph = { cmd = "python -m weld_motion_planner.planner.dp_seam_search.engine.graph --self-test", description = "Edges and the Viterbi sweep: which nodes can follow which, the K best ways through, and the frontier when none can." }
+motion-verify = { cmd = "python -m weld_motion_planner.verifier.verify --self-test", description = "The T2 gate: exact-mesh conservative advancement and joint limits, on a case uniform sampling steps straight over." }
+motion-bench-verify = { cmd = "python tools/bench_verify.py", description = "What the gate costs on the real cell: per segment, against step size, serial and fanned across the CPU pool." }
+motion-bench-freespace = { cmd = "python tools/bench_freespace.py data/motion/bracket_a_2x.weldplan", description = "The M6 join, timed per phase with the verifier off: the number the connecting-motion batching is measured against." }
+motion-probe-capture = { cmd = "python tools/probe_capture.py data/motion/bracket_a_2x.weldplan", description = "Can the M6 inner step be captured as a CUDA graph on this machine, and what blocks it -- re-probe instead of re-guessing." }
+motion-positioner = { cmd = "python -m weld_motion_planner.robot_cell.collision.positioner --self-test", description = "Sweep a positioner axis against the world field and report which angles clear." }
+motion-scene = { cmd = "python -m weld_motion_planner.robot_cell.collision.scene --self-test", description = "The assembled collision world: world and workpiece fields, and the positioner gradient that only exists through the frame transform." }
+motion-pairs = { cmd = "python -m weld_motion_planner.robot_cell.collision.pairs", description = "Which collision pairs the tree says to ignore: adjacent links, and arm links bolted to the environment." }
+motion-fk = { cmd = "python -m weld_motion_planner.robot_cell.robot.fk --self-test", description = "Fused forward kinematics: values and gradient against a CPU float64 reference." }
+motion-pipeline = { cmd = "python tools/bench_pipeline.py", description = "FK and the field together on random poses: per-sphere clearance and its joint derivative, against the exact mesh." }
+motion-collision = { cmd = "python tools/bench_collision.py", description = "The collision stage end to end: arm spheres through FK into the cell ESDF, with gradient parity and per-iteration timing." }
+motion-gpu = { cmd = "python -m weld_motion_planner.utils.device", description = "What this machine offers the planner: device, capability, and whether the torch build has kernels for it." }
+
+# Benchmarking only. cuRoboV2 is a REFERENCE, not a dependency: the planner
+# must never import it, and `tests/motion_planner/test_boundary.py` does not police
+# that only because nothing in `weld_motion_planner` ever has. It is imported here,
+# in an environment of its own, so that "is our field as fast as theirs" can
+# be measured rather than argued. These are the packages its own imports
+# reach for on the way to the ESDF kernels.
+[feature.bench]
+platforms = ["linux-64"]
+
+[feature.bench.dependencies]
+setuptools_scm = "*"
+trimesh = "*"
+networkx = "*"
+pyyaml = "*"
+tqdm = "*"
+# The M3 spike's LOSING candidates, kept here rather than in `motion` so the
+# decision can be re-run without the planner's own environment ever having
+# depended on them. The winner (coal) is declared in `[feature.motion]`.
+pybullet = "*"
+
+[feature.bench.pypi-dependencies]
+# Upstream FCL's bindings, the third candidate. Not on conda-forge, and the
+# only one of the three that advertises `continuousCollide` -- which the spike
+# found returns "no collision" for a mesh pair that certainly collides.
+python-fcl = "*"
+
+[feature.bench.tasks]
+motion-bench = { cmd = "python tools/bench_esdf.py", description = "Bake timing and query throughput for the part field, head to head with cuRoboV2's ESDF where it is comparable." }
+motion-ccd-spike = { cmd = "python tools/spike_ccd.py", description = "The M3 backend spike: exact mesh distance and swept-volume queries on the real cell meshes, python-fcl vs coal vs Bullet." }
+
+[environments]
+default = { features = [], solve-group = "default" }
+motion = { features = ["motion", "motion-x86"] }
+motion-cpu = { features = ["motion-cpu"] }
+motion-thor = { features = ["motion", "thor"], no-default-feature = true }
+bench = { features = ["motion", "motion-x86", "bench"] }
+
+# `python/` is the import root, and this is the whole mechanism: no
+# `sys.path` surgery in conftest, no editable install, no `pyproject.toml`.
+# `seam_worker` and `weldplan` resolve identically under `pixi run serve`,
+# under the module CLIs, and under pytest.
+#
+# Still an assignment and not an append, which is the property this line has
+# always been carrying: a system PYTHONPATH must not reach this environment.
+# On a ROS machine it carries /opt/ros/humble's python3.10 site-packages,
+# whose pytest plugins get autoloaded into this python3.11 env and fail at
+# import before a single test is collected. Replacing it keeps that shut.
+[activation.env]
+PYTHONPATH = "$PIXI_PROJECT_ROOT/python"
+
+# Pinned to match cadquery/v1 so conda packages hardlink from the shared
+# rattler cache instead of downloading a second OCCT tree.
+[dependencies]
+python = ">=3.10,<3.12"
+cadquery = "*"
+numpy = ">=1.26"
+# The BVH traversal in `occlusion.py`, which both `access.py` and
+# `clearance.py` cast through. Declared rather than leaned on as a transitive
+# install: accessibility is 1500x faster through it than through OCCT's exact
+# intersector and one weld's angle lattice is 1100x faster, so an environment
+# that happens not to have it would not fail -- it would take six minutes per
+# workpiece to analyse and a minute per weld to optimise.
+numba = ">=0.60"
+pytest = ">=8.0"
+jsonschema = ">=4.0"
+fastapi = ">=0.115"
+uvicorn = ">=0.30"
+httpx = ">=0.27"
+python-multipart = ">=0.0.9"
+
+[pypi-dependencies]
+ruff = "*"

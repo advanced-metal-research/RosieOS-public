@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- Semantic description for the rosie_1420_v1 bundle.
+     Tesseract needs a manipulator group to plan against, and the group has to
+     name EVERY movable joint: a Cartesian plan whose joint waypoints cover only
+     a subset is rejected outright.
+
+     Six joints and no more. Unlike rosie_1400_v3 there is no H-frame and no
+     positioner tables, so there are no external axes to seed or hold -- J7, J8
+     and J9 do not exist on this machine, and a group that named them would
+     describe a robot this URDF does not contain. -->
+<robot name="rosie_1420_v1">
+  <group name="manipulator">
+    <joint name="J1"/>
+    <joint name="J2"/>
+    <joint name="J3"/>
+    <joint name="J4"/>
+    <joint name="J5"/>
+    <joint name="J6"/>
+  </group>
+
+  <group_state name="home" group="manipulator">
+    <joint name="J1" value="0"/>
+    <joint name="J2" value="0"/>
+    <joint name="J3" value="0"/>
+    <joint name="J4" value="0"/>
+    <joint name="J5" value="0"/>
+    <joint name="J6" value="0"/>
+  </group_state>
+</robot>

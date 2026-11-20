@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "program_id": "motion-server-spreadsheet-unreachable",
+  "program_name": "Negative test: waypoint far outside the workspace",
+  "part_name": "spreadsheet_honesty_fixture",
+  "robotic-cell-type": "rosie_1400_v3",
+  "robot_model": "rosie_1400_v3",
+  "tesseract_urdf_source": "robot_description/robots/rosie_1400_v3/robot.urdf",
+  "tesseract_collision_geometry": "visual_meshes_as_collision_meshes",
+  "tesseract_collision_mesh_package": "package://rosie_1400_v3/meshes",
+  "execution_mode": "dry_run",
+  "samples_per_segment": 5,
+  "rows": [
+    {
+      "row_id": "row-home",
+      "row_index": 0,
+      "row_number": 1,
+      "enabled": true,
+      "label": "Home",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    },
+    {
+      "row_id": "row-far-out",
+      "row_index": 1,
+      "row_number": 2,
+      "enabled": true,
+      "label": "FarOutsideWorkspace",
+      "row_type": "motion",
+      "move_type": "line_tcp",
+      "target_frame_type": "tcp_cartesian",
+      "target_tcp_m": [3.5, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "target_joints_rad": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "current_tcp_pose": [3.5, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "current_joints_rad": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "tcp_velocity_m_s": 0.05,
+      "blend_radius_m": 0.0,
+      "planner_status": "stale",
+      "validation_state": "unknown"
+    }
+  ]
+}

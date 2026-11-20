@@ -1,0 +1,14 @@
+{
+  "extends": "../../../offline-programming/v1/ui/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "typeRoots": ["../../../offline-programming/v1/ui/node_modules/@types"],
+    "paths": {
+      "three": ["../../../offline-programming/v1/ui/node_modules/@types/three/index.d.ts"],
+      "urdf-loader": ["../../../offline-programming/v1/ui/node_modules/urdf-loader"],
+      "happy-dom": ["../../../offline-programming/v1/ui/node_modules/happy-dom"]
+    }
+  },
+  "include": ["*.ts"]
+}

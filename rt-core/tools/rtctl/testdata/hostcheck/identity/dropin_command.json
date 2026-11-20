@@ -1,0 +1,247 @@
+{
+  "expected_release": {
+    "status": "match",
+    "observed": "bb68ff5de4d29aae9d23df8ab29cef79f699bb16ea007f757cfe28f979c6ad80",
+    "expected": "bb68ff5de4d29aae9d23df8ab29cef79f699bb16ea007f757cfe28f979c6ad80"
+  },
+  "services": [
+    {
+      "service": "rosie-rt-core",
+      "qualified_match": false,
+      "layers": {
+        "effective_command": {
+          "status": "conflict",
+          "observed": "/opt/old/runtime argc=2 argv_sha256=a1ff62d9475d1b5c53dba1867d9fb076bce8d9880585b6fd7acdb92d5bf1336c",
+          "expected": "/opt/rosie/rt-core/build/rosie-rt-core argc=11 argv_sha256=f4f76faa872612e09825551669c63932fcc7ed122e9b1e0132aace1c162aa6dc"
+        },
+        "effective_environment": {
+          "status": "match",
+          "observed": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5",
+          "expected": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5"
+        },
+        "effective_unit": {
+          "status": "match",
+          "observed": "[\"/etc/systemd/system/rosie-rt-core.service\",\"/etc/systemd/system/rosie-rt-core.service.d/10-deployment.conf\"]",
+          "expected": "[\"/etc/systemd/system/rosie-rt-core.service\",\"/etc/systemd/system/rosie-rt-core.service.d/10-deployment.conf\"]"
+        },
+        "environment_files": {
+          "status": "match",
+          "observed": "[\"/etc/rosie-rt-core/control.env\"]",
+          "expected": "[\"/etc/rosie-rt-core/control.env\"]"
+        },
+        "expected_release": {
+          "status": "match",
+          "observed": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24",
+          "expected": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24"
+        },
+        "installed_executable": {
+          "status": "match",
+          "observed": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24",
+          "expected": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-core.service": {
+          "status": "match",
+          "observed": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174",
+          "expected": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-core.service.d/10-deployment.conf": {
+          "status": "conflict",
+          "observed": "be8acb1bc756a864641be3e3d8d57cdcf5af65ea1e8336551da717b6e9e1cbe9",
+          "expected": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        },
+        "loaded_image": {
+          "status": "match",
+          "observed": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24",
+          "expected": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24"
+        },
+        "process_command": {
+          "status": "match",
+          "observed": "argc=11 argv_sha256=f4f76faa872612e09825551669c63932fcc7ed122e9b1e0132aace1c162aa6dc",
+          "expected": "argc=11 argv_sha256=f4f76faa872612e09825551669c63932fcc7ed122e9b1e0132aace1c162aa6dc"
+        },
+        "process_environment": {
+          "status": "match",
+          "observed": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5",
+          "expected": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5"
+        },
+        "process_identity": {
+          "status": "match",
+          "observed": "pid=101 boot_id=01234567-89ab-cdef-0123-456789abcdef start_ticks=10001 systemd_start_us=100010000 cgroup=/system.slice/rosie-rt-core.service",
+          "expected": "stable MainPID, boot ID, start ticks and systemd cgroup"
+        },
+        "stable_observation": {
+          "status": "match",
+          "observed": "unchanged manager, unit files and environment",
+          "expected": "unchanged manager, unit files and environment"
+        },
+        "template": {
+          "status": "match",
+          "observed": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174",
+          "expected": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174"
+        }
+      }
+    },
+    {
+      "service": "rosie-rt-control",
+      "qualified_match": false,
+      "layers": {
+        "effective_command": {
+          "status": "conflict",
+          "observed": "/opt/old/runtime argc=2 argv_sha256=a1ff62d9475d1b5c53dba1867d9fb076bce8d9880585b6fd7acdb92d5bf1336c",
+          "expected": "/opt/rosie/rt-core/build/rt-control argc=11 argv_sha256=903b2d3d22f92d0d2c9c981d52451029cabcc08b8e2fab96990d1bd57790b0cd"
+        },
+        "effective_environment": {
+          "status": "match",
+          "observed": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5",
+          "expected": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5"
+        },
+        "effective_unit": {
+          "status": "match",
+          "observed": "[\"/etc/systemd/system/rosie-rt-control.service\",\"/etc/systemd/system/rosie-rt-control.service.d/10-deployment.conf\"]",
+          "expected": "[\"/etc/systemd/system/rosie-rt-control.service\",\"/etc/systemd/system/rosie-rt-control.service.d/10-deployment.conf\"]"
+        },
+        "environment_files": {
+          "status": "match",
+          "observed": "[\"/etc/rosie-rt-core/control.env\"]",
+          "expected": "[\"/etc/rosie-rt-core/control.env\"]"
+        },
+        "expected_release": {
+          "status": "match",
+          "observed": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420",
+          "expected": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420"
+        },
+        "installed_executable": {
+          "status": "match",
+          "observed": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420",
+          "expected": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-control.service": {
+          "status": "match",
+          "observed": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae",
+          "expected": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-control.service.d/10-deployment.conf": {
+          "status": "conflict",
+          "observed": "be8acb1bc756a864641be3e3d8d57cdcf5af65ea1e8336551da717b6e9e1cbe9",
+          "expected": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        },
+        "loaded_image": {
+          "status": "match",
+          "observed": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420",
+          "expected": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420"
+        },
+        "process_command": {
+          "status": "match",
+          "observed": "argc=11 argv_sha256=903b2d3d22f92d0d2c9c981d52451029cabcc08b8e2fab96990d1bd57790b0cd",
+          "expected": "argc=11 argv_sha256=903b2d3d22f92d0d2c9c981d52451029cabcc08b8e2fab96990d1bd57790b0cd"
+        },
+        "process_environment": {
+          "status": "match",
+          "observed": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5",
+          "expected": "6cc3f970e6d13ce042a9156ab5ab3b8f05b2b3bb5501d22d7c2272f4bc1643e5"
+        },
+        "process_identity": {
+          "status": "match",
+          "observed": "pid=102 boot_id=01234567-89ab-cdef-0123-456789abcdef start_ticks=10002 systemd_start_us=100010001 cgroup=/system.slice/rosie-rt-control.service",
+          "expected": "stable MainPID, boot ID, start ticks and systemd cgroup"
+        },
+        "stable_observation": {
+          "status": "match",
+          "observed": "unchanged manager, unit files and environment",
+          "expected": "unchanged manager, unit files and environment"
+        },
+        "template": {
+          "status": "match",
+          "observed": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae",
+          "expected": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae"
+        }
+      }
+    },
+    {
+      "service": "rosie-rt-natspublisher",
+      "qualified_match": false,
+      "layers": {
+        "effective_command": {
+          "status": "conflict",
+          "observed": "/opt/old/runtime argc=2 argv_sha256=a1ff62d9475d1b5c53dba1867d9fb076bce8d9880585b6fd7acdb92d5bf1336c",
+          "expected": "/opt/rosie/rt-core/build/rt-natspublisher argc=3 argv_sha256=c4aa561e08fdae454d8662b90069afde95e6f51864636117cface500900418ca"
+        },
+        "effective_environment": {
+          "status": "match",
+          "observed": "d977910c2948c2a72197515cbb0311b625820bd63522aa372da020e4b544810e",
+          "expected": "d977910c2948c2a72197515cbb0311b625820bd63522aa372da020e4b544810e"
+        },
+        "effective_unit": {
+          "status": "match",
+          "observed": "[\"/etc/systemd/system/rosie-rt-natspublisher.service\",\"/etc/systemd/system/rosie-rt-natspublisher.service.d/10-deployment.conf\"]",
+          "expected": "[\"/etc/systemd/system/rosie-rt-natspublisher.service\",\"/etc/systemd/system/rosie-rt-natspublisher.service.d/10-deployment.conf\"]"
+        },
+        "environment_files": {
+          "status": "match",
+          "observed": "[\"/etc/rosie-rt-core/natspublisher.env\"]",
+          "expected": "[\"/etc/rosie-rt-core/natspublisher.env\"]"
+        },
+        "expected_release": {
+          "status": "match",
+          "observed": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23",
+          "expected": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23"
+        },
+        "installed_executable": {
+          "status": "match",
+          "observed": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23",
+          "expected": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-natspublisher.service": {
+          "status": "match",
+          "observed": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f",
+          "expected": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f"
+        },
+        "installed_file:/etc/systemd/system/rosie-rt-natspublisher.service.d/10-deployment.conf": {
+          "status": "conflict",
+          "observed": "be8acb1bc756a864641be3e3d8d57cdcf5af65ea1e8336551da717b6e9e1cbe9",
+          "expected": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        },
+        "loaded_image": {
+          "status": "match",
+          "observed": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23",
+          "expected": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23"
+        },
+        "process_command": {
+          "status": "match",
+          "observed": "argc=3 argv_sha256=c4aa561e08fdae454d8662b90069afde95e6f51864636117cface500900418ca",
+          "expected": "argc=3 argv_sha256=c4aa561e08fdae454d8662b90069afde95e6f51864636117cface500900418ca"
+        },
+        "process_environment": {
+          "status": "match",
+          "observed": "d977910c2948c2a72197515cbb0311b625820bd63522aa372da020e4b544810e",
+          "expected": "d977910c2948c2a72197515cbb0311b625820bd63522aa372da020e4b544810e"
+        },
+        "process_identity": {
+          "status": "match",
+          "observed": "pid=103 boot_id=01234567-89ab-cdef-0123-456789abcdef start_ticks=10003 systemd_start_us=100010002 cgroup=/system.slice/rosie-rt-natspublisher.service",
+          "expected": "stable MainPID, boot ID, start ticks and systemd cgroup"
+        },
+        "stable_observation": {
+          "status": "match",
+          "observed": "unchanged manager, unit files and environment",
+          "expected": "unchanged manager, unit files and environment"
+        },
+        "template": {
+          "status": "match",
+          "observed": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f",
+          "expected": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f"
+        }
+      }
+    }
+  ],
+  "ethercat_master_owner": {
+    "status": "conflict",
+    "observed": "foreign or unqualified master holder PIDs=[101]",
+    "expected": "only the release-qualified rosie-rt-core MainPID holds /dev/EtherCAT0"
+  },
+  "status": "conflict",
+  "conflicts": 7,
+  "unknowns": 0,
+  "qualified_matches": 0,
+  "exit_code": 2
+}

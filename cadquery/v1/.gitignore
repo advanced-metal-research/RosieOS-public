@@ -1,0 +1,6 @@
+.pixi/
+exports/
+ui/node_modules/
+ui/dist/
+ui/.tour-build/
+ui/test/screenshots/

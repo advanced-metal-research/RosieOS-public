@@ -1,0 +1,9 @@
+{
+  "schema": "amr-weld-planner-v1.search-preset.v1",
+  "id": "wide",
+  "label": "Wide — ±30° work, ±60° travel",
+  "notes": "For a joint that reads blocked at the steady window and is worth a longer look. Roughly four times the lattice, so four times the rays and four times the wait. Nothing here lets the search alter the PROCESS -- stickout freedom is declared per weld in process.wire.stickout_limits_mm -- so a wider window can only ever find a different approach to the same weld.",
+  "work_deviation_deg": 30.0,
+  "travel_deviation_deg": 60.0,
+  "standoff_cost_deg_per_mm": 3.0
+}

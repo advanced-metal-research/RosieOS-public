@@ -1,0 +1,11 @@
+id: coordination-no-process
+language: TypeScript
+severity: error
+message: Fleet coordination cannot launch local processes; hand off to the owning runtime.
+files:
+  - coordination/v1/src/**/*.ts
+rule:
+  kind: import_statement
+  has:
+    field: source
+    regex: ^['"](node:)?child_process['"]$

@@ -1,0 +1,19 @@
+{
+  "jog_bytes": 408,
+  "feedback_bytes": 392,
+  "qd": [
+    0.25,
+    -0.5,
+    0.125,
+    0.0,
+    1.5,
+    -2.25,
+    0.0625,
+    0.0,
+    -0.03125
+  ],
+  "statusword_operational_axes": 8,
+  "fault_mask": 4,
+  "monotonic_ns": 123456789012345,
+  "home_profile_key": 81985529216486895
+}

@@ -1,0 +1,24 @@
+[workspace]
+name = "tesseract-v1"
+description = "No-ROS Tesseract/TrajOpt demos wrapped by the rosie Go CLI."
+authors = ["Gradient Industrial Robotics"]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "linux-aarch64", "osx-arm64"]
+version = "0.1.0"
+
+[system-requirements]
+libc = { family = "glibc", version = "2.35" }
+macos = "14.0"
+
+[tasks]
+ur10-demo = { cmd = "python python/ur10_demo.py demo", description = "Run a no-ROS UR-10 TrajOpt joint-space movement demo." }
+cartesian-plan = { cmd = "python python/cartesian_plan.py", description = "Run a generic no-ROS Cartesian planning request." }
+collision-check = { cmd = "python python/collision_check.py", description = "Run a robot-v4 discrete Tesseract collision check request." }
+self-test = { cmd = "python python/ur10_demo.py --self-test && python python/cartesian_plan.py --self-test && python python/collision_check.py --self-test", description = "Run the Tesseract v1 worker smoke tests." }
+
+[dependencies]
+python = ">=3.12,<3.13"
+numpy = ">=1.26"
+
+[pypi-dependencies]
+tesseract-robotics-nanobind = ">=0.35,<0.36"

@@ -1,0 +1,13 @@
+{
+  "name": "Rosie Offline Programming",
+  "short_name": "Offline Program",
+  "description": "Offline-first CAD-to-weld authoring and browser preview.",
+  "id": "/offline-programming/v1/ui/",
+  "start_url": "/offline-programming/v1/ui/",
+  "scope": "/offline-programming/v1/ui/",
+  "display": "standalone",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "orientation": "any"
+}
+

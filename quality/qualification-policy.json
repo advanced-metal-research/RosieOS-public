@@ -1,0 +1,108 @@
+{
+  "schema": "rosie.qualification-policy.v1",
+  "mode": "shadow",
+  "environments": ["source", "simulation", "servo_hil", "robot", "welding"],
+  "classes": {
+    "realtime-control": [
+      {"claim": "control-contract", "environment": "source", "reason": "Control protocol and safety rules can change."},
+      {"claim": "sim-home-arm", "environment": "simulation", "reason": "Home and Arm must work through the native simulator."},
+      {"claim": "servo-stop-recovery", "environment": "servo_hil", "reason": "Real drives and EtherCAT can differ from simulation."},
+      {"claim": "robot-control-acceptance", "environment": "robot", "reason": "An assembled robot has load and mechanical behavior absent from the bench."}
+    ],
+    "motion-execution": [
+      {"claim": "motion-contract", "environment": "source", "reason": "Command admission and cancellation can change."},
+      {"claim": "motion-command-ordering", "environment": "simulation", "reason": "Competing motion requests must obey one order."},
+      {"claim": "motion-stop-boundary", "environment": "servo_hil", "reason": "Stop must interrupt motion on real drives."},
+      {"claim": "bounded-cartesian-motion", "environment": "robot", "reason": "The assembled robot must follow a bounded path."}
+    ],
+    "operator-programming": [
+      {"claim": "operator-contract", "environment": "source", "reason": "Operator commands and program data can change."},
+      {"claim": "operator-workflow", "environment": "simulation", "reason": "The client and backend must complete one composed workflow."},
+      {"claim": "operator-input", "environment": "robot", "reason": "Real operator input must control the assembled robot as specified."}
+    ],
+    "planning": [
+      {"claim": "planner-contract", "environment": "source", "reason": "Planner inputs and outputs can change."},
+      {"claim": "planner-path", "environment": "simulation", "reason": "A planned path must satisfy model and collision rules."}
+    ],
+    "robot-cell-config": [
+      {"claim": "config-identity", "environment": "source", "reason": "Machine, cell, and robot description pins must agree."},
+      {"claim": "sim-home-arm", "environment": "simulation", "reason": "The described robot must start and Home in simulation."},
+      {"claim": "servo-config", "environment": "servo_hil", "reason": "A real drive must accept the selected configuration."},
+      {"claim": "robot-config-acceptance", "environment": "robot", "reason": "The cell configuration must match its physical robot."}
+    ],
+    "deployment-runtime": [
+      {"claim": "admission-contract", "environment": "source", "reason": "The source gate must select and report release changes."},
+      {"claim": "deploy-contract", "environment": "source", "reason": "Install, restart, and rollback behavior can change."},
+      {"claim": "runtime-restart", "environment": "simulation", "reason": "A simulated runtime must recover from restart."},
+      {"claim": "installed-identity", "environment": "servo_hil", "reason": "The target must report the exact installed candidate."}
+    ],
+    "fleet-coordination": [
+      {"claim": "fleet-reservation", "environment": "source", "reason": "Reservation requests and snapshot reads must keep their authority limits."}
+    ],
+    "welding-process": [
+      {"claim": "weld-contract", "environment": "source", "reason": "Weld process inputs and limits can change."},
+      {"claim": "weld-sequence", "environment": "simulation", "reason": "Process sequencing must complete without physical output."},
+      {"claim": "robot-beta-floor", "environment": "robot", "reason": "Welding requires a robot-qualified candidate."},
+      {"claim": "weld-io", "environment": "welding", "reason": "Process I/O and interlocks need welding-cell evidence."}
+    ],
+    "qualification-infrastructure": [
+      {"claim": "admission-contract", "environment": "source", "reason": "The PR gate must report the selected checks."},
+      {"claim": "qualification-contract", "environment": "source", "reason": "The policy and receipt rules must reject invalid evidence."}
+    ],
+    "tooling-docs": []
+  },
+  "modifiers": {
+    "security": [{"claim": "security-boundary", "environment": "source", "reason": "A trust or permission boundary can change."}],
+    "timing": [{"claim": "timing-budget", "environment": "source", "reason": "A deadline or cycle budget can change."}, {"claim": "servo-timing", "environment": "servo_hil", "reason": "Real timing needs target evidence."}],
+    "compatibility": [{"claim": "compatibility-contract", "environment": "source", "reason": "Two components or versions can become incompatible."}],
+    "resource-impact": [{"claim": "resource-budget", "environment": "source", "reason": "CPU, memory, or storage use can change."}, {"claim": "servo-resource", "environment": "servo_hil", "reason": "Real host load can affect control."}]
+  },
+  "classification_rules": [
+    {"id": "documentation", "suffixes": [".md"], "classes": ["tooling-docs"], "terminal": true},
+    {"id": "qualification-evidence", "path_patterns": ["^docs/evidence/qualification-[^/]+/[0-9a-f]{64}\\.(receipt\\.json|log)$"], "classes": ["tooling-docs"], "scan_diff_impact": false, "terminal": true},
+    {"id": "scenario-declaration", "suffixes": [".scenarios.json"], "classes": ["qualification-infrastructure"], "scan_diff_impact": false, "terminal": true},
+    {"id": "qualification-contract", "paths": [".github/workflows/pr-admission.yml", ".github/workflows/qualification-simulation.yml"], "prefixes": ["quality/"], "classes": ["qualification-infrastructure"], "scan_diff_impact": false, "terminal": true},
+    {"id": "test-source", "suffixes": ["_test.go", "_test.cpp", "_test.rs", "_test.py", ".test.mjs", ".test.js", ".test.ts", ".spec.ts"], "path_patterns": ["(^|/)test_[^/]+\\.py$", "(^|/)(test|tests)/"], "classes": ["tooling-docs"], "scan_diff_impact": false, "terminal": true},
+    {"id": "release-workflow", "paths": [".github/workflows/build1-release-request.yml", ".github/workflows/build1-release-worker.yml", ".github/workflows/preflight-release.yml"], "classes": ["deployment-runtime"], "terminal": true},
+    {"id": "github-workflow", "prefixes": [".github/workflows/"], "classes": ["qualification-infrastructure"], "scan_diff_impact": false, "terminal": true},
+    {"id": "robot-description", "prefixes": ["robot_description/", "rt-core/config/machines/", "rt-core/config/cells/", "rt-core/config/drives/", "rt-core/config/templates/"], "classes": ["robot-cell-config"], "modifiers": ["compatibility"], "terminal": true},
+    {"id": "realtime-control", "prefixes": ["rt-core/"], "classes": ["realtime-control"], "terminal": true},
+    {"id": "motion-execution", "prefixes": ["motion-server/"], "classes": ["motion-execution"], "terminal": true},
+    {"id": "operator-programming", "paths": ["dev-stack.sh"], "prefixes": ["offline-programming/", "steamdeck/real/v5/", "cli/", "mcp/", "cadquery/", "cell-camera/"], "classes": ["operator-programming"], "terminal": true},
+    {"id": "planning", "prefixes": ["weld_planner/", "mujoco-sim/", "tesseract/", "tools/sphere_tool/"], "classes": ["planning"], "terminal": true},
+    {"id": "welding-process", "prefixes": ["preflight/", "weld/"], "classes": ["welding-process"], "terminal": true},
+    {"id": "fleet-coordination", "prefixes": ["coordination/v1/"], "classes": ["fleet-coordination"], "terminal": true},
+    {"id": "deployment-runtime", "prefixes": ["daemon/", "coordination/", "tools/build1-release-worker/", "tools/robot-stack-release/", "releases/"], "classes": ["deployment-runtime"], "terminal": true},
+    {"id": "legacy-deploy", "prefixes": ["steamdeck/real/v4/"], "classes": ["deployment-runtime"], "terminal": true},
+    {"id": "repository-ignore-rules", "paths": [".gitignore"], "classes": ["qualification-infrastructure"], "modifiers": ["security"], "terminal": true},
+    {"id": "legal-notices", "paths": ["LICENSE", "NOTICE"], "classes": ["tooling-docs"], "scan_diff_impact": false, "terminal": true},
+    {"id": "public-mirror", "prefixes": ["tools/public-mirror/"], "classes": ["tooling-docs"], "modifiers": ["security"], "terminal": true},
+    {"id": "retired-robot-stacks", "prefixes": ["robot/"], "deleted_only": true, "classes": ["motion-execution", "operator-programming", "realtime-control"], "modifiers": ["compatibility"], "terminal": true},
+    {"id": "retired-pendants", "prefixes": ["steamdeck/real/v1/", "steamdeck/real/v2/", "steamdeck/real/v3/", "steamdeck/virtual/"], "deleted_only": true, "classes": ["operator-programming"], "modifiers": ["compatibility"], "terminal": true},
+    {"id": "retired-robot-models", "prefixes": ["urdf/"], "deleted_only": true, "classes": ["robot-cell-config"], "modifiers": ["compatibility"], "terminal": true},
+    {"id": "retired-host-services", "prefixes": ["nats/"], "deleted_only": true, "classes": ["deployment-runtime"], "modifiers": ["compatibility"], "terminal": true},
+    {"id": "retired-records", "prefixes": ["docs/evidence/", "docs/runtime-comparison/", "docs/safety-deployment/"], "deleted_only": true, "classes": ["tooling-docs"], "scan_diff_impact": false, "terminal": true}
+  ],
+  "diff_modifiers": {
+    "security": ["authenticat", "authoriz", "permission", "credential", "secret", "tls"],
+    "timing": ["deadline", "timeout", "latency", "cycle[_ -]?time", "period[_ -]?ms"],
+    "compatibility": ["schema[_ -]?version", "protocol[_ -]?version", "abi", "pair[_ -]?revision"],
+    "resource-impact": ["memory[_ -]?limit", "cpu[_ -]?affinity", "disk[_ -]?quota", "max[_ -]?bytes"]
+  },
+  "diff_classes": {
+    "welding-process": ["weld[_ -]?output", "torch[_ -]?qualified", "process[_ -]?output"]
+  },
+  "install_floor": {
+    "release_suite_count": 12,
+    "build1_suite_count": 4,
+    "required_workflows": [
+      ".github/workflows/build1-release-request.yml",
+      ".github/workflows/pr-admission.yml",
+      ".github/workflows/rt-core.yml",
+      ".github/workflows/rt-core-consumers.yml"
+    ],
+    "observation_scenario_id": "installed-identity-observation"
+  },
+  "beta_floor": ["installed-identity", "control-ownership", "stop", "bounded-motion", "fault-free-observation", "final-safe"],
+  "exceptions": {"required_fields": ["issue", "claim", "reason", "approver", "scope", "review_condition"]}
+}

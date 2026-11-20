@@ -1,0 +1,13 @@
+[Unit]
+Description=Robot v4 pin EtherCAT IRQs to housekeeping CPU
+DefaultDependencies=no
+After=systemd-udevd.service
+Before=ethercat.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/robot-v4-irq-affinity.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,9 @@
+{
+  "schema": "amr-weld-planner-v1.torch-preset.v1",
+  "id": "rosie_link6_gun",
+  "label": "Rosie 1400, link_6 gun",
+  "notes": "The gun baked into `link_6` of rosie_1400_v3 -- about 30 mm across all the way to the tip, because the mesh IS the hardware. Twice the nozzle above. A Ø32 tube needs roughly 20 mm to clear a flat plate at a 45° work angle, which is what a seam's authored `standoff_mm` profile has to allow for on this cell; the authoring side once checked clearance for a Ø16 nozzle this cell does not have. Pick this one on this cell.",
+  "body_radius_mm": 16.0,
+  "body_length_mm": 150.0,
+  "standoff_range_mm": { "min": 15.0, "max": 30.0 }
+}

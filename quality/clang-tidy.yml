@@ -1,0 +1,2 @@
+Checks: '-*,clang-analyzer-core.*,bugprone-use-after-move'
+WarningsAsErrors: ''

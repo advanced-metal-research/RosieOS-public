@@ -1,0 +1,332 @@
+{
+    "_max_acceleration_unverified":  "Owner direction 2026-10-28: 50 rad/s^2, 100x the 0.5 placeholder copied from the example JogAxis limit, for the unloaded bare-motor benches; at 0.5 a single 1438 degree mini-bench move took 34 s. Unmeasured; the following-error fault and collision watchdog remain the ceiling.",
+    "max_acceleration":  50.0,
+    "jog":  {
+                "arrest_ns":  200000000,
+                "quick_stop_ns":  300000000,
+                "_unverified":  "Legacy 1 ms defaults; bench stopping qualification is required before hardware enabled hold."
+            },
+    "brake":  {
+                  "present":  false,
+                  "release_delay_ms":  100,
+                  "hold_delay_ms":  100,
+                  "gravity_axis":  false,
+                  "_unverified":  "Bench-only: the nine bare motors on the nine-motor bench's servo host carry no brake, so the disabled-brake hold guard has no brake to judge. With present true the guard faulted Home on 2026-09-14 (bd-home-511-1.jsonl: FaultBrakeHold right after the drive left operation-enabled at the end of HM35) because its hold-window tolerance is 1 count while the measured resting spread of these encoders is 1 to 3 counts (registers-1.log); engine follow-up on the tracker. Robot profile a6ec.json keeps present true.",
+                  "_hold_displacement_tolerance_counts_source":  "The nine-motor bench's servo host, 2026-09-13 registers-1.log (docs/evidence/bench-ninemotor-2026-09-13/registers-1.log): encoders rest within 1..3 counts; 16 counts includes unverified margin for disabled hold.",
+                  "hold_displacement_tolerance_counts":  16
+              },
+    "schema_version":  1,
+    "id":  "a6ec",
+    "label":  "A6-EC CSP / absolute linear mode",
+    "ethercat":  {
+                     "vendor_id":  4194304,
+                     "product_code":  1813,
+                     "revision_no":  12024,
+                     "rx_pdo":  5890,
+                     "tx_pdo":  6916,
+                     "rx_sync":  2,
+                     "tx_sync":  3,
+                     "dc_quantum_ns":  250000,
+                     "dc_assign_activate":  768,
+                     "rx_layout":  [
+                                       {
+                                           "semantic":  "cw",
+                                           "index":  24640,
+                                           "subindex":  0,
+                                           "bits":  16
+                                       },
+                                       {
+                                           "semantic":  "target_pos",
+                                           "index":  24698,
+                                           "subindex":  0,
+                                           "bits":  32
+                                       },
+                                       {
+                                           "semantic":  "target_vel",
+                                           "index":  24831,
+                                           "subindex":  0,
+                                           "bits":  32
+                                       },
+                                       {
+                                           "semantic":  "target_torque",
+                                           "index":  24689,
+                                           "subindex":  0,
+                                           "bits":  16
+                                       },
+                                       {
+                                           "semantic":  "mode",
+                                           "index":  24672,
+                                           "subindex":  0,
+                                           "bits":  8
+                                       },
+                                       {
+                                           "semantic":  "tp_func",
+                                           "index":  24760,
+                                           "subindex":  0,
+                                           "bits":  16
+                                       },
+                                       {
+                                           "semantic":  "max_profile_vel",
+                                           "index":  24703,
+                                           "subindex":  0,
+                                           "bits":  32
+                                       }
+                                   ],
+                     "tx_layout":  [
+                                       {
+                                           "semantic":  "err",
+                                           "index":  24639,
+                                           "subindex":  0,
+                                           "bits":  16,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "sw",
+                                           "index":  24641,
+                                           "subindex":  0,
+                                           "bits":  16,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "pos",
+                                           "index":  24676,
+                                           "subindex":  0,
+                                           "bits":  32,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "torque",
+                                           "index":  24695,
+                                           "subindex":  0,
+                                           "bits":  16,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "mode_disp",
+                                           "index":  24673,
+                                           "subindex":  0,
+                                           "bits":  8,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "following_error",
+                                           "index":  24820,
+                                           "subindex":  0,
+                                           "bits":  32,
+                                           "_source":  "A6-EC chapter 11: I32 reference unit (counts); the nine-motor bench's servo host 2026-09-14 fixed 0x1B04 readback."
+                                       },
+                                       {
+                                           "semantic":  "tp_status",
+                                           "index":  24761,
+                                           "subindex":  0,
+                                           "bits":  16,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "tp_pos1",
+                                           "index":  24762,
+                                           "subindex":  0,
+                                           "bits":  32,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "tp_pos2",
+                                           "index":  24764,
+                                           "subindex":  0,
+                                           "bits":  32,
+                                           "_source":  "The nine-motor bench's servo host, 2026-09-13, docs/evidence/bench-ninemotor-2026-09-13/readback.txt and kernel step logs; nine AS715N A6-EC drives, CoE 22033/22034, SII 0x2ef8."
+                                       },
+                                       {
+                                           "semantic":  "velocity_actual",
+                                           "index":  24684,
+                                           "subindex":  0,
+                                           "bits":  32,
+                                           "_source":  "A6-EC chapter 11: I32 reference unit/s (counts/s); the nine-motor bench's servo host 2026-09-14 fixed 0x1B04 readback."
+                                       }
+                                   ],
+                     "_tx_layout_source":  "The nine-motor bench's servo host, read-only SDO survey 2026-09-14, CoE 22033/22034: fixed TxPDO 0x1B04 adds signed 32-bit 0x606C velocity_actual and 0x60F4 following_error, and drops 0x60FD digital inputs. On the nine-motor bench's servo host on 2026-09-15, physical PREOP readback verified the 0x1B04 assignment for all nine AS715N axes on the first attempt; the nine scanned-cache misses were resolved by the daemon's automatic rescan, with no mailbox retry during the mapping hand-off (docs/evidence/bench-ninemotor-2026-09-15/daemon-8deed804-b04.log:234-347,584-592); the kernel log contained neither 'wrong SDO' nor 'SDO configuration failed' (docs/evidence/bench-ninemotor-2026-09-15/dmesg-ethercat-8deed804-b04.txt:1-60). Owner decision 2026-09-15: 0x1B04 is the bench and robot default at 1000000 ns cycles; select a6ec_1b02 when wired drive digital inputs must be cyclic. Drive inputs on 0x1B04 are mailbox display observations; safety reactions belong to the hardware stop chain and cyclic cell I/O (P6-05). A6-EC manual chapter 11 (docs/drives/a6ec/a6ec_manual_chapter_11_parameter_list.md): 0x606C reference unit/s and 0x60F4 reference unit, i.e. counts/s and counts in the drive position frame; diagnostic observations only, never speed-safety certification.",
+                     "_revision_source":  "revision_no is SII, verified by ecrt_master_get_slave (12024 on the nine-motor bench's servo host 2026-09-13); CoE 0x1018:3 is 22033/22034 and remains the persisted drive identity.",
+                     "_fixed_mapping_kernel":  "Fixed mapping objects remain read-only (0x06010002). The daemon owns 0x1C12/0x1C13 assignment writes in PREOP, verifies every assigned entry against the surveyed layout and automatically rescans the IgH master before activation. No custom mapping writes are attempted. On the nine-motor bench's servo host on 2026-09-15, physical PREOP readback verified the 0x1B04 assignment for all nine AS715N axes on the first attempt; the nine scanned-cache misses were resolved by the daemon's automatic rescan, with no mailbox retry during the mapping hand-off (docs/evidence/bench-ninemotor-2026-09-15/daemon-8deed804-b04.log:234-347,584-592); the kernel log contained neither 'wrong SDO' nor 'SDO configuration failed' (docs/evidence/bench-ninemotor-2026-09-15/dmesg-ethercat-8deed804-b04.txt:1-60).",
+                     "_tx_preset_source":  "The nine-motor bench's servo host, read-only SDO survey 2026-09-14, CoE 22033/22034: fixed TxPDO 0x1B04 adds signed 32-bit 0x606C velocity_actual and 0x60F4 following_error, and drops 0x60FD digital inputs. On the nine-motor bench's servo host on 2026-09-15, physical PREOP readback verified the 0x1B04 assignment for all nine AS715N axes on the first attempt; the nine scanned-cache misses were resolved by the daemon's automatic rescan, with no mailbox retry during the mapping hand-off (docs/evidence/bench-ninemotor-2026-09-15/daemon-8deed804-b04.log:234-347,584-592); the kernel log contained neither 'wrong SDO' nor 'SDO configuration failed' (docs/evidence/bench-ninemotor-2026-09-15/dmesg-ethercat-8deed804-b04.txt:1-60). Owner decision 2026-09-15: 0x1B04 is the bench and robot default at 1000000 ns cycles; select a6ec_1b02 when wired drive digital inputs must be cyclic. Drive inputs on 0x1B04 are mailbox display observations; safety reactions belong to the hardware stop chain and cyclic cell I/O (P6-05). A6-EC manual chapter 11 (docs/drives/a6ec/a6ec_manual_chapter_11_parameter_list.md): 0x606C reference unit/s and 0x60F4 reference unit, i.e. counts/s and counts in the drive position frame; diagnostic observations only, never speed-safety certification."
+                 },
+    "home_truth_sign":  -1,
+    "native_home":  {
+                        "profile_id":  "a6ec_ds402",
+                        "steady_state_mode":  8,
+                        "commissioning_mode":  6,
+                        "truth_source":  {
+                                             "kind":  "sdo",
+                                             "index":  24700,
+                                             "subindex":  0,
+                                             "type":  "i32"
+                                         },
+                        "transaction":  [
+                                            {
+                                                "op":  "set_mode",
+                                                "value":  6
+                                            },
+                                            {
+                                                "op":  "write_sdo",
+                                                "index":  24806,
+                                                "subindex":  0,
+                                                "type":  "u8",
+                                                "value":  0
+                                            },
+                                            {
+                                                "op":  "write_sdo",
+                                                "index":  24700,
+                                                "subindex":  0,
+                                                "type":  "i32",
+                                                "value":  0
+                                            },
+                                            {
+                                                "op":  "write_sdo",
+                                                "index":  24728,
+                                                "subindex":  0,
+                                                "type":  "i8",
+                                                "value":  35
+                                            },
+                                            {
+                                                "op":  "controlword_sequence",
+                                                "values":  [
+                                                               6,
+                                                               7,
+                                                               15
+                                                           ]
+                                            },
+                                            {
+                                                "op":  "wait_statusword",
+                                                "all_set_mask":  551,
+                                                "all_clear_mask":  8264
+                                            },
+                                            {
+                                                "op":  "controlword_sequence",
+                                                "values":  [
+                                                               31
+                                                           ]
+                                            },
+                                            {
+                                                "op":  "wait_statusword",
+                                                "all_set_mask":  36864,
+                                                "all_clear_mask":  8192
+                                            },
+                                            {
+                                                "op":  "refresh_truth"
+                                            },
+                                            {
+                                                "op":  "restore_mode",
+                                                "value":  8
+                                            },
+                                            {
+                                                "op":  "release_service_override"
+                                            }
+                                        ]
+                    },
+    "absolute_feedback":  [
+                              {
+                                  "key":  "encoder_multi_turn_low",
+                                  "label":  "Encoder multi-turn data low 32 bits",
+                                  "object":  "U40.20 / 0x2040:21",
+                                  "index":  8256,
+                                  "subindex":  33,
+                                  "type":  "i32"
+                              },
+                              {
+                                  "key":  "encoder_multi_turn_high",
+                                  "label":  "Encoder multi-turn data high 32 bits",
+                                  "object":  "U40.22 / 0x2040:23",
+                                  "index":  8256,
+                                  "subindex":  35,
+                                  "type":  "i32"
+                              },
+                              {
+                                  "key":  "linear_mode_encoder_low",
+                                  "label":  "Linear-mode encoder feedback low 32 bits",
+                                  "object":  "U40.24 / 0x2040:25",
+                                  "index":  8256,
+                                  "subindex":  37,
+                                  "type":  "i32"
+                              },
+                              {
+                                  "key":  "linear_mode_encoder_high",
+                                  "label":  "Linear-mode encoder feedback high 32 bits",
+                                  "object":  "U40.26 / 0x2040:27",
+                                  "index":  8256,
+                                  "subindex":  39,
+                                  "type":  "i32"
+                              }
+                          ],
+    "absolute_pair_field":  "linear_mode_encoder_low",
+    "encoder_battery_absent_alarm_tolerance": {
+                                "_source": "Measured mini bench 2026-09-15 and 2026-10-20: an intentionally absent encoder battery reports 0x603F=0x7305 with admitted 0x203F=0x0F90 (ALF9.0). This warning means power-off retention is unavailable; exact live 6064/U40 evidence remains usable while continuously powered. No other alarm pair is tolerated.",
+                                "error_code": 29445,
+                                "aux_code": 3984
+                            },
+    "coordinate_evidence":  {
+                                "_anchor_tolerance_unverified":  "Unverified power-cycle and homing origin retention. Restore only when the continuous encoder and native PDO agree with saved exact counts within 16 counts.",
+                                "_unverified":  "Unverified measurement variant for bare motors only, no load or brakes, software ratio 1/1. Physical speed bound 655360 counts/s = 5 rev/s; exact continuous evidence preserves every turn. Startup remains inhibited. This is not powered hardware qualification.",
+                                "maximum_physical_speed_counts_per_second_source": "Unverified bound on hand-turn or backdrive motion during inhibited continuous-source acquisition.",
+                                "maximum_physical_speed_counts_per_second":  655360,
+                                "maximum_acquisition_age_ns":  3000000000,
+                                "maximum_feedback_error_counts":  16,
+                                "maximum_anchor_error_counts":  16,
+                                "start_alignment_floor_counts_source":  "The former native 50-count independent-encoder Start floor (kIndependentEncoderStartAlignmentFloorCounts), moved to configuration unchanged. Unverified.",
+                                "start_alignment_floor_counts":  50,
+                                "source":  "a6ec_sdo",
+                                "anchor_source":  {
+                                                      "index":  8256,
+                                                      "low_subindex":  33,
+                                                      "high_subindex":  35,
+                                                      "identity_name":  "raw_multi_turn_encoder",
+                                                      "name":  "a6ec_raw_multi_turn",
+                                                      "version":  3
+                                                  },
+                                "_source":  "Owner-selected linear-mode source 2026-10-19: raw signed64 U40.20/.22 (0x2040:21/23), bracketed high/low/high to reject tearing; anchor identity version 3.",
+                                "sample_interval_ns":  1500000000,
+                                "_acquisition_unverified":  "The nine-motor bench's servo host, sampled-412be4dd.log, 2026-09-13: measured two-upload acquisitions 56000000..83094896 ns (about 83 ms), uploads 24000000..44000000 ns, 0.60..0.67 samples/s/axis. Unverified bracketed acquisition_max = ceil((83094896 + 44000000)/1000000)*1000000 = 128000000 ns. Required age \u003e= interval + N * acquisition_max + diagnostics + margin: 3000000000 = 1500000000 + 9 * 128000000 + 44000000 + 304000000 ns. Diagnostics and arbitration allocations remain unverified under contention. Checkpointed foreign uploads are outside this baseline sum: native-home truth refresh adds up to 9 * 44000000 ns, and startup and mapping readbacks can each insert an upload between sample opportunities. A refresh burst reaches 1500000000 + 9 * 128000000 + 9 * 44000000 + 44000000 = 3092000000 ns before margin; grace covers the resulting transient inhibit for idle axes without a fault if coherent recovery arrives within the bound. start_gap_ns and maximum_start_gap_ns publish sampling pauses. PDO history has ceil(age/cycle)+2 entries; PDO age remains one cycle. Missing, Unavailable, Cadence and Torn publications cannot replace retained valid evidence or renew its age. Sound Cadence/Stale samples with retained PDO history and bounded low-word skew are checked for contradictions in the receiving cycle. After age expiry, inhibit the affected axis with coordinate_invalid readiness and preserve Home for two sample cadences = 3000000000 ns; coherent recovery restores idle-axis readiness, longer absence or contradictory evidence latches the coordinate fault and requires rehome. Grace writes controlword 0; a moving axis fails closed with FaultDriveReadiness next cycle when the drive leaves enabled. Qualify bracket acquisitions, gaps and recovery on all nine axes.",
+                                "_mode_contract":  "Owner decision 2026-10-19: C00.07=1 linear absolute mode with continuous 6064/607A and exact whole-count evidence.",
+                                "_encoder_loss_signals":  "The listed 0x2040 absolute_feedback subentries expose positions only; no encoder-loss validity signal is available in this readback. In both evidence modes, statusword 0x6041 fault bit 3 and any nonzero error code 0x603F make readiness faulted without themselves invalidating coordinates or Home. The encoder-specific error code 0x7305 additionally invalidates coordinates and Home (GradientOS docs/resources/a6ec_manual_codes.md, A6-EC fault table: Encoder error). PDO discontinuity and contradictory encoder evidence still invalidate independently.",
+                                "maximum_acquisition_duration_ns":  47000000
+                            },
+    "startup_defaults":  {
+                             "a6ec_encoder_position_tracking_mode":  1,
+                             "cia402_position_factor_numerator":  1,
+                             "cia402_position_factor_denominator":  1
+                         },
+    "startup_schema":  {
+                           "a6ec_encoder_position_tracking_mode":  {
+                                                                       "type":  "u16",
+                                                                       "min":  0,
+                                                                       "max":  5,
+                                                                       "label":  "A6-EC encoder position tracking mode",
+                                                                       "object":  {
+                                                                                      "index":  8192,
+                                                                                      "subindex":  8
+                                                                                  },
+                                                                       "effective":  "power_cycle",
+                                                                       "env_var":  "GRADIENT_RT_DRIVE_STARTUP_SDO_CONFIG"
+                                                                   },
+                           "cia402_position_factor_numerator":  {
+                                                                           "type":  "u32",
+                                                                           "min":  1,
+                                                                           "max":  4294967295,
+                                                                           "label":  "CiA 402 position factor numerator",
+                                                                           "object":  {
+                                                                                          "index":  24721,
+                                                                                          "subindex":  1
+                                                                                      },
+                                                                           "env_var":  "GRADIENT_RT_DRIVE_STARTUP_SDO_CONFIG"
+                                                                       },
+                           "cia402_position_factor_denominator":  {
+                                                                             "type":  "u32",
+                                                                             "min":  1,
+                                                                             "max":  4294967295,
+                                                                             "label":  "CiA 402 position factor denominator",
+                                                                             "object":  {
+                                                                                            "index":  24721,
+                                                                                            "subindex":  2
+                                                                                        },
+                                                                             "env_var":  "GRADIENT_RT_DRIVE_STARTUP_SDO_CONFIG"
+                                                                         }
+                       }
+}

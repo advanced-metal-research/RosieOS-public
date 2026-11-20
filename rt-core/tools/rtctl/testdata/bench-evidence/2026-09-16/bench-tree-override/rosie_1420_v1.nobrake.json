@@ -1,0 +1,182 @@
+{
+  "_source": "cited: docs/robots/rosie_1400/README.md; docs/robots/rosie_1400/source-excerpts.md; 1400 has nine mapped axes, 1420 six; URDF geometry is separate from gearing | BENCH TREE OVERRIDE 2026-09-16: drive_profile a6ec_bench_nobrake on every joint (brake control disabled until the bench brake output wiring is verified); repository definition untouched",
+  "_unverified": "unverified: 1420 CAD export has no component list; the 1400 mechanism is assumed identical for J1..J4 and J6, including motor variants; the 1420's J5 mechanism differs from the 1400's belt stage (owner confirmation 2026-09-15); J5 motor variant remains unverified",
+  "calibration": {
+    "identity": "home_calibration",
+    "note": "Offsets and encoder anchors live in the Home calibration record with its own revision, which does not invalidate plans; this file carries none."
+  },
+  "defaults": {
+    "coordinate_evidence_mode": "multi_turn",
+    "drive_profile": "a6ec",
+    "home_policy": "required"
+  },
+  "joints": [
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J1 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "_unverified": "unverified: 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J1 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "numerator": 100,
+        "numerator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J1 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J1 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M80-1000H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J1",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J1 sign -1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J1"
+    },
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J2 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "_unverified": "unverified: 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J2 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "numerator": 100,
+        "numerator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J2 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "source": "cited: docs/robots/rosie_1400/component-list.json#links.L1; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J2 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M80-1000H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J2",
+      "sign": 1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J2 sign 1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J2"
+    },
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J3 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "_unverified": "unverified: 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J3 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "numerator": 100,
+        "numerator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J3 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HSS-40-100-I-D19 harmonic gearbox, 100:1; docs/robots/rosie_1400/spec-sheet-axis-table.md, J3 rated 180 deg/s = 3000 rpm * 6 / 100; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M80-1000H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J3",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J3 sign -1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J3"
+    },
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HRP130_D14 hollow rotary platform; docs/robots/rosie_1400/README.md purchased HRP130KK-G18 (18:1); docs/robots/rosie_1400/spec-sheet-axis-table.md, J4 rated 1000 deg/s = 3000 rpm * 6 / 18; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "_unverified": "unverified: 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HRP130_D14 hollow rotary platform; docs/robots/rosie_1400/README.md purchased HRP130KK-G18 (18:1); docs/robots/rosie_1400/spec-sheet-axis-table.md, J4 rated 1000 deg/s = 3000 rpm * 6 / 18; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "numerator": 18,
+        "numerator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HRP130_D14 hollow rotary platform; docs/robots/rosie_1400/README.md purchased HRP130KK-G18 (18:1); docs/robots/rosie_1400/spec-sheet-axis-table.md, J4 rated 1000 deg/s = 3000 rpm * 6 / 18; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "source": "cited: docs/robots/rosie_1400/component-list.json#links.L3; HRP130_D14 hollow rotary platform; docs/robots/rosie_1400/README.md purchased HRP130KK-G18 (18:1); docs/robots/rosie_1400/spec-sheet-axis-table.md, J4 rated 1000 deg/s = 3000 rpm * 6 / 18; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M60-400H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J4",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J4 sign -1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J4"
+    },
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "Owner confirmation 2026-09-15: the deployed pair record (other-relay/rosie_1420_v1, gear_ratios[4] = 100) and drive readback describe the 1420; Discord 2026-08-03 pair revision 3 raised J5 from 99:1 to 100:1",
+        "denominator": 1,
+        "denominator_source": "Owner confirmation 2026-09-15: the deployed pair record (other-relay/rosie_1420_v1, gear_ratios[4] = 100) and drive readback describe the 1420; Discord 2026-08-03 pair revision 3 raised J5 from 99:1 to 100:1",
+        "numerator": 100,
+        "numerator_source": "Owner confirmation 2026-09-15: the deployed pair record (other-relay/rosie_1420_v1, gear_ratios[4] = 100) and drive readback describe the 1420; Discord 2026-08-03 pair revision 3 raised J5 from 99:1 to 100:1",
+        "source": "Owner confirmation 2026-09-15: the deployed pair record (other-relay/rosie_1420_v1, gear_ratios[4] = 100) and drive readback describe the 1420; Discord 2026-08-03 pair revision 3 raised J5 from 99:1 to 100:1"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M60-400H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J5",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J5 sign -1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J5"
+    },
+    {
+      "cartesian_participates": true,
+      "drive_profile": "a6ec_bench_nobrake",
+      "gear_ratio": {
+        "_source": "cited: docs/robots/rosie_1400/component-list.json#links.L5; HRP85_D14; ratio 10/1 from the 2026-09-13 pair record in docs/robots/rosie_1400/source-excerpts.md; docs/robots/rosie_1400/spec-sheet-axis-table.md, J6 rated 1800 deg/s = 3000 rpm * 6 / 10; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "_unverified": "unverified: HRP85_D14 identifies the part family but does not encode its ratio; the installed HRP85 variant and its part-number ratio are unconfirmed; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "denominator": 1,
+        "denominator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L5; HRP85_D14; ratio 10/1 from the 2026-09-13 pair record in docs/robots/rosie_1400/source-excerpts.md; docs/robots/rosie_1400/spec-sheet-axis-table.md, J6 rated 1800 deg/s = 3000 rpm * 6 / 10; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "numerator": 10,
+        "numerator_source": "cited: docs/robots/rosie_1400/component-list.json#links.L5; HRP85_D14; ratio 10/1 from the 2026-09-13 pair record in docs/robots/rosie_1400/source-excerpts.md; docs/robots/rosie_1400/spec-sheet-axis-table.md, J6 rated 1800 deg/s = 3000 rpm * 6 / 10; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)",
+        "source": "cited: docs/robots/rosie_1400/component-list.json#links.L5; HRP85_D14; ratio 10/1 from the 2026-09-13 pair record in docs/robots/rosie_1400/source-excerpts.md; docs/robots/rosie_1400/spec-sheet-axis-table.md, J6 rated 1800 deg/s = 3000 rpm * 6 / 10; 1420 CAD export has no component list; the 1400 mechanism is assumed identical for the arm joints (unverified)"
+      },
+      "kind": "arm",
+      "encoder_battery": "present",
+      "encoder_battery_source": "cited: docs/evidence/bench-ninemotor-2026-09-13/readback.txt; owner report 2026-09-15: RevPi bench drives operated in rotation mode across power cycles without Er20.8; battery presence on this joint is not confirmed",
+      "encoder_battery_unverified": "unverified: owner has not confirmed the battery box on this joint; present retains the existing rotation-mode configuration",
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "cited: docs/robots/rosie_1400/spec-sheet-axis-table.md, controller defaults: 17-bit motor-side absolute count model, 2^17 = 131072 counts/rev; docs/robots/rosie_1400/component-list.json, A6M60-400H2B1-M17 motor, M17 suffix",
+      "motor_encoder_counts_per_rev_unverified": "unverified: independent counts per physical motor revolution measurement is still required; 1420 motor variant is assumed identical to the 1400 arm (unverified)",
+      "name": "J6",
+      "sign": -1,
+      "sign_source": "cited: docs/robots/rosie_1400/source-excerpts.md, revpi-deploy.txt:26; deployed J6 sign -1; include/coordinate_model.hpp; positive logical motion uses sign times counts per radian",
+      "sign_unverified": "unverified: logical direction retained from v4 deployment; verify positive joint direction against the mapped factory URDF joint",
+      "urdf_joint": "J6"
+    }
+  ],
+  "name": "rosie_1420_v1",
+  "revision": 4,
+  "revision_source": "cited: docs/robots/rosie_1400/J5-history.md; 2026-09-15 model revision 3 applies the owner decision on model-specific J5 gearing; model revision is independent of the cell pair revision; revision updated for per-joint encoder_battery, owner direction 2026-09-15; docs/MIGRATION.md",
+  "robot_id": "rosie_1420_v1",
+  "schema": "rosie.robot-definition.v1",
+  "urdf": {
+    "joint_names": [
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5",
+      "J6"
+    ],
+    "path": "robot/v4/realtime-core/natsbridge/rosie_1420_v1_factory.urdf",
+    "sha256": "08f5c29001466311d9161c7180ac92db7090819ce01106e388fdf9740a4c924c",
+    "source": "cited: docs/robots/rosie_1400/README.md; pinned factory URDF geometry, articulation and joint order; original source path and SHA-256 retained"
+  }
+}

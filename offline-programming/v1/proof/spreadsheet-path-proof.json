@@ -1,0 +1,56 @@
+{
+  "result": "PASS",
+  "appUrl": "http://127.0.0.1:8796/offline-programming/v1/ui/?spreadsheet-path-proof=1785494977224",
+  "program": "Accepted trajectory motion proof",
+  "spreadsheetPointsM": [
+    [
+      1,
+      0,
+      0.8
+    ],
+    [
+      1,
+      0.3,
+      0.8
+    ],
+    [
+      0.7,
+      0.3,
+      0.8
+    ],
+    [
+      0.7,
+      0,
+      0.8
+    ]
+  ],
+  "renderedPathPointsM": [
+    [
+      1,
+      0,
+      0.8
+    ],
+    [
+      1,
+      0.3,
+      0.8
+    ],
+    [
+      0.7,
+      0.3,
+      0.8
+    ],
+    [
+      0.7,
+      0,
+      0.8
+    ]
+  ],
+  "pathPointCount": 4,
+  "workstationLayout": "orbit",
+  "j6Hidden": true,
+  "tcpHidden": true,
+  "splitControlPresent": false,
+  "viewerStatus": "Canonical rosie_1400_v3 · home/last-known offline pose",
+  "screenshot": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\spreadsheet-path-visible.png"
+}

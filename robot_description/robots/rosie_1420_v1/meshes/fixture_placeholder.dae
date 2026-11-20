@@ -1,0 +1,41 @@
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <created>2026-09-13T00:03:31.092908</created>
+    <modified>2026-09-13T00:03:31.092911</modified>
+    <unit name="meter" meter="1.0"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_geometries>
+    <geometry id="geom-fixture" name="fixture">
+      <mesh>
+        <source id="fixture-pos">
+          <float_array count="24" id="fixture-pos-array">-0.25 -0.25 0 -0.25 -0.25 1 -0.25 0.25 0 -0.25 0.25 1 0.25 -0.25 0 0.25 -0.25 1 0.25 0.25 0 0.25 0.25 1</float_array>
+          <technique_common>
+            <accessor count="8" source="#fixture-pos-array" stride="3">
+              <param type="float" name="X"/>
+              <param type="float" name="Y"/>
+              <param type="float" name="Z"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="fixture-pos-vertices">
+          <input semantic="POSITION" source="#fixture-pos"/>
+        </vertices>
+        <triangles count="12" material="ref">
+          <input offset="0" semantic="VERTEX" source="#fixture-pos-vertices"/>
+          <p>0 2 6 0 6 4 1 5 7 1 7 3 0 4 5 0 5 1 2 3 7 2 7 6 0 1 3 0 3 2 4 6 7 4 7 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="scene">
+      <node id="fixture" name="fixture">
+        <instance_geometry url="#geom-fixture"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#scene"/>
+  </scene>
+</COLLADA>

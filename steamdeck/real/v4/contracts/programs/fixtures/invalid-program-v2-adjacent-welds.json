@@ -1,0 +1,256 @@
+{
+  "schema": "robot.v4.program.v2",
+  "program_id": "invalid_fixture",
+  "program_name": "Dog box lap perimeter (program.v2 fixture)",
+  "program_revision": 1,
+  "base_program_revision": 0,
+  "program_state": "saved_unplanned",
+  "execution_mode": "simulation",
+  "created_utc": "2026-09-03T00:00:00Z",
+  "units": {
+    "length": "m",
+    "angle": "rad",
+    "time": "s",
+    "joint_order": [
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5",
+      "J6",
+      "J7",
+      "J8",
+      "J9"
+    ]
+  },
+  "producer": {
+    "component": "weld-planner-v1",
+    "source_revision": "fixture",
+    "inputs": [
+      {
+        "kind": "weld_program",
+        "ref": "dog_box_lap_perimeter",
+        "sha256": "9b335c20ee8f0ac1ac421f0f81f2c355246e3e4cf72d94c31ca9a21031afab9c"
+      },
+      {
+        "kind": "cad",
+        "ref": "cadquery/v1/step/dog_box.step",
+        "sha256": "aac02178a17f60d410445fe2049ea80a5d838359f226572a7fe5edfcd2062309"
+      },
+      {
+        "kind": "cell",
+        "ref": "rosie_1400_v3",
+        "sha256": "b2103adffd53cb9a66db1edf842ae1cb34173f1c8ff83c3b30ff7c8dacee9b0a"
+      },
+      {
+        "kind": "tool",
+        "ref": "mig_gas_nozzle_16",
+        "sha256": "07eaf060133b3cf962c54bc76d0d06ebcf2fe195c6f1eb28931cb8f61b84a05b"
+      }
+    ]
+  },
+  "source": {
+    "kind": "step",
+    "path": "cadquery/v1/step/dog_box.step",
+    "sha256": "aac02178a17f60d410445fe2049ea80a5d838359f226572a7fe5edfcd2062309",
+    "unit_scale_to_m": 0.001,
+    "importer": "amr-weld-planner topology.v1 + detect.v1"
+  },
+  "workpiece": {
+    "frame_id": "dog_box_origin",
+    "solids": [
+      {
+        "id": "solid_0",
+        "volume_m3": 0.00675,
+        "bbox_min_xyz_m": [
+          -0.15,
+          -0.075,
+          0.0
+        ],
+        "bbox_max_xyz_m": [
+          0.15,
+          0.075,
+          0.15
+        ],
+        "label": "base block",
+        "thickness_mm": 150.0
+      },
+      {
+        "id": "solid_2",
+        "volume_m3": 6.2671458676e-05,
+        "bbox_min_xyz_m": [
+          -0.125,
+          -0.0625,
+          0.15
+        ],
+        "bbox_max_xyz_m": [
+          0.125,
+          0.0625,
+          0.153
+        ],
+        "label": "top plate",
+        "thickness_mm": 3.0
+      }
+    ]
+  },
+  "placement": {
+    "cell_id": "rosie_1400_v3",
+    "anchor_xyz_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "offset_xyz_m": [
+      0.1,
+      0.0,
+      0.1
+    ],
+    "rpy_rad": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "robot": {
+    "model_id": "rosie_1400_v3",
+    "robot_description_sha256": "sha256:b2103adffd53cb9a66db1edf842ae1cb34173f1c8ff83c3b30ff7c8dacee9b0a"
+  },
+  "tool": {
+    "id": "mig_gas_nozzle_16",
+    "sha256": "07eaf060133b3cf962c54bc76d0d06ebcf2fe195c6f1eb28931cb8f61b84a05b"
+  },
+  "defaults": {
+    "clearance_min_mm": 20.0,
+    "speed_scale": 1.0,
+    "torch_policy": "free",
+    "positioner_policy": "free"
+  },
+  "nodes": [
+    {
+      "id": "approach_1",
+      "op": "approach",
+      "enabled": true,
+      "label": "approach_1",
+      "comment": "",
+      "row_hash": "sha256:d5445629c81f5811ca31f6a640dbfcdaad01aed1b1e5b39cb9318155d750aea3"
+    },
+    {
+      "id": "weld_1",
+      "op": "weld",
+      "enabled": true,
+      "label": "weld_1",
+      "comment": "",
+      "row_hash": "sha256:977c64880bb923fd1a3394861cf9c83feb635662e33b033e909d98e0bf231f22",
+      "geometry": {
+        "kind": "posed_polyline",
+        "frame_id": "positioner_table_a",
+        "points": [
+          {
+            "xyz_m": [
+              -0.1,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          },
+          {
+            "xyz_m": [
+              0.0,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          }
+        ]
+      },
+      "travel_speed_mm_s": {
+        "kind": "constant",
+        "value": 8.0
+      },
+      "standoff_mm": {
+        "kind": "constant",
+        "value": 17.0
+      },
+      "weave": {
+        "shape": "none"
+      },
+      "weld_parameters": {}
+    },
+    {
+      "id": "weld_2",
+      "op": "weld",
+      "enabled": true,
+      "label": "weld_2",
+      "comment": "",
+      "row_hash": "sha256:977c64880bb923fd1a3394861cf9c83feb635662e33b033e909d98e0bf231f22",
+      "geometry": {
+        "kind": "posed_polyline",
+        "frame_id": "positioner_table_a",
+        "points": [
+          {
+            "xyz_m": [
+              -0.1,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          },
+          {
+            "xyz_m": [
+              0.0,
+              -0.0625,
+              0.153
+            ],
+            "rpy_rad": [
+              -3.0212545394448225,
+              0.7703190329009694,
+              1.7427300398938628
+            ]
+          }
+        ]
+      },
+      "travel_speed_mm_s": {
+        "kind": "constant",
+        "value": 8.0
+      },
+      "standoff_mm": {
+        "kind": "constant",
+        "value": 17.0
+      },
+      "weave": {
+        "shape": "none"
+      },
+      "weld_parameters": {}
+    },
+    {
+      "id": "retract_1",
+      "op": "retract",
+      "enabled": true,
+      "label": "retract_1",
+      "comment": "",
+      "row_hash": "sha256:f84ad6aa0c36198b495369b43003e47b779e09e1de6768a31677fd1c04303d3c"
+    }
+  ],
+  "planner_owns": [
+    "positioner joint values -- prescribed by the planner, not by this document",
+    "collision meshes for the CELL -- the cell is named and hashed here, its descriptor is the planner's asset",
+    "torch orientation within the admissible bands each seam-geometry weld declares",
+    "sampling density and where waypoints land on a weld",
+    "the joint-space solution of every freespace node -- this document states constraints, never a path",
+    "time parametrization and dynamics"
+  ],
+  "extensions": {},
+  "program_digest": "sha256:46feecdfc47a13217709e299f54d2b87cd399bbdb69a26eef4239500250b8a3f"
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "amr.rosie-tf32-runtime-policy.v1",
+  "decision": "Can one runtime flag preserve the qualified DP lattice precision on both the standard motion environment and Thor without platform-specific planner code?",
+  "lifecycle": "not_evaluated",
+  "base_revision": "c6bec87",
+  "runtime_variable": "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE",
+  "qualified_value": "0",
+  "benchmark_only_value": "1",
+  "invariants": [
+    "the same planner source runs on x86 and Thor",
+    "the qualified default disables TF32 before torch initializes cuBLAS",
+    "malformed values fail before the planner starts",
+    "objectives, tolerances, search budgets, and planner outputs are unchanged"
+  ],
+  "judges": [
+    "torch reports allow_tf32 false and highest float32 matmul precision",
+    "float32 and float64 lattice screens agree above the committed threshold",
+    "candidate failed-test set introduces no failures relative to the same-runtime baseline",
+    "free-space failures are compared against untouched olp-export under the same runtime rather than required to be absolutely green"
+  ],
+  "contract_correction": "Evidence forced the free-space judge from absolute-green to differential: the strict runtime exposes two identical failures on untouched olp-export and the candidate. This follows the pre-registered differential promotion rule and does not waive a candidate regression.",
+  "execution_authority": "none"
+}

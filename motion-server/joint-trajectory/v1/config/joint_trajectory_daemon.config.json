@@ -1,0 +1,31 @@
+{
+  "schema": "robot.v4.joint-trajectory-daemon.config.v1",
+  "notes": {
+    "backend": "rt_core is the only execution backend. Approved digests and pair binding are required before startup; retired selections are refused.",
+    "rt_core": "Unverified deployment template: replace every REPLACE value and pair_revision with the approved binding before acquire. socket is the public control endpoint; controller names this daemon; pair_id and pair_revision bind the approved pair; machine_sha256, deployment_sha256 and configuration_sha256 pin the artifacts; expected_backend pins Describe; home_policy is home or restore_anchor; status_subject is the NATS execution status destination; control_timeout_ms is the unverified 10000 ms receipt and observation bound."
+  },
+  "ingest": {
+    "listen": "127.0.0.1:8797"
+  },
+  "status": {
+    "publish_hz": 20.0
+  },
+  "leader": {
+    "ttl_min_ms": 500,
+    "ttl_max_ms": 2000
+  },
+  "backend": "rt_core",
+  "rt_core": {
+    "socket": "/run/rosie-rt-core/control.sock",
+    "controller": "motion-server",
+    "pair_id": "REPLACE_WITH_APPROVED_PAIR",
+    "pair_revision": 1,
+    "machine_sha256": "REPLACE_WITH_APPROVED_MACHINE_SHA256",
+    "deployment_sha256": "REPLACE_WITH_APPROVED_DEPLOYMENT_SHA256",
+    "configuration_sha256": "REPLACE_WITH_APPROVED_CONFIGURATION_SHA256",
+    "expected_backend": "simulation",
+    "home_policy": "home",
+    "status_subject": "motion-server.status",
+    "control_timeout_ms": 10000
+  }
+}

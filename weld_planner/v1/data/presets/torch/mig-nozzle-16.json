@@ -1,0 +1,9 @@
+{
+  "schema": "amr-weld-planner-v1.torch-preset.v1",
+  "id": "mig_gas_nozzle_16",
+  "label": "MIG, Ø16 gas nozzle",
+  "notes": "The nozzle the authoring side has always assumed: Ø16 across, 150 mm of barrel behind it. The range is what this gun is HELD at, not what the arithmetic permits -- under about 6 mm the nozzle is inside the groove, and past 25 mm the gas column is no longer covering the puddle. At 10 mm it cannot enter a groove tighter than 77°, so a 90° fillet is workable.",
+  "body_radius_mm": 8.0,
+  "body_length_mm": 150.0,
+  "standoff_range_mm": { "min": 6.0, "max": 25.0 }
+}

@@ -1,0 +1,79 @@
+{
+  "_max_acceleration_unverified": "Unverified simulation plan bound in rad/m per s^2: the frozen scaled dense fixture reaches 2.8125 rad/s^2, above its machine JogAxis limit of 1.0; use 3.0 for plans without changing jog limits.",
+  "max_acceleration": 3.0,
+  "jog": {
+    "arrest_ns": 200000000,
+    "quick_stop_ns": 300000000,
+    "_unverified": "Legacy 1 ms defaults; bench stopping qualification is required before hardware enabled hold."
+  },
+  "brake": {
+    "present": false,
+    "release_delay_ms": 100,
+    "hold_delay_ms": 100,
+    "gravity_axis": false,
+    "_unverified": "C05.13/C05.10 defaults; read actual drive parameters and measure the relay on the bench before use."
+  },
+  "schema_version": 1,
+  "id": "cia402_sim",
+  "label": "Test-only CiA402 plant; no hardware identity",
+  "simulation_only": true,
+  "ethercat": {
+    "vendor_id": 4294967294,
+    "product_code": 1,
+    "revision_no": 0,
+    "rx_pdo": 5632,
+    "tx_pdo": 6656,
+    "rx_sync": 2,
+    "tx_sync": 3,
+    "dc_quantum_ns": 250000,
+    "dc_assign_activate": 768,
+    "rx_layout": [
+      {
+        "semantic": "cw",
+        "index": 24640,
+        "subindex": 0,
+        "bits": 16
+      },
+      {
+        "semantic": "target_pos",
+        "index": 24698,
+        "subindex": 0,
+        "bits": 32
+      },
+      {
+        "semantic": "target_vel",
+        "index": 24831,
+        "subindex": 0,
+        "bits": 32
+      },
+      {
+        "semantic": "mode",
+        "index": 24672,
+        "subindex": 0,
+        "bits": 8
+      }
+    ],
+    "tx_layout": [
+      {
+        "semantic": "sw",
+        "index": 24641,
+        "subindex": 0,
+        "bits": 16
+      },
+      {
+        "semantic": "pos",
+        "index": 24676,
+        "subindex": 0,
+        "bits": 32
+      },
+      {
+        "semantic": "mode_disp",
+        "index": 24673,
+        "subindex": 0,
+        "bits": 8
+      }
+    ]
+  },
+  "home_truth_sign": 1,
+  "native_home": null
+}

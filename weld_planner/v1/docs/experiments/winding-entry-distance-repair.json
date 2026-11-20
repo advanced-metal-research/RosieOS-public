@@ -1,0 +1,26 @@
+{
+  "schema": "amr.rosie-winding-entry-distance-repair.v1",
+  "decision": "Does ranking legal windings by the entry command rather than the whole-seam midpoint restore deterministic nearest/reachable selection?",
+  "lifecycle": "not_evaluated",
+  "source": {
+    "base_revision": "3d8fca5",
+    "branch": "agent/winding-entry-distance-repair",
+    "issue": "docs/issues/0012"
+  },
+  "reproducer": {
+    "seam": "bracket_a_2x seam_0001",
+    "current_state": "cell reset pose",
+    "observed_wrong_base": "J4 - 2pi because the seam midpoint is just above pi even though the entry knot is just below pi",
+    "lost_candidate": "J5 - 2pi with every other axis unchanged"
+  },
+  "candidate": "Use the first seam knot for winding distance/order; retain whole-seam min/max legality and roadmap reachability screening.",
+  "judges": [
+    "distance-only selection leaves the entry-nearest winding unchanged",
+    "roadmap selects the reachable J5 -2pi alternative",
+    "all other axes remain unchanged",
+    "winding reach contains every offered candidate",
+    "full free-space module remains green"
+  ],
+  "stop_condition": "Reject if any non-winding free-space contract regresses or if the candidate requires tolerance widening.",
+  "execution_authority": "none"
+}

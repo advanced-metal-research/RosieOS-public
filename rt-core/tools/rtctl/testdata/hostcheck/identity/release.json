@@ -1,0 +1,118 @@
+{
+  "schema": "rosie-rt-core.host-identity.v1",
+  "services": {
+    "rosie-rt-control": {
+      "template_sha256": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae",
+      "unit_files": [
+        {
+          "path": "/etc/systemd/system/rosie-rt-control.service",
+          "sha256": "b1eafa779eaba1909a0c0752cd86ce697bee85ce65dc96900e271cbcc65e26ae"
+        },
+        {
+          "path": "/etc/systemd/system/rosie-rt-control.service.d/10-deployment.conf",
+          "sha256": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        }
+      ],
+      "argv": [
+        "/opt/rosie/rt-core/build/rt-control",
+        "--core-socket",
+        "/run/rosie-rt-core/native/ipc.sock",
+        "--socket",
+        "/run/rosie-rt-core/public/control.sock",
+        "--configuration-sha256",
+        "configuration-a",
+        "--pair-id",
+        "bench",
+        "--pair-revision",
+        "7"
+      ],
+      "executable_sha256": "50ea4cf790acf6ee9ac0b61d3a3c7062db244c85d8a81ef100c4d30181b21420",
+      "environment_files": [
+        "/etc/rosie-rt-core/control.env"
+      ],
+      "environment": {
+        "GRADIENT_RT_METRICS_ABSOLUTE_FEEDBACK_POLL_ENABLED": "1",
+        "GRADIENT_RT_METRICS_NATIVE_HOME_REFRESH_ENABLED": "1",
+        "GRADIENT_RT_METRICS_STARTUP_READBACK_ENABLED": "1",
+        "ROSIE_RT_ANCHOR_DIR": "/var/lib/rosie-rt-core/anchors",
+        "ROSIE_RT_COMPILED_CONFIG": "/etc/rosie-rt-core/compiled/configuration-a",
+        "ROSIE_RT_CONFIGURATION_SHA256": "configuration-a",
+        "ROSIE_RT_CORE_ARGS": "--rt-cpu 2 --configuration-hash configuration-a",
+        "ROSIE_RT_PAIR_ID": "bench",
+        "ROSIE_RT_PAIR_REVISION": "7",
+        "ROSIE_RT_REMOTE_ARGS": ""
+      }
+    },
+    "rosie-rt-core": {
+      "template_sha256": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174",
+      "unit_files": [
+        {
+          "path": "/etc/systemd/system/rosie-rt-core.service",
+          "sha256": "59bea4670a611bc1c15e77cb060bc45b5f79681012ccf28c1e5c557007039174"
+        },
+        {
+          "path": "/etc/systemd/system/rosie-rt-core.service.d/10-deployment.conf",
+          "sha256": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        }
+      ],
+      "argv": [
+        "/opt/rosie/rt-core/build/rosie-rt-core",
+        "--rt-cpu",
+        "2",
+        "--configuration-hash",
+        "configuration-a",
+        "--socket-path",
+        "/run/rosie-rt-core/native/ipc.sock",
+        "--ipc-group",
+        "rosie-ctl",
+        "--adapter-user",
+        "rosie-ctl"
+      ],
+      "executable_sha256": "30ec2b6d557f076307196450e313f2480890c81cf182db5f828e961370f10b24",
+      "environment_files": [
+        "/etc/rosie-rt-core/control.env"
+      ],
+      "environment": {
+        "GRADIENT_RT_METRICS_ABSOLUTE_FEEDBACK_POLL_ENABLED": "1",
+        "GRADIENT_RT_METRICS_NATIVE_HOME_REFRESH_ENABLED": "1",
+        "GRADIENT_RT_METRICS_STARTUP_READBACK_ENABLED": "1",
+        "ROSIE_RT_ANCHOR_DIR": "/var/lib/rosie-rt-core/anchors",
+        "ROSIE_RT_COMPILED_CONFIG": "/etc/rosie-rt-core/compiled/configuration-a",
+        "ROSIE_RT_CONFIGURATION_SHA256": "configuration-a",
+        "ROSIE_RT_CORE_ARGS": "--rt-cpu 2 --configuration-hash configuration-a",
+        "ROSIE_RT_PAIR_ID": "bench",
+        "ROSIE_RT_PAIR_REVISION": "7",
+        "ROSIE_RT_REMOTE_ARGS": ""
+      }
+    },
+    "rosie-rt-natspublisher": {
+      "template_sha256": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f",
+      "unit_files": [
+        {
+          "path": "/etc/systemd/system/rosie-rt-natspublisher.service",
+          "sha256": "e3b1511859e3aa2b5d3043315abb21160ddad05d523314cf778e39ae7198f62f"
+        },
+        {
+          "path": "/etc/systemd/system/rosie-rt-natspublisher.service.d/10-deployment.conf",
+          "sha256": "abf9669453278bb9e7edbf85e72ef21636ec84f3e2124fe6ad641d0d693c99dc"
+        }
+      ],
+      "argv": [
+        "/opt/rosie/rt-core/build/rt-natspublisher",
+        "--socket",
+        "/run/rosie-rt-core/public/control.sock"
+      ],
+      "executable_sha256": "8ea6d0c2b72eaa64ebc1df4e319af25ce5aeabd69ca6394478b4d10fb8beed23",
+      "environment_files": [
+        "/etc/rosie-rt-core/natspublisher.env"
+      ],
+      "environment": {
+        "ROSIE_RT_NATS_CADENCE": "100ms",
+        "ROSIE_RT_NATS_HOST": "bench",
+        "ROSIE_RT_NATS_TELEMETRY_CADENCE": "10ms",
+        "ROSIE_RT_NATS_TELEMETRY_MAX_BYTES": "100000",
+        "ROSIE_RT_NATS_URL": "nats://bench:4222"
+      }
+    }
+  }
+}

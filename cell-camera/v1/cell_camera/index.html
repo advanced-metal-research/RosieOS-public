@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cell camera</title>
+<style>
+:root{color-scheme:dark;font:15px system-ui,sans-serif;background:#080d13;color:#edf4fc}body{margin:0;min-height:100vh;display:flex;flex-direction:column}header,footer{display:flex;align-items:center;gap:18px;padding:18px 24px}header{border-bottom:1px solid #243044}h1{font-size:20px;margin:0}small{color:#9daec4}.pill{border:1px solid #30415a;border-radius:24px;padding:6px 12px;font-size:12px;color:#84d7fc}.tools{margin-left:auto;display:flex;gap:10px}button{font:inherit;color:inherit;background:#152337;border:1px solid #344860;border-radius:8px;padding:9px 14px;cursor:pointer}main{flex:1;display:grid;place-items:center;padding:16px;position:relative;min-height:200px}canvas{display:block;max-width:100%;max-height:calc(100vh - 160px);width:auto;height:auto;background:#0d1520;border-radius:10px}#notice{position:absolute;top:30px;background:#152337ed;padding:10px 16px;border-radius:8px}footer{font-size:13px;flex-wrap:wrap;color:#9daec4}#light{margin-left:auto}body.full header,body.full footer{display:none}body.full canvas{max-height:100vh}body.full main{padding:0}@media(max-width:650px){header,footer{padding:12px;gap:10px}header small{display:none}h1{font-size:17px}.pill{display:none}#light{margin-left:0}button{padding:8px}main{padding:4px}}
+</style>
+<header><div><h1 id="title">Cell camera</h1><small id="camera">Cell camera</small></div><span class="pill" id="size">LIVE</span><div class="tools"><button id="pause">Pause</button><button id="full">Full screen</button></div></header>
+<main id="view"><canvas id="video" width="1280" height="800" aria-label="Live cell camera"></canvas><div id="notice" role="status">Connecting to camera…</div></main>
+<footer><span id="stats">Starting live view</span><span id="light">View only · No robot controls</span></footer>
+<script>
+const canvas=document.querySelector('#video'),ctx=canvas.getContext('2d',{alpha:false}),notice=document.querySelector('#notice'),stats=document.querySelector('#stats');
+let paused=false,sequence=0,count=0,windowAt=performance.now(),fps=0,retry=0,abort=null,lastDraw=0;
+document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'Resume':'Pause';if(paused)abort?.abort();};
+document.querySelector('#full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{document.body.classList.toggle('full');}};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)abort?.abort();});
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function run(){while(true){
+ if(paused||document.hidden){notice.hidden=false;notice.textContent=paused?'Paused':'View hidden';await wait(150);continue;}
+ const started=performance.now();abort=new AbortController();const timer=setTimeout(()=>abort.abort(),5000);
+ try{
+  const response=await fetch('frame.jpg?after='+sequence,{cache:'no-store',signal:abort.signal});
+  if(!response.ok)throw Error('Camera unavailable');
+  const seq=Number(response.headers.get('X-Frame-Sequence'));
+  const age=Number(response.headers.get('X-Source-Age-Ms'));
+  const blob=await response.blob();const image=await createImageBitmap(blob);
+  if(!paused&&!document.hidden){if(canvas.width!==image.width||canvas.height!==image.height){canvas.width=image.width;canvas.height=image.height;}ctx.drawImage(image,0,0);sequence=seq;lastDraw=performance.now();count++;if(lastDraw-windowAt>1000){fps=count*1000/(lastDraw-windowAt);count=0;windowAt=lastDraw;}
+   notice.hidden=true;stats.textContent=`${canvas.width} × ${canvas.height} · ${fps.toFixed(0)} fps · ${(performance.now()-started+age).toFixed(0)} ms delivery estimate`;}
+  image.close();retry=0;
+ }catch(error){if(!paused&&!document.hidden){notice.hidden=false;notice.textContent='Connection interrupted · reconnecting…';sequence=0;retry=Math.min(retry+1,8);await wait(250*retry);}}
+ finally{clearTimeout(timer);abort=null;}
+ await wait(Math.max(0,1000/30-(performance.now()-started)));
+}}
+setInterval(()=>{if(lastDraw&&performance.now()-lastDraw>2000&&!paused&&!document.hidden){notice.hidden=false;notice.textContent='Image is stale · reconnecting…';}},500);
+fetch('status',{cache:'no-store'}).then(r=>r.json()).then(s=>{document.title=s.title+' · camera';document.querySelector('#title').textContent=s.title;document.querySelector('#camera').textContent=s.camera;document.querySelector('#size').textContent=s.resolution.join(' × ')+' · LIVE';}).catch(()=>{});
+run();
+</script></html>

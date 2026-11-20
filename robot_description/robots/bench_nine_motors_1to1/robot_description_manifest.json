@@ -1,0 +1,7 @@
+{
+  "schema": "rosie.robot-manifest.v1",
+  "model_id": "bench_nine_motors_1to1",
+  "files": [
+    "rtcore_definition.json"
+  ]
+}

@@ -1,0 +1,267 @@
+<!doctype html>
+<!--
+  Drive health of the connected cell, per joint: the drive's heatsink
+  temperature with its last two minutes, torque and following error over the
+  last 1, 30 and 60 s with a 30 s graph, the most loaded joint and the drive's
+  own alarms. A view-only page beside cameras.html: it reads
+  GET /api/offline-programming/v1/dense-execution/drive-health from the origin
+  it is served from (olp ui start: http://127.0.0.1:5189/offline-programming/v1/ui/drives.html)
+  and sends no robot request.
+
+  rt-core reads the temperature over the drive mailbox itself (the drive
+  profile's monitor list, every 5 s) and summarises torque and following
+  error over 1 s from its own telemetry, so the page costs one small read a
+  second and nothing on the servo host (docs/decisions/0001). The 30 s and
+  60 s figures and the graphs are built here, in the browser, from those 1 s
+  windows: no second route, no faster poll. The hand-installed page this
+  replaces decoded the 1 kHz telemetry on the servo host and ran its own
+  mailbox reads for the same numbers. The page sets no temperature threshold
+  of its own, because the vendor's warning and trip values are not
+  confirmed; the colors compare drives with each other.
+-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drive health</title>
+<style>
+:root{color-scheme:dark;font:15px system-ui,sans-serif;background:#080d13;color:#edf4fc}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:baseline;gap:16px;padding:12px 20px;border-bottom:1px solid #243044;flex-wrap:wrap}
+h1{font-size:18px;margin:0}
+header small{color:#9daec4}
+header a{color:#7fb3e6;font-size:13px}
+#state{margin-left:auto;font-size:13px;color:#9daec4}
+#alarms{margin:12px 16px 0;padding:10px 14px;border-radius:6px;font-weight:600;background:#3a2a10;color:#ffd38a}
+#alarms[data-state="fault"]{background:#3d1517;color:#ffb3a8}
+main{padding:12px 16px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:1180px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1b2636;font-variant-numeric:tabular-nums;white-space:nowrap;vertical-align:middle}
+th{font-size:12px;font-weight:600;color:#9daec4;text-transform:uppercase;letter-spacing:.04em}
+thead tr:first-child th{border-bottom:none;padding-bottom:0;color:#cfdbe9}
+td.num,th.num{text-align:right}
+td b{font-size:17px;font-weight:600}
+canvas{width:140px;height:34px;display:block}
+.dim{color:#6f8299}
+.alarm{color:#ff9d7a;font-weight:600}
+.warning{color:#ffd38a;font-weight:600}
+.stale{color:#6f8299;text-decoration:line-through}
+.top{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:4px;font-size:11px;background:#1e3a5c;color:#bfe0ff}
+.meter{position:relative;height:4px;margin-top:4px;border-radius:2px;background:linear-gradient(90deg,rgb(79,147,255),rgb(54,216,231),rgb(255,194,91),rgb(255,83,95))}
+.meter i{position:absolute;top:-3px;width:2px;height:10px;background:#edf4fc}
+.key{display:inline-block;width:12px;height:2px;vertical-align:middle;margin:0 4px 0 10px}
+footer{padding:4px 20px 16px;color:#6f8299;font-size:13px;line-height:1.5}
+#message{padding:24px 20px;color:#9daec4}
+</style>
+<header><h1>Drive health</h1><small id="cell">View only · No robot controls</small><a href="cameras.html">Camera</a><span id="state" role="status">Connecting…</span></header>
+<p id="alarms" role="alert" hidden></p>
+<main>
+  <p id="message" hidden></p>
+  <table hidden>
+    <thead>
+      <tr><th></th><th colspan="2">Heatsink</th><th colspan="4">Torque · % rated</th><th colspan="3">Following error</th><th></th></tr>
+      <tr><th>Joint</th><th class="num">Now</th><th>Last 2 min</th><th class="num">1 s RMS / peak</th><th class="num">30 s RMS</th><th class="num">60 s peak</th><th>Last 30 s</th><th class="num">1 s peak</th><th class="num">60 s peak</th><th>Last 30 s</th><th>Drive</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</main>
+<footer>
+  <span><span class="key" style="background:#e8eef6"></span>1 s peak <span class="key" style="background:#4b8bc4"></span>1 s RMS</span><br>
+  Torque and following error come from rt-core's 1 s windows, read once a second; the 30 s and 60 s figures and the
+  graphs are built from those windows in this browser, and the graphs share one scale across joints. The temperature
+  color compares drives (20 to 100 °C); it is not an alarm limit, and the Drive column shows the drive's own alarms.
+  Heatsink temperature, not motor winding.
+</footer>
+<script>
+const api = '/api/offline-programming/v1/dense-execution/drive-health';
+// One status read a second; rt-core reads the temperature every 5 s, so a
+// reading three reads late (15 s) is shown as stale.
+const pollMs = 1000, staleMs = 15000;
+// Kept history: the temperature trend's two minutes. The 30 s figures need
+// 95 % of their window covered before they rank a joint as the most loaded.
+const keepMs = 120000, shortMs = 30000, longMs = 60000, rankCoverage = 0.95;
+// Temperature color scale, display only (68 to 212 °F).
+const colorLowC = 20, colorHighC = 100;
+const history = new Map();  // joint name -> [{t (ms, rt-core clock), window, rms, peak, fe, temp}]
+let lastTime = null;
+const table = document.querySelector('table'), body = table.querySelector('tbody');
+const message = document.querySelector('#message'), state = document.querySelector('#state');
+const alarms = document.querySelector('#alarms');
+
+const known = (v) => v !== null && v !== undefined;
+const fixed = (value, digits) => known(value) ? value.toFixed(digits) : '–';
+const fahrenheit = (c) => c * 9 / 5 + 32;
+
+function heatsink(joint) {
+  return joint.monitor.find((m) => m.key === 'heatsink_temperature') || null;
+}
+
+// The A6-EC manual's codes: AL... is a warning the drive keeps running
+// through, Er... a fault (rt-core/include/a6ec_alarm_codes_generated.hpp).
+function alarmLevel(code) {
+  return /^AL/i.test(code) ? 'warning' : 'fault';
+}
+
+// Records one answer per joint. A repeated rt-core status time adds nothing;
+// an earlier one means rt-core restarted, and the old windows are dropped.
+function record(answer) {
+  const t = answer.time_ns / 1e6;
+  if (lastTime !== null && t === lastTime) return;
+  if (lastTime !== null && t < lastTime) history.clear();
+  lastTime = t;
+  for (const joint of answer.joints) {
+    const reading = heatsink(joint);
+    const fresh = reading && known(reading.value) && known(reading.age_ms) && reading.age_ms <= staleMs;
+    const samples = history.get(joint.name) || [];
+    samples.push({t, window: joint.window_ms, rms: joint.torque_rms_percent, peak: joint.torque_peak_percent,
+      fe: joint.following_error_peak, temp: fresh ? reading.value : null});
+    while (samples.length && t - samples[0].t > keepMs) samples.shift();
+    history.set(joint.name, samples);
+  }
+}
+
+// Torque RMS and peak, following error peak and covered fraction over the
+// last span ms, from the 1 s windows (the RMS of equal windows is the root of
+// their mean square).
+function over(samples, span) {
+  const recent = samples.filter((s) => lastTime - s.t < span);
+  const torque = recent.filter((s) => known(s.rms));
+  const fe = recent.filter((s) => known(s.fe));
+  const covered = torque.reduce((sum, s) => sum + s.window, 0) / span;
+  return {
+    rms: torque.length ? Math.sqrt(torque.reduce((sum, s) => sum + s.rms * s.rms, 0) / torque.length) : null,
+    peak: torque.length ? Math.max(...torque.map((s) => s.peak ?? 0)) : null,
+    fe: fe.length ? Math.max(...fe.map((s) => s.fe)) : null,
+    coverage: Math.min(1, covered),
+  };
+}
+
+// Draws series over the last span ms. Each series is [key, color]; a gap of
+// more than 2.5 s or a missing value breaks the line, nothing bridges it.
+function graph(canvas, samples, span, series, low, high) {
+  const scale = window.devicePixelRatio || 1;
+  canvas.width = 140 * scale; canvas.height = 34 * scale;
+  const g = canvas.getContext('2d');
+  const recent = samples.filter((s) => lastTime - s.t < span);
+  if (!g || !(high - low > 0)) return;
+  for (const [key, color] of series) {
+    g.strokeStyle = color; g.lineWidth = 1.5 * scale; g.beginPath();
+    let previous = null;
+    for (const s of recent) {
+      const v = s[key];
+      if (!known(v)) { previous = null; continue; }
+      const x = (1 - (lastTime - s.t) / span) * canvas.width;
+      const y = canvas.height - ((Math.min(high, Math.max(low, v)) - low) / (high - low)) * (canvas.height - 4 * scale) - 2 * scale;
+      if (previous !== null && s.t - previous < 2500) g.lineTo(x, y); else g.moveTo(x, y);
+      previous = s.t;
+    }
+    g.stroke();
+  }
+}
+
+// One scale for every joint of a graph, so heights compare across joints:
+// torque in steps of 50 % (at least 100 %), following error in 0.1 units.
+function scales(joints) {
+  let torque = 0;
+  const fe = new Map();
+  for (const joint of joints) {
+    for (const s of (history.get(joint.name) || []).filter((s) => lastTime - s.t < shortMs)) {
+      torque = Math.max(torque, s.peak ?? 0, s.rms ?? 0);
+      fe.set(joint.following_error_unit, Math.max(fe.get(joint.following_error_unit) ?? 0, s.fe ?? 0));
+    }
+  }
+  return {torque: Math.max(100, Math.ceil(torque / 50) * 50),
+    fe: (unit) => Math.max(0.1, Math.ceil((fe.get(unit) ?? 0) * 10) / 10)};
+}
+
+function temperatureCell(td, reading) {
+  if (!reading || !known(reading.value)) { td.innerHTML = '<span class="dim">–</span>'; return; }
+  const fresh = known(reading.age_ms) && reading.age_ms <= staleMs;
+  const position = Math.max(0, Math.min(1, (reading.value - colorLowC) / (colorHighC - colorLowC)));
+  td.innerHTML = `<b class="${fresh ? '' : 'stale'}">${fixed(fahrenheit(reading.value), 1)} °F</b> ` +
+    `<span class="dim">${fixed(reading.value, 1)} °C</span>` +
+    (fresh ? `<div class="meter"><i style="left:calc(${(position * 100).toFixed(1)}% - 1px)"></i></div>` : '');
+  td.title = fresh ? `Read ${Math.round(reading.age_ms / 1000)} s ago` : 'No reading in the last 15 s';
+}
+
+function row(joint, scale, top) {
+  const tr = document.createElement('tr');
+  const samples = history.get(joint.name) || [];
+  const short = over(samples, shortMs), long = over(samples, longMs);
+  const digits = joint.following_error_unit === 'deg' ? 3 : 2;
+  tr.innerHTML = '<td><b></b></td><td class="num"></td><td><canvas></canvas></td>' +
+    `<td class="num">${fixed(joint.torque_rms_percent, 1)} / ${fixed(joint.torque_peak_percent, 1)} %</td>` +
+    `<td class="num">${fixed(short.rms, 1)} %</td><td class="num">${fixed(long.peak, 1)} %</td><td><canvas></canvas></td>` +
+    `<td class="num">${fixed(joint.following_error_peak, digits)} <span class="unit"></span></td>` +
+    `<td class="num">${fixed(long.fe, digits)} <span class="unit"></span></td><td><canvas></canvas></td>` +
+    '<td><span class="alarm"></span> <span class="dim"></span></td>';
+  const cells = tr.querySelectorAll('td'), canvases = tr.querySelectorAll('canvas');
+  // Text from the controller goes in as text, never as markup.
+  cells[0].querySelector('b').textContent = joint.name;
+  if (top) cells[0].insertAdjacentHTML('beforeend', '<span class="top">Most loaded</span>');
+  temperatureCell(cells[1], heatsink(joint));
+  for (const unit of tr.querySelectorAll('.unit')) unit.textContent = joint.following_error_unit;
+  if (short.coverage < rankCoverage) cells[4].title = `${Math.round(short.coverage * 100)} % of the last 30 s read`;
+  const alarm = cells[10].querySelector('.alarm');
+  alarm.textContent = joint.drive_alarm || '';
+  if (joint.drive_alarm) alarm.className = alarmLevel(joint.drive_alarm) === 'warning' ? 'warning' : 'alarm';
+  cells[10].querySelector('.dim').textContent = joint.drive_alarm ? joint.drive_alarm_text : joint.readiness;
+  const temps = samples.map((s) => s.temp).filter(known);
+  let low = Math.min(...temps), high = Math.max(...temps);
+  if (high - low < 2) { low -= 1; high += 1; }  // a flat line, not noise blown up
+  graph(canvases[0], samples, keepMs, [['temp', '#4b8bc4']], low, high);
+  graph(canvases[1], samples, shortMs, [['peak', '#e8eef6'], ['rms', '#4b8bc4']], 0, scale.torque);
+  graph(canvases[2], samples, shortMs, [['fe', '#e8eef6']], 0, scale.fe(joint.following_error_unit));
+  return tr;
+}
+
+// The joint with the highest 30 s torque RMS, once its window is covered.
+function mostLoaded(joints) {
+  let best = null, bestRMS = 0;
+  for (const joint of joints) {
+    const short = over(history.get(joint.name) || [], shortMs);
+    if (short.coverage >= rankCoverage && known(short.rms) && short.rms > bestRMS) { best = joint.name; bestRMS = short.rms; }
+  }
+  return best;
+}
+
+function showAlarms(joints) {
+  const active = joints.filter((joint) => joint.drive_alarm);
+  alarms.hidden = active.length === 0;
+  alarms.dataset.state = active.some((joint) => alarmLevel(joint.drive_alarm) === 'fault') ? 'fault' : 'warning';
+  alarms.textContent = active.map((joint) => `${joint.name}: ${joint.drive_alarm} ${joint.drive_alarm_text || ''}`.trim()).join(' · ');
+}
+
+function show(text) {
+  table.hidden = true; alarms.hidden = true; message.hidden = false; message.textContent = text;
+}
+
+async function poll() {
+  for (;;) {
+    const started = performance.now();
+    if (!document.hidden) {
+      try {
+        const reply = await fetch(api, {cache: 'no-store'});
+        const answer = await reply.json();
+        if (!reply.ok) {
+          show(answer.detail || `The cell answered ${reply.status}.`);
+          state.textContent = 'No drive data';
+        } else {
+          record(answer);
+          document.querySelector('#cell').textContent = `${answer.cell || 'Connected cell'} · View only · No robot controls`;
+          const scale = scales(answer.joints), top = mostLoaded(answer.joints);
+          body.replaceChildren(...answer.joints.map((joint) => row(joint, scale, joint.name === top)));
+          showAlarms(answer.joints);
+          table.hidden = false; message.hidden = true;
+          const live = answer.joints.filter((joint) => { const r = heatsink(joint); return r && known(r.value) && known(r.age_ms) && r.age_ms <= staleMs; }).length;
+          state.textContent = `${live} of ${answer.joints.length} drives reporting · updated ${new Date().toLocaleTimeString()}`;
+        }
+      } catch {
+        show('The offline programming server is not reachable from this page.');
+        state.textContent = 'Reconnecting…';
+      }
+    }
+    await new Promise((resolve) => setTimeout(resolve, Math.max(0, pollMs - (performance.now() - started))));
+  }
+}
+poll();
+</script>

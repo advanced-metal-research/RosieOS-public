@@ -1,0 +1,8 @@
+/bin/
+/deploy/
+/test.log
+/.tmp-*
+/ui/.staged-public/
+/ui/.staged-dist/
+/ui/dist/
+/ui/node_modules/

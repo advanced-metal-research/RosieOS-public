@@ -1,0 +1,115 @@
+{
+  "schema": "robot.v4.program_catalog.v1",
+  "owner": "motion-server",
+  "client": "offline-programming",
+  "autosave": false,
+  "catalog_revision": 11,
+  "updated_at": "2026-07-30T10:00:01Z",
+  "programs": [
+    {
+      "schema_version": 1,
+      "program_id": "catalog-round-trip-program",
+      "program_name": "Catalog round trip",
+      "part_name": "contract-fixture",
+      "part_number": "FIXTURE-002",
+      "part_revision": "B",
+      "robotic-cell-type": "rosie_1400_v3",
+      "robot_model": "rosie_1400_v3",
+      "cell_config_revision": "cell-config-7",
+      "program_state": "saved_unplanned",
+      "execution_mode": "dry_run",
+      "units": {
+        "length": "m",
+        "angle": "rad",
+        "time": "s",
+        "joint_order": [
+          "J1",
+          "J2",
+          "J3",
+          "J4",
+          "J5",
+          "J6",
+          "J7",
+          "J8",
+          "J9"
+        ]
+      },
+      "program_revision": 2,
+      "base_program_revision": 1,
+      "edit_source": "steamdeck",
+      "server_private_hint": {
+        "preserve": "top-level"
+      },
+      "planner_status": "stale",
+      "validation_state": "unknown",
+      "collision_check_state": "not_run",
+      "limit_check_state": "not_run",
+      "planned_path_revision": 0,
+      "planned_sample_count": 0,
+      "rows": [
+        {
+          "row_id": "row-1",
+          "row_index": 0,
+          "row_number": 1,
+          "revision": 2,
+          "row_hash": "rowhash-1-2",
+          "enabled": true,
+          "label": "Taught point",
+          "row_type": "motion",
+          "command": "MOVE",
+          "move_type": "line_tcp",
+          "target_frame_type": "tcp_cartesian",
+          "tool_frame": "torch_tcp",
+          "work_frame": "world",
+          "fixture_side": "in_cell",
+          "motion_phase": "travel",
+          "target_tcp_m": [
+            0.7,
+            0.1,
+            0.8,
+            0,
+            0,
+            0
+          ],
+          "target_joints_rad": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "tcp_velocity_m_s": 0.05,
+          "joint_velocity_rad_s": 0.25,
+          "accel_m_s2": 0.75,
+          "joint_accel_rad_s2": 1,
+          "blend_radius_m": 0,
+          "fine_stop": true,
+          "capture_source": "steamdeck",
+          "source_state": "teach_modified",
+          "weld_enable": false,
+          "arc_state": "off",
+          "wire_feed_m_per_min": 0,
+          "voltage_v": 0,
+          "weld_profile_id": 0,
+          "weave_profile_id": 0,
+          "weld_process": "none",
+          "revpi_io_slot": 0,
+          "revpi_io_action": "none",
+          "revpi_io_pending": false,
+          "steamdeck_extra": {
+            "preserve": "row-level"
+          }
+        }
+      ],
+      "extensions": {
+        "unknown_field_round_trip": {
+          "keep": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[workspace]
+name = "rosie-mujoco-sim-v1"
+description = "Independent MuJoCo cell physics and A6-EC drive models."
+authors = ["Gradient Industrial Robotics"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64"]
+version = "0.1.0"
+
+[dependencies]
+python = ">=3.10,<3.13"
+numpy = ">=1.26"
+# The cell's link meshes are Collada (`urdf/v1/<model>/meshes/*.dae`), which
+# MuJoCo does not read. pycollada is what the weld planner's verifier already
+# uses to read them; the sim converts them to OBJ once, on first run.
+pycollada = "*"
+pytest = ">=8.0"
+ruff = "*"
+
+[pypi-dependencies]
+# conda-forge's `mujoco` lags the PyPI wheel and does not ship linux-aarch64
+# bindings for every release; the wheel does (Thor is sbsa aarch64).
+mujoco = ">=3.3"
+
+[tasks]
+sim = { cmd = "python -m cellsim.main", description = "Run independent MuJoCo physics; --viewer opens a window." }
+model = { cmd = "python -m cellsim.model", description = "Build the MJCF for a cell URDF, print bodies, masses and the FK check against the URDF chain." }
+drive = { cmd = "python -m cellsim.drive", description = "Step one A6-EC CSP drive model against a ramp and print its following error." }
+test = { cmd = "pytest -q tests", description = "Run the simulator's tests." }
+lint = { cmd = "ruff check python tests", description = "Lint Python sources." }
+
+# `python/` is the import root; same mechanism as weld_planner: an
+# assignment, not an append, so a system PYTHONPATH cannot reach in.
+[activation.env]
+PYTHONPATH = "python"

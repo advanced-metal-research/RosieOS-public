@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "program_id": "robot-v4-tour-calibration-box-rosie-1420-v1",
+  "revision": 1,
+  "program_revision": 1,
+  "program_digest": "sha256:3912821832f855f56e017fd980efa33917d59e64b161b6a9c442f5809bb6f6dd",
+  "robotic-cell-type": "rosie_1420_v1",
+  "robot_model": "rosie_1420_v1",
+  "cell_config_revision": "bench-relay-rosie-1420-v1",
+  "program_reference_only": true,
+  "rows_omitted_by_client": true,
+  "execution_mode": "dry_run",
+  "units": {
+    "length": "m",
+    "angle": "rad",
+    "time": "s",
+    "velocity": "m_s",
+    "joint_velocity": "rad_s"
+  },
+  "planner_owner": "motion-server",
+  "planner_backend": "motion_server_tesseract_trajectory_v1",
+  "tesseract_urdf_source": "robot_description/robots/rosie_1420_v1/robot.urdf",
+  "tesseract_collision_geometry": "visual_meshes_as_collision_meshes",
+  "tesseract_collision_mesh_package": "package://rosie_1420_v1/meshes",
+  "samples_per_segment": 12,
+  "defaults": {
+    "default_tool_frame": "end_effector",
+    "default_work_frame": "world"
+  },
+  "settings": {
+    "revision": 1
+  },
+  "global_joint_speed_limits_rad_s": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+  ],
+  "jacobian_singularity_warning_sigma": 0.02,
+  "jacobian_singularity_hard_stop_sigma": 0.001,
+  "constraints": {
+    "tip_link": "tool0"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gradient.systems/schemas/robot/v4/robot.v4.program-catalog.v1.schema.json",
+  "title": "Robot V4 program catalog",
+  "type": "object",
+  "required": [
+    "schema",
+    "owner",
+    "catalog_revision",
+    "programs"
+  ],
+  "properties": {
+    "schema": {
+      "const": "robot.v4.program_catalog.v1"
+    },
+    "owner": {
+      "const": "motion-server"
+    },
+    "client": {
+      "enum": [
+        "offline-programming",
+        "steamdeck",
+        "motion-server"
+      ]
+    },
+    "autosave": {
+      "type": "boolean"
+    },
+    "catalog_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at_unix": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "programs": {
+      "type": "array",
+      "items": {
+        "$ref": "robot.v4.program.v1.schema.json"
+      }
+    }
+  },
+  "additionalProperties": true
+}

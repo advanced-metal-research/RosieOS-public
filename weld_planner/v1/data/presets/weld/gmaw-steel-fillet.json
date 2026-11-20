@@ -1,0 +1,52 @@
+{
+  "schema": "amr-weld-planner-v1.weld-preset.v1",
+  "id": "gmaw_steel_fillet",
+  "label": "GMAW · mild steel · 6 mm fillet",
+  "notes": "Spray transfer with 1.2 mm wire, for the gun this cell actually has. Stickout is 17 mm, the cell's one default standoff (owner, 2026-09-11), and that is the number to read first: the tube baked into link_6 is Ø32 all the way to the tip, and the flat-plate estimate at a 45 degree work angle asks for something over 20 mm. Through the motion planner on bracket_b_2x, 17 mm and 22 mm crossed the same 8 of 22 seams, and 17 sits inside what that gun is held at (15-30 mm). The current is 255 A, set when this preset held the gun at 22 mm: a shorter electrode is less resistive preheat, so the same wire feed at 17 mm draws more current than that -- the arc numbers are unverified at 17 until they are welded. One pass carries a 6 mm leg comfortably; above about 8 mm this wants splitting into root and cap rather than slowing the travel down.",
+  "applies_to": {
+    "method": "GMAW",
+    "material": "mild steel",
+    "thickness_mm_range": [5.0, 12.0],
+    "positions": ["PA", "PB"]
+  },
+  "process": {
+    "method": "GMAW",
+    "iso_4063": 135,
+    "travel_speed_mm_s": { "kind": "constant", "value": 6.5 },
+    "arc": {
+      "wire_feed_speed_mm_s": { "kind": "constant", "value": 167.0 },
+      "voltage_v": { "kind": "constant", "value": 27.5 },
+      "current_a": { "kind": "constant", "value": 255.0 },
+      "mode": "synergic",
+      "polarity": "dcep"
+    },
+    "wire": { "classification": "ER70S-6", "diameter_mm": 1.2, "stickout_mm": 17.0 },
+    "gas": {
+      "mixture": "Ar82/CO2-18",
+      "flow_l_min": 16.0,
+      "preflow_s": 0.3,
+      "postflow_s": 1.2
+    },
+    "weave": { "shape": "none" },
+    "start": { "ignition": "scratch", "run_in_s": 0.25, "hot_start_scale": 1.25 },
+    "end": { "crater_fill_s": 0.6, "burnback_s": 0.1, "downslope_s": 0.3 }
+  },
+  "orientation": {
+    "work_angle_deg": { "kind": "constant", "value": 0.0 },
+    "travel_angle_deg": { "kind": "constant", "value": 12.0 },
+    "spin": { "mode": "free" },
+    "limits": {
+      "work_angle_deg": {
+        "min": { "kind": "constant", "value": -15.0 },
+        "max": { "kind": "constant", "value": 15.0 },
+        "max_rate_deg_per_mm": 0.5
+      },
+      "travel_angle_deg": {
+        "min": { "kind": "constant", "value": 0.0 },
+        "max": { "kind": "constant", "value": 20.0 },
+        "max_rate_deg_per_mm": 0.5
+      }
+    }
+  },
+  "weld_geometry": { "leg_length_mm": 6.0, "throat_mm": 4.2, "root_gap_mm": 0.0 }
+}

@@ -1,0 +1,1 @@
+{"targets":[{"cell_id":"example-arm-1420","label":"Rosie 1420 · example arm · Example relay","role":"REAL ROBOT / EXAMPLE RELAY","models":["rosie_1420_v1"],"requested_mode":"real","backend":"ethercat","simulation":false,"host":"127.0.0.1:18443"}],"selected":{"cell_id":"example-arm-1420","model_id":"rosie_1420_v1"}}

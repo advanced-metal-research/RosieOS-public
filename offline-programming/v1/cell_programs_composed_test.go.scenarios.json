@@ -1,0 +1,19 @@
+{
+  "schema": "rosie.qualification-scenarios.v1",
+  "scenarios": [
+    {
+      "id": "operator-composed-cell-programs",
+      "claim": "operator-workflow",
+      "environment": "simulation",
+      "test": "offline-programming/v1/cell_programs_composed_test.go",
+      "runner": "operator-composed",
+      "deterministic": true,
+      "motionAllowed": false,
+      "requiredCapabilities": ["linux", "loopback"],
+      "timeoutSeconds": 600,
+      "evidenceOutputs": ["go-test-result", "runner-log"],
+      "finalSafe": "local test server and clients exit without robot motion",
+      "owner": "offline-programming"
+    }
+  ]
+}

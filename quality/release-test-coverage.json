@@ -1,0 +1,166 @@
+{
+  "schema": "rosie_release_test_coverage_v1",
+  "catalog": {
+    "source": "steamdeck/real/v4/release_tests.go",
+    "collection": "gateSuites"
+  },
+  "stages": {
+    "pull_request": "Source checks that run before merge.",
+    "build1_candidate": "Package and timing checks that run for one immutable candidate.",
+    "target_qualification": "Checks that require the target host, integrated cell, or physical hardware."
+  },
+  "suites": [
+    {
+      "id": "make_test",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core.yml",
+          "job": "standalone",
+          "command": "make test"
+        }
+      ],
+      "note": "The native lane runs the test-runs and test-serial targets together."
+    },
+    {
+      "id": "make_test_serial",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core.yml",
+          "job": "standalone",
+          "command": "make test"
+        }
+      ],
+      "note": "The make test target calls test-serial after the native test binaries pass."
+    },
+    {
+      "id": "rtctl",
+      "owner": "build1_candidate",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "source": "tools/build1-release-worker/rosie_build1_worker/gates.py",
+          "command": "go test -count=1 ./tools/rtctl/..."
+        }
+      ],
+      "note": "The fixed worker runs this suite alone with a ten-minute deadline and a source-bound receipt."
+    },
+    {
+      "id": "motion_test",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core-consumers.yml",
+          "job": "cartesian",
+          "command": "make -C motion-server/v1 all test test-composed"
+        }
+      ],
+      "note": "The Cartesian job runs the standalone motion tests and its composed RT core test."
+    },
+    {
+      "id": "ui_test",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core-consumers.yml",
+          "job": "offline-programming",
+          "command": "npm run lint && npm test"
+        }
+      ],
+      "note": "The PR job adds lint before the same UI test command."
+    },
+    {
+      "id": "olp",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core-consumers.yml",
+          "job": "offline-programming",
+          "command": "go test -race -count=1 ./..."
+        }
+      ],
+      "note": "The PR job runs every OLP package with the race detector."
+    },
+    {
+      "id": "faultmatrix_shutdown",
+      "owner": "build1_candidate",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "source": "tools/build1-release-worker/rosie_build1_worker/gates.py",
+          "command": "go test -race -count=1 -run TestShutdown ./ipcclient/faultmatrix"
+        }
+      ],
+      "note": "The fixed worker runs this suite alone with a five-minute deadline and a source-bound receipt."
+    },
+    {
+      "id": "sdk_path_jog",
+      "owner": "build1_candidate",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "source": "tools/build1-release-worker/rosie_build1_worker/gates.py",
+          "command": "go test -count=1 -p=1 -run PathJog -v ./sdk/control"
+        }
+      ],
+      "note": "The fixed worker runs this suite alone with a five-minute deadline and a source-bound receipt."
+    },
+    {
+      "id": "olp_composed",
+      "owner": "build1_candidate",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "source": "tools/build1-release-worker/rosie_build1_worker/gates.py",
+          "command": "TestCartesianJogComposed"
+        }
+      ],
+      "note": "The fixed worker builds native RTCore and Motion Server inputs, then runs this suite alone with an eight-minute deadline."
+    },
+    {
+      "id": "ui_npm_ci",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core-consumers.yml",
+          "job": "offline-programming",
+          "command": "npm ci"
+        }
+      ],
+      "note": "The PR job installs the locked UI dependencies from a clean runner."
+    },
+    {
+      "id": "pendant_olp_core",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core-consumers.yml",
+          "job": "offline-programming",
+          "command": "node --experimental-strip-types --no-warnings --test"
+        }
+      ],
+      "note": "The PR job runs every pendant OLP core test file after it installs the locked UI dependencies."
+    },
+    {
+      "id": "cells",
+      "owner": "pull_request",
+      "coverage": "covered",
+      "evidence": [
+        {
+          "workflow": ".github/workflows/rt-core.yml",
+          "job": "standalone",
+          "command": "go test -count=1 ./config/cells/..."
+        }
+      ],
+      "note": "The native RT core lane runs the exact cell configuration package command."
+    }
+  ]
+}

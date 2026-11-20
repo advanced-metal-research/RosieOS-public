@@ -1,0 +1,9 @@
+{
+  "schema": "amr-weld-planner-v1.search-preset.v1",
+  "id": "steady",
+  "label": "Steady — ±15° work, ±40° travel",
+  "notes": "How far the search may move an angle FROM THE PROFILE YOU DREW. A deviation and not an absolute band, so the window follows a ramp instead of standing still; a weld's own orientation.limits still bound the result on top of this, and the admissible set is the intersection of the two. Widening costs rays -- the lattice grows with the bins.",
+  "work_deviation_deg": 15.0,
+  "travel_deviation_deg": 40.0,
+  "standoff_cost_deg_per_mm": 3.0
+}

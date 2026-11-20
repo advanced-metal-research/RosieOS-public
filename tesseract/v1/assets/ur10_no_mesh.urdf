@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot name="gradient_ur10_no_mesh">
+  <link name="base_link"/>
+  <link name="shoulder_link"/>
+  <link name="upper_arm_link"/>
+  <link name="forearm_link"/>
+  <link name="wrist_1_link"/>
+  <link name="wrist_2_link"/>
+  <link name="wrist_3_link"/>
+  <link name="tool0"/>
+
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0 0 0.1273" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283185307" upper="6.283185307" effort="330" velocity="2.16"/>
+  </joint>
+
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0 0 0" rpy="1.5707963268 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283185307" upper="6.283185307" effort="330" velocity="2.16"/>
+  </joint>
+
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <origin xyz="-0.612 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.1415926536" upper="3.1415926536" effort="150" velocity="3.15"/>
+  </joint>
+
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+    <origin xyz="-0.5723 0 0.163941" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283185307" upper="6.283185307" effort="56" velocity="3.2"/>
+  </joint>
+
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
+    <origin xyz="0 -0.1157 0" rpy="1.5707963268 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283185307" upper="6.283185307" effort="56" velocity="3.2"/>
+  </joint>
+
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
+    <origin xyz="0 0.0922 0" rpy="1.5707963268 3.1415926536 3.1415926536"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283185307" upper="6.283185307" effort="56" velocity="3.2"/>
+  </joint>
+
+  <joint name="wrist_3_tool0" type="fixed">
+    <parent link="wrist_3_link"/>
+    <child link="tool0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

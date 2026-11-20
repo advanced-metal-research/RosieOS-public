@@ -1,0 +1,26 @@
+{
+  "schema_version": "robot_v4_deployment_manifest_v1",
+  "schema_version_doc": "Unit: schema token. Allowed: robot_v4_deployment_manifest_v1. Default: none; native bindings reject missing or different values. Prevents loading a cell manifest that the native reader cannot interpret.",
+  "name": "simulation-cell",
+  "name_doc": "Unverified example. Unit: display text. Allowed: a JSON string; ignored by native compatibility validation. Default: omitted in native validation. Prevents confusing cell inventory entries.",
+  "nodes": [
+    {
+      "runtime": "rt-core",
+      "runtime_doc": "Unverified example. Unit: runtime token. Allowed: rt-core for a native node; this envelope hint is ignored by the native binding validator, which selects rt_core blocks. Default: omitted in native validation; use the selected deployment runtime in cell configs. Prevents mislabeling the process that consumes a native binding.",
+      "rt_core": {
+        "machine_config": "rt-core/config/machines/simulation/simulation.json",
+        "machine_config_doc": "Unverified example. Unit: repository-relative path. Allowed: an existing config/machines JSON with no traversal or escaping symlink. Default: required. Prevents compiling an unrelated machine.",
+        "configuration_sha256": "b01819bab64e8751b2af2ee56a00b52eb88c210218ae7f12e2e9349ca051c852",
+        "configuration_sha256_doc": "Unverified example. Unit: 64 lowercase hex digits. Allowed: the exact rtctl compile digest. Default: optional in the reader; pin every deployed cell. Prevents stale machine admission.",
+        "pair_id": "simulation-cell",
+        "pair_id_doc": "Unverified example. Unit: identity token. Allowed: nonempty letters, digits, underscore, dot or hyphen. Default: required. Prevents binding another machine pair.",
+        "pair_revision": 1,
+        "pair_revision_doc": "Unverified example. Unit: generation number. Allowed: positive uint64. Default: required. Prevents reuse of obsolete deployment authority.",
+        "remote_listen": "127.0.0.1:8443",
+        "remote_listen_doc": "Unverified example. Unit: host:port. Allowed: IP or valid DNS host and port 1..65535. Default: required. Prevents ambiguous endpoint binding."
+      },
+      "rt_core_doc": "Unverified example. Unit: JSON object. Allowed: the annotated fields below, with mutually exclusive branches selected before compilation. Default: required by its containing branch. Prevents silently inventing rt core settings."
+    }
+  ],
+  "nodes_doc": "Unverified example. Unit: ordered JSON array. Allowed: ordered entries matching the annotated element class. Default: required. Prevents missing or reordered nodes from silently changing configuration."
+}

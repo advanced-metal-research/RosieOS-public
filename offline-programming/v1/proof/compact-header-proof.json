@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "appUrl": "http://127.0.0.1:8796/offline-programming/v1/ui/?compact-header-proof=1785489280927",
+  "heightPx": 42.66666793823242,
+  "paddingTopPx": 4,
+  "paddingBottomPx": 4,
+  "workspaceTopPx": 42.66666793823242,
+  "viewportWidthPx": 1920,
+  "viewportHeightPx": 1080,
+  "screenshot": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\compact-header.png"
+}

@@ -1,0 +1,16 @@
+{
+  "version_major": 1,
+  "version_minor": 3,
+  "max_axes": 16,
+  "max_trajectory_points": 250000,
+  "messages": {
+    "trajectory_start": 292,
+    "command_result": 519
+  },
+  "results": {"accepted": 0, "rejected": 1, "prepared": 2},
+  "reasons": {"none": 0, "invalid_command": 1, "not_ready": 2, "mode_conflict": 3, "unknown_handle": 4, "capacity": 5, "invalid_trajectory": 6},
+  "command_result": [
+    ["sequence", "u64"], ["handle", "u64"], ["generation", "u64"],
+    ["operation", "u32"], ["result", "u32"], ["reason", "u32"], ["axis_mask", "u32"]
+  ]
+}

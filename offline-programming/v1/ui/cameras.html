@@ -1,0 +1,250 @@
+<!doctype html>
+<!--
+  Every camera of the connected cell, side by side: a view-only page for a
+  second screen (a browser on the operator's Mac, a TV at a demo). It reads
+  the OLP's camera list and relays (offline-programming/v1 cell_camera.go,
+  README "Cell camera") from the origin it is served from, so it needs no
+  address: open /offline-programming/v1/ui/cameras.html on the UI's origin
+  (olp ui start: http://127.0.0.1:5189). It sends no robot request.
+
+  Low data (the header button, on by default when the cell has video): the
+  cell camera plays as H.264 over WebRTC from the camera's sender
+  (cell-camera/v1 README "Low-data video", OLP cell_video.go), at most
+  about 0.36 GB an hour instead of about 25 GB for the JPEG frames. If
+  WebRTC cannot connect, the tile falls back to JPEG frames and tries video
+  again later. A hidden tab ends its video session.
+
+  ?extra=<title>=<origin>,... adds camera services that are not the cell's,
+  for example another host's cell-camera/v1 reached through a tunnel
+  (?extra=Jetson%203=http://127.0.0.1:18088/camera). They are another
+  origin, so they are read as images: no sequence cursor and no status.
+-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell cameras</title>
+<style>
+:root{color-scheme:dark;font:15px system-ui,sans-serif;background:#080d13;color:#edf4fc}
+body{margin:0;height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid #243044}
+h1{font-size:18px;margin:0}
+header small{color:#9daec4}
+header button{margin-left:auto;font:inherit;color:inherit;background:#152337;border:1px solid #344860;border-radius:8px;padding:8px 14px;cursor:pointer}
+main{flex:1;min-height:0;display:grid;gap:8px;padding:8px;grid-auto-flow:column;grid-auto-columns:1fr}
+figure{margin:0;min-width:0;min-height:0;display:flex;flex-direction:column;position:relative;background:#0d1520;border-radius:10px;overflow:hidden}
+canvas,video{flex:1;min-height:0;width:100%;object-fit:contain;display:block;background:#000}
+header button[aria-pressed="true"]{background:#1f4f7a;border-color:#4b8bc4}
+#lowdata{margin-left:auto}
+#full{margin-left:0}
+figcaption{display:flex;gap:12px;padding:8px 12px;font-size:13px;color:#9daec4}
+figcaption b{color:#edf4fc;font-weight:600}
+figcaption span:last-child{margin-left:auto}
+.notice{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:#152337ed;padding:8px 14px;border-radius:8px;font-size:13px}
+#empty{place-self:center;color:#9daec4}
+body.full header{display:none}
+@media(orientation:portrait){main{grid-auto-flow:row;grid-auto-rows:1fr}}
+</style>
+<header><h1>Cell cameras</h1><small>View only · No robot controls</small><button id="lowdata" type="button" aria-pressed="false" hidden title="Low data: the cell camera as H.264 video over WebRTC instead of JPEG frames">Low data</button><button id="full">Full screen</button></header>
+<main id="views"><p id="empty">Reading the cell's cameras…</p></main>
+<script>
+const api = '/api/offline-programming/v1/cell-cameras';
+// The service waits up to 3 s for a frame and the relay 5 s; a frame a
+// camera has not replaced is not asked for again sooner than this.
+const requestTimeoutMs = 6000, minIntervalMs = 33, staleMs = 3000;
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+document.querySelector('#full').onclick = async () => {
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await document.documentElement.requestFullscreen();
+  } catch { /* a browser that refuses full screen still hides the header */ }
+};
+document.addEventListener('fullscreenchange', () => document.body.classList.toggle('full', Boolean(document.fullscreenElement)));
+
+function tile(camera) {
+  const figure = document.createElement('figure');
+  figure.innerHTML = '<canvas width="1280" height="720"></canvas><video muted autoplay playsinline hidden></video><div class="notice" role="status">Connecting…</div>' +
+    '<figcaption><b></b><span class="model"></span><span class="stats"></span></figcaption>';
+  figure.querySelector('b').textContent = camera.default ? 'Cell camera' : camera.id;
+  return figure;
+}
+
+// Low data: the cell camera as WebRTC video. `video` is the OLP's video
+// path when the cell has a sender (GET answers 200), else null.
+const videoApi = '/api/offline-programming/v1/cell-camera/video';
+const lowDataButton = document.querySelector('#lowdata');
+let video = null, lowData = true;
+try { lowData = localStorage.getItem('cameras.lowData') !== 'off'; } catch { /* storage blocked: default on */ }
+function setLowData(on) {
+  lowData = on;
+  lowDataButton.setAttribute('aria-pressed', String(on));
+  lowDataButton.textContent = on ? 'Low data: on' : 'Low data: off';
+  try { localStorage.setItem('cameras.lowData', on ? 'on' : 'off'); } catch { /* not remembered */ }
+}
+lowDataButton.onclick = () => setLowData(!lowData);
+// Unverified bounds: a connection not up this long after its answer has
+// failed; after a failure the tile shows JPEG frames this long before video
+// is tried again.
+const videoConnectMs = 8000, videoRetryMs = 15000;
+
+// One WebRTC session on this tile, until low data is turned off, the tab is
+// hidden, or the connection fails. Resolves true when it ended by choice.
+async function playVideo(figure) {
+  const element = figure.querySelector('video'), canvas = figure.querySelector('canvas');
+  const notice = figure.querySelector('.notice'), stats = figure.querySelector('.stats');
+  const pc = new RTCPeerConnection({ iceServers: [] });
+  let location = null, chosen = false;
+  try {
+    pc.addTransceiver('video', { direction: 'recvonly' });
+    pc.ontrack = (event) => { element.srcObject = event.streams[0] ?? new MediaStream([event.track]); };
+    await pc.setLocalDescription(await pc.createOffer());
+    await new Promise((resolve) => {
+      if (pc.iceGatheringState === 'complete') return resolve();
+      pc.onicegatheringstatechange = () => pc.iceGatheringState === 'complete' && resolve();
+      setTimeout(resolve, 1000);
+    });
+    const reply = await fetch(`${video}/whep`, { method: 'POST', headers: { 'Content-Type': 'application/sdp' }, body: pc.localDescription.sdp });
+    if (reply.status !== 201) throw new Error(`video answered ${reply.status}`);
+    location = reply.headers.get('Location');
+    await pc.setRemoteDescription({ type: 'answer', sdp: await reply.text() });
+    const started = performance.now();
+    let last = null;
+    while (true) {
+      await wait(1000);
+      if (!lowData || document.hidden) { chosen = true; return true; }
+      if (pc.connectionState === 'failed' || pc.connectionState === 'closed') throw new Error('connection ' + pc.connectionState);
+      if (pc.connectionState !== 'connected' && performance.now() - started > videoConnectMs) throw new Error('no connection');
+      const report = await pc.getStats();
+      report.forEach((entry) => {
+        if (entry.type !== 'inbound-rtp' || entry.kind !== 'video') return;
+        if (last) {
+          const seconds = (entry.timestamp - last.timestamp) / 1000;
+          stats.textContent = `WebRTC · ${entry.framesPerSecond ?? Math.round((entry.framesDecoded - last.framesDecoded) / seconds)} fps · ` +
+            `${Math.round((entry.bytesReceived - last.bytesReceived) * 8 / 1000 / seconds)} kbit/s`;
+        }
+        last = entry;
+      });
+      if (pc.connectionState === 'connected' && element.readyState >= 2) {
+        canvas.hidden = true; element.hidden = false; notice.hidden = true;
+      }
+    }
+  } catch (error) {
+    notice.hidden = false; notice.textContent = `Video unavailable (${error.message}) · showing frames`;
+    return false;
+  } finally {
+    pc.close();
+    element.srcObject = null; element.hidden = true; canvas.hidden = false;
+    if (location) fetch(location, { method: 'DELETE' }).catch(() => {});
+    if (chosen) stats.textContent = '';
+  }
+}
+
+// One camera's loop: the newest frame after the last one drawn, forever. A
+// failure shows on its own tile and never stops the other cameras.
+async function show(camera, figure) {
+  const canvas = figure.querySelector('canvas'), context = canvas.getContext('2d', { alpha: false });
+  const notice = figure.querySelector('.notice'), stats = figure.querySelector('.stats');
+  const base = `${api}/${encodeURIComponent(camera.id)}`;
+  let sequence = 0, drawn = 0, count = 0, windowAt = performance.now(), failures = 0;
+  setInterval(() => {
+    if (drawn && performance.now() - drawn > staleMs && !document.hidden) { notice.hidden = false; notice.textContent = 'Image is stale · reconnecting…'; }
+  }, 500);
+  fetch(base, { cache: 'no-store' }).then((reply) => reply.json()).then((view) => {
+    const status = view.status ?? {};
+    if (status.title) figure.querySelector('b').textContent = status.title;
+    figure.querySelector('.model').textContent = [status.camera, status.resolution?.join(' × ')].filter(Boolean).join(' · ');
+  }).catch(() => {});
+  let videoAfter = 0;
+  while (true) {
+    if (document.hidden) { await wait(250); continue; }
+    if (camera.default && video && lowData && performance.now() >= videoAfter) {
+      if (!(await playVideo(figure))) videoAfter = performance.now() + videoRetryMs;
+      sequence = 0;
+      continue;
+    }
+    const started = performance.now(), abort = new AbortController(), timer = setTimeout(() => abort.abort(), requestTimeoutMs);
+    try {
+      const reply = await fetch(`${base}/frame.jpg?after=${sequence}`, { cache: 'no-store', signal: abort.signal });
+      if (!reply.ok) throw new Error(`camera answered ${reply.status}`);
+      const next = Number(reply.headers.get('X-Frame-Sequence'));
+      const image = await createImageBitmap(await reply.blob());
+      if (canvas.width !== image.width || canvas.height !== image.height) { canvas.width = image.width; canvas.height = image.height; }
+      context.drawImage(image, 0, 0);
+      image.close();
+      if (Number.isFinite(next)) sequence = next;
+      drawn = performance.now(); count += 1; failures = 0; notice.hidden = true;
+      if (drawn - windowAt > 1000) { stats.textContent = `${(count * 1000 / (drawn - windowAt)).toFixed(0)} fps`; count = 0; windowAt = drawn; }
+    } catch {
+      notice.hidden = false; notice.textContent = 'Camera unavailable · reconnecting…';
+      sequence = 0; failures = Math.min(failures + 1, 8);
+      await wait(250 * failures);
+    } finally { clearTimeout(timer); }
+    await wait(Math.max(0, minIntervalMs - (performance.now() - started)));
+  }
+}
+
+// A camera service on another origin, read as plain images: a browser lets
+// a page draw another origin's image but not read its headers, so each
+// request asks for the newest frame (after=0) and the camera's own pace sets
+// the rate.
+async function showImages(title, origin, figure) {
+  const canvas = figure.querySelector('canvas'), context = canvas.getContext('2d', { alpha: false });
+  const notice = figure.querySelector('.notice'), stats = figure.querySelector('.stats');
+  figure.querySelector('b').textContent = title;
+  figure.querySelector('.model').textContent = origin;
+  let request = 0, count = 0, windowAt = performance.now(), failures = 0;
+  while (true) {
+    if (document.hidden) { await wait(250); continue; }
+    const started = performance.now(), image = new Image();
+    image.src = `${origin}/frame.jpg?after=0&n=${request++}`;
+    try {
+      await Promise.race([image.decode(), wait(requestTimeoutMs).then(() => { throw new Error('timeout'); })]);
+      if (canvas.width !== image.naturalWidth || canvas.height !== image.naturalHeight) { canvas.width = image.naturalWidth; canvas.height = image.naturalHeight; }
+      context.drawImage(image, 0, 0);
+      const drawn = performance.now();
+      count += 1; failures = 0; notice.hidden = true;
+      if (drawn - windowAt > 1000) { stats.textContent = `${(count * 1000 / (drawn - windowAt)).toFixed(0)} fps`; count = 0; windowAt = drawn; }
+    } catch {
+      image.src = '';
+      notice.hidden = false; notice.textContent = 'Camera unavailable · reconnecting…';
+      failures = Math.min(failures + 1, 8);
+      await wait(250 * failures);
+    }
+    await wait(Math.max(0, minIntervalMs - (performance.now() - started)));
+  }
+}
+
+function extras() {
+  const value = new URLSearchParams(location.search).get('extra') ?? '';
+  return value.split(',').map((entry) => entry.trim()).filter(Boolean).flatMap((entry) => {
+    const at = entry.indexOf('=');
+    const title = entry.slice(0, at).trim(), origin = entry.slice(at + 1).trim().replace(/\/+$/, '');
+    return at > 0 && /^https?:\/\//.test(origin) ? [{ title, origin }] : [];
+  });
+}
+
+async function start() {
+  const views = document.querySelector('#views'), empty = document.querySelector('#empty');
+  while (true) {
+    try {
+      const reply = await fetch(api, { cache: 'no-store' });
+      if (reply.status === 404) throw new Error('this OLP server does not list cameras (it is older than the camera list)');
+      if (!reply.ok) throw new Error(`the OLP server answered ${reply.status}`);
+      const cameras = (await reply.json()).cameras ?? [];
+      if (!cameras.length && !extras().length) throw new Error('this cell names no camera');
+      empty.remove();
+      // Low data needs the camera's sender and a browser with WebRTC.
+      video = typeof RTCPeerConnection === 'function' && (await fetch(videoApi, { cache: 'no-store' }).then((r) => r.ok).catch(() => false)) ? videoApi : null;
+      if (video) { lowDataButton.hidden = false; setLowData(lowData); }
+      for (const camera of cameras) { const figure = tile(camera); views.append(figure); show(camera, figure); }
+      for (const extra of extras()) { const figure = tile({ id: extra.title }); views.append(figure); showImages(extra.title, extra.origin, figure); }
+      return;
+    } catch (error) {
+      empty.textContent = `No cameras yet: ${error.message}. Trying again…`;
+      await wait(3000);
+    }
+  }
+}
+start();
+</script>
+</html>

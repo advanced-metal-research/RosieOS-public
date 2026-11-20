@@ -1,0 +1,10 @@
+/build/
+# Formerly hand-copied Assimp libraries; package.sh now stages the build host's.
+/lib/
+# Site files: per Deck, never committed and never packaged (README, Site files).
+/cell.json
+/olp-cells.json
+/olp-rt-core.json
+/planner.env
+/sim/
+*.pem

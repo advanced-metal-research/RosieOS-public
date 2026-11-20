@@ -1,0 +1,21 @@
+{
+  "name": "rosie-urdf-v1-sphere-tool",
+  "private": true,
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && npm test && vite build",
+    "lint": "tsc --noEmit --pretty false",
+    "test": "node --experimental-strip-types scripts/limits-check.mts"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}

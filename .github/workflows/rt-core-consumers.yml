@@ -1,0 +1,127 @@
+name: Native rt-core consumers
+
+on:
+  pull_request:
+    paths: ["rt-core/**", "robot_description/**", "motion-server/**", "offline-programming/v1/**", "steamdeck/**", "dev-stack.sh", ".github/workflows/rt-core-consumers.yml"]
+  push:
+    branches: [main]
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cartesian:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: rt-core/go.mod
+          cache-dependency-path: rt-core/go.sum
+      - name: Native Cartesian intent, motion and Stop
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+        run: |
+          mkdir -p "$TMPDIR"
+          make -C rt-core control sim
+          make -C motion-server/v1 all test test-composed BIN_DIR="$PWD/rt-core/build/cartesian" OBJECT_CACHE_DIR="$PWD/rt-core/build/cartesian-cache"
+  dense:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: rt-core/go.mod
+          cache-dependency-path: rt-core/go.sum
+      - name: Native dense identity, NATS authority and cancellation
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+        run: |
+          mkdir -p "$TMPDIR"
+          make -C rt-core control sim
+          make -C motion-server/joint-trajectory/v1 all test BIN_DIR="$PWD/rt-core/build/dense" TEST_BUILD_DIR="$PWD/rt-core/build/dense-tests"
+  local-simulation:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: offline-programming/v1/go.mod
+          cache-dependency-path: offline-programming/v1/go.sum
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - name: Launcher and composed simulation
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+          DEV_STACK_BACKEND: rt_core
+          DEV_STACK_FIREWALL: "0"
+          DEV_STACK_UI_HOST: 127.0.0.1
+        run: |
+          mkdir -p "$TMPDIR"
+          make -C rt-core control sim
+          bash motion-server/v1/tests/dev-stack-smoke.sh
+  pendant:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: steamdeck/real/v4/go.mod
+          cache-dependency-path: steamdeck/real/v4/go.sum
+      - name: Deploy tool build and Cartesian daemon authority contracts
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+        run: |
+          mkdir -p "$TMPDIR"
+          cd steamdeck/real/v4
+          go build ./...
+          go vet ./...
+          go test -race -count=1 ./test/motion-server -run '^TestRobotV4(LeaderAuthorityWireContract|MotionServerNATSPublishRequiresPONGDryRun)$'
+  offline-programming:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: offline-programming/v1/go.mod
+          cache-dependency-path: offline-programming/v1/go.sum
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - name: Install operator interface dependencies
+        working-directory: offline-programming/v1/ui
+        run: npm ci
+      - name: Pendant OLP core contracts
+        run: >-
+          node --experimental-strip-types --no-warnings --test
+          "$GITHUB_WORKSPACE"/steamdeck/real/v5/olp-core/*.test.ts
+      - name: Native execution and launcher contracts
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+        run: |
+          mkdir -p "$TMPDIR"
+          make -C rt-core control sim
+          cd offline-programming/v1
+          go test -race -count=1 ./...
+      - name: Operator interface
+        working-directory: offline-programming/v1/ui
+        run: npm run lint && npm test
+  deployment:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: steamdeck/real/v4/go.mod
+          cache-dependency-path: steamdeck/real/v4/go.sum
+      - name: Native package admission and obsolete-selection refusals
+        env:
+          TMPDIR: /dev/shm/rt-consumers
+        run: |
+          mkdir -p "$TMPDIR"
+          cd steamdeck/real/v4
+          go test -race -count=1 . -run 'Test(RetiredRuntime|RTCore|NativeSteamDeckBuildSelectionAndBundleClosure)'
+          go test -race -count=1 ./internal/build

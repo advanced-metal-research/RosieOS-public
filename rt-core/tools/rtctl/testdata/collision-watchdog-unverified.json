@@ -1,0 +1,92 @@
+[
+  {
+    "name": "J1",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J2",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J3",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 7000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J4",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J5",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J6",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J7",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J8",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  },
+  {
+    "name": "J9",
+    "collision_watchdog": {
+      "torque_abs_max_raw": 1000,
+      "following_error_counts_max": 8000,
+      "sustained_cycles": 10,
+      "_unverified": "unverified: finite starting values; torque uses the compiler ceiling, not a measured robot collision limit; remeasure with loads",
+      "_source": "Owner direction 2026-09-15; GradientOS following-error placeholders; docs/evidence/bench-ninemotor-2026-09-15 program/move/halt feedback (archived torque unavailable)"
+    }
+  }
+]

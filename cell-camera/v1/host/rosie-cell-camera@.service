@@ -1,0 +1,40 @@
+# One cell camera per instance: rosie-cell-camera@<name>.service reads
+# /etc/rosie-cell-camera/<name>.env (CELL_CAMERA_* settings; cell-camera/v1/README.md).
+# The limits keep a view-only camera from ever competing with the OLP server
+# or the planner on the cell host: lowest CPU weight and nice 15, so they
+# always come first. CPUQuota is one core: the JPEG stream used about 27 % of
+# a core on the relay (2026-10-16) and the video encoder adds 15-33 % (x264 at
+# 960x720 15 fps on an Orin Nano Super relay, 2026-10-19); the old 50 %
+# would throttle both.
+# Read-only: no robot or cabinet interface.
+[Unit]
+Description=RosieOS cell camera %i (read-only, on demand)
+After=network.target
+[Service]
+Type=simple
+DynamicUser=yes
+SupplementaryGroups=video render
+EnvironmentFile=/etc/rosie-cell-camera/%i.env
+WorkingDirectory=/opt/rosie-cell-camera/current
+ExecStart=/usr/bin/python3 -B -m cell_camera
+Restart=on-failure
+RestartSec=3
+Nice=15
+CPUWeight=1
+CPUQuota=100%
+CPUQuotaPeriodSec=20ms
+IOWeight=1
+MemoryHigh=256M
+MemoryMax=448M
+TasksMax=32
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+TimeoutStopSec=8
+[Install]
+WantedBy=multi-user.target

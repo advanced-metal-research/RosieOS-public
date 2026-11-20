@@ -1,0 +1,134 @@
+{
+  "schema": "rosie.rt-core.inventory.v1",
+  "configuration_sha256": "df84802f2b1b4a6c66b90cdaf8f5fc5b65b59aae2cb3240d71f550c414c42e10",
+  "inventory": {
+    "command": [
+      "ethercat",
+      "slaves",
+      "--verbose"
+    ],
+    "exit_code": 0,
+    "stdout": "=== Master 0, Slave 3 ===\nDevice: Main\nState: PREOP\nFlag: +\nIdentity:\n  Vendor Id:       0x00400000\n  Product code:    0x00000715\n  Revision number: 0x00002ef8\n",
+    "stderr": ""
+  },
+  "axes": [
+    {
+      "name": "axis_0",
+      "profile": "test",
+      "slave_position": 3,
+      "reads": [
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "1"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00400000 4194304\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "2"
+          ],
+          "exit_code": 0,
+          "stdout": "1813\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint32",
+            "0x1018",
+            "3"
+          ],
+          "exit_code": 0,
+          "stdout": "0x00002ef8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "uint16",
+            "0x6041",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "0x0027 39\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "int8",
+            "0x6061",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "8\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "ethercat",
+            "upload",
+            "--position",
+            "3",
+            "--type",
+            "int32",
+            "0x6064",
+            "0"
+          ],
+          "exit_code": 0,
+          "stdout": "-123\n",
+          "stderr": "read-only diagnostic\n"
+        }
+      ],
+      "status": "match",
+      "expected": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "observed": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "coe_identity": {
+        "slave_position": 3,
+        "vendor_id": 4194304,
+        "product_code": 1813,
+        "revision_no": 12024
+      },
+      "differences": [],
+      "errors": []
+    }
+  ]
+}

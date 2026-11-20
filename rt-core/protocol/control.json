@@ -1,0 +1,4795 @@
+{
+  "wire_contract": {
+    "endianness": "little",
+    "alignment": "Natural C++ alignment; every implicit gap is named reserved_padding and zero on encode. Sizes and offsets include all reserved storage.",
+    "publication": "SPSC ring indices use acquire/release atomic loads/stores. Fast-control seqlock slots begin with one aligned 64-bit sequence followed by atomic 64-bit payload words; odd means writer active, equal even sequences before/after acquire reads mean stable. Codecs operate only on private copies, never directly on concurrent shared memory.",
+    "compatibility": "Transport admission requires minor 15. Minor 15 expands named I/O to sixteen channels per direction, adds fenced manual output commands uses the previously reserved final trajectory-point word for upper-eight I/O marker bits, and appends stationary input-wait metadata (320-byte TrajectoryPointV1 with scoped input-monitor masks). All direct IPC clients must be rebuilt together. Minor 13 added explicit opt-in verified-delta restoration of v3 HM35 anchors. Minor 14 adds the additive path jog lane: jog_operations path_begin, jog_update and local_jog_update flags bit 0 (path speed in velocity[0]), the local_path_samples datagram/WSS frame (distinguished from local_jog_update by its size), the lossless acknowledged path_samples slot and the path_observation slot inside the unchanged 4096-byte fast_control region, and path jog reasons appended after outside_limits_outward; joint jog, trajectories and every earlier record keep their layout and meaning. Command 266 (current-pose reference capture) was removed and is never reassigned; native refuses it as an unknown command. Direct IPC clients must be rebuilt together. HM35 and legacy anchor contracts are unchanged. Version major mismatch fails before payload interpretation. Minor 10 introduced additive cell I/O status, Halt and digital-input diagnostics appended to status and capture axes. Telemetry layout digests include nested records and reject older record layouts. fast_control max_grant_lease_ns, max_jog_input_age_ns and max_jog_first_input_wait_ns are unchanged LAN defaults, not absolute deployment ceilings. Compiled per-cell control policy supplies native enforcement; unverified absolute bounds are 10000000000 ns lease and 2000000000 ns input age. Capture V2 replaces V1; its layout version remains separately checked because telemetry admission separately checks the transitive record layout digest. Older dumps require the matching old rtctl; current readers return a typed digest mismatch naming stored and expected digests before interpreting records."
+  },
+  "version_major": 1,
+  "version_minor": 15,
+  "max_axes": 16,
+  "max_trajectory_points": 250000,
+  "fast_control": {
+    "magic": 1179931203,
+    "region_bytes": 4096,
+    "grant_offset": 128,
+    "observation_offset": 256,
+    "max_grant_lease_ns": 500000000,
+    "jog_control_offset": 512,
+    "jog_update_offset": 768,
+    "jog_observation_offset": 1024,
+    "max_jog_input_age_ns": 250000000,
+    "max_jog_first_input_wait_ns": 250000000,
+    "path_samples_offset": 1280,
+    "path_observation_offset": 3584
+  },
+  "messages": {
+    "halt": 295,
+    "telemetry_mark": 294,
+    "status_jog_debug": 517,
+    "trajectory_start": 292,
+    "command_result": 519,
+    "trajectory_discard": 293,
+    "fault_reset": 260,
+    "io_arm": 296,
+    "io_disarm": 297,
+    "io_test": 298
+  },
+  "results": {
+    "accepted": 0,
+    "rejected": 1,
+    "prepared": 2
+  },
+  "reasons": {
+    "none": 0,
+    "invalid_command": 1,
+    "not_ready": 2,
+    "mode_conflict": 3,
+    "unknown_handle": 4,
+    "capacity": 5,
+    "invalid_trajectory": 6,
+    "pdo_mapping_mismatch": 7,
+    "outside_limits_outward": 8,
+    "no_grant": 9,
+    "wrong_generation": 10,
+    "inhibited": 11,
+    "io_not_configured": 12,
+    "io_not_armed": 13,
+    "io_fast_input_unsatisfied": 14,
+    "io_readback_disagreement": 15,
+    "io_torch_unqualified": 16,
+    "io_marker_late": 17,
+    "io_exchange_lost": 18,
+    "io_wait_timeout": 19,
+    "io_wait_input_invalid": 20
+  },
+  "grant_operations": {
+    "acquire": 1,
+    "renew": 2,
+    "revoke": 3
+  },
+  "jog_operations": {
+    "begin": 1,
+    "end": 2,
+    "path_begin": 3
+  },
+  "jog_reasons": {
+    "none": 0,
+    "closed": 1,
+    "mode_conflict": 2,
+    "not_ready": 3,
+    "wrong_identity": 4,
+    "invalid_generation": 5,
+    "stale_sequence": 6,
+    "invalid_vector": 7,
+    "invalid_timing": 8,
+    "expired": 9,
+    "authority_lost": 10,
+    "clock_reset": 11,
+    "generation_exhausted": 12,
+    "ramping": 13,
+    "limited": 14,
+    "outside_limits_outward": 15,
+    "path_start_mismatch": 16,
+    "path_capacity": 17,
+    "path_out_of_order": 18,
+    "path_invalid_sample": 19,
+    "path_ended": 20,
+    "path_fault": 21,
+    "path_unavailable": 22,
+    "path_invalid_config": 23
+  },
+  "grant_reasons": {
+    "none": 0,
+    "invalid": 1,
+    "connection_mismatch": 2,
+    "native_generation_mismatch": 3,
+    "disconnected": 4,
+    "busy": 5,
+    "not_inhibited": 6,
+    "stale_generation": 7,
+    "identity_mismatch": 8,
+    "expired": 9,
+    "clock_regression": 10,
+    "inactive": 11,
+    "axis_mask_mismatch": 12
+  },
+  "command_result": {
+    "size": 40,
+    "alignment": 8,
+    "fields": [
+      {
+        "name": "sequence",
+        "type": "u64",
+        "offset": 0,
+        "size": 8,
+        "alignment": 8
+      },
+      {
+        "name": "handle",
+        "type": "u64",
+        "offset": 8,
+        "size": 8,
+        "alignment": 8
+      },
+      {
+        "name": "generation",
+        "type": "u64",
+        "offset": 16,
+        "size": 8,
+        "alignment": 8
+      },
+      {
+        "name": "operation",
+        "type": "u32",
+        "offset": 24,
+        "size": 4,
+        "alignment": 4
+      },
+      {
+        "name": "result",
+        "type": "u32",
+        "offset": 28,
+        "size": 4,
+        "alignment": 4
+      },
+      {
+        "name": "reason",
+        "type": "u32",
+        "offset": 32,
+        "size": 4,
+        "alignment": 4
+      },
+      {
+        "name": "axis_mask",
+        "type": "u32",
+        "offset": 36,
+        "size": 4,
+        "alignment": 4
+      }
+    ]
+  },
+  "records": {
+    "halt_request": {
+      "size": 16,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "application_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    "trajectory_handle": {
+      "size": 8,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "handle",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    "local_jog_update": {
+      "size": 224,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "session_id",
+          "type": "u8[32]",
+          "offset": 0,
+          "size": 32,
+          "alignment": 1
+        },
+        {
+          "name": "clock_incarnation",
+          "type": "u8[16]",
+          "offset": 32,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "grant_generation",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "source_sequence",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "origin_host_ns",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "deadline_host_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 88,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 92,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 1
+        },
+        {
+          "name": "velocity",
+          "type": "f64[16]",
+          "offset": 96,
+          "size": 128,
+          "alignment": 8
+        }
+      ]
+    },
+    "local_path_samples": {
+      "size": 2272,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "session_id",
+          "type": "u8[32]",
+          "offset": 0,
+          "size": 32,
+          "alignment": 1
+        },
+        {
+          "name": "grant_generation",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "chunk_sequence",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "first_index",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "spacing",
+          "type": "f64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "max_speed",
+          "type": "f64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "count",
+          "type": "u32",
+          "offset": 80,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 84,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 1
+        },
+        {
+          "name": "end_reason",
+          "type": "u32",
+          "offset": 88,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 92,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "caps",
+          "type": "f64[16]",
+          "offset": 96,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "samples",
+          "type": "f64[256]",
+          "offset": 224,
+          "size": 2048,
+          "alignment": 8,
+          "array_bound": 256
+        }
+      ]
+    },
+    "jog_control": {
+      "size": 112,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "ticket",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "connection_id",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 24,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configuration_epoch",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "clock_mapping_generation",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "origin_host_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "deadline_host_ns",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 96,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "operation",
+          "type": "u32",
+          "offset": 100,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u64",
+          "offset": 104,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        }
+      ]
+    },
+    "jog_update": {
+      "size": 240,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "conn_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 16,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "config_epoch",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "source_sequence",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "earliest_origin_host_ns",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "immutable_deadline_host_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "clock_mapping_generation",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 96,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 100,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 1
+        },
+        {
+          "name": "velocity",
+          "type": "f64[16]",
+          "offset": 104,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "reserved",
+          "type": "u64",
+          "offset": 232,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        }
+      ]
+    },
+    "jog_observation": {
+      "size": 160,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "ticket",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "connection_id",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 24,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configuration_epoch",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "clock_mapping_generation",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "source_sequence",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "input_deadline_host_ns",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "now_host_ns",
+          "type": "u64",
+          "offset": 96,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "observed_source_sequence",
+          "type": "u64",
+          "offset": 104,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "observed_origin_host_ns",
+          "type": "u64",
+          "offset": 112,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "first_observed_host_ns",
+          "type": "u64",
+          "offset": 120,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "control_reason",
+          "type": "u32",
+          "offset": 128,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "control_accepted",
+          "type": "u32",
+          "offset": 132,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "update_reason",
+          "type": "u32",
+          "offset": 136,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "state_reason",
+          "type": "u32",
+          "offset": 140,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 144,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "open",
+          "type": "u32",
+          "offset": 148,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "has_input",
+          "type": "u32",
+          "offset": 152,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "velocity_scale_ppm",
+          "type": "u32",
+          "offset": 156,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    "path_samples": {
+      "size": 2296,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "conn_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 16,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "config_epoch",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "clock_mapping_generation",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "chunk_sequence",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "first_index",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "spacing",
+          "type": "f64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "max_speed",
+          "type": "f64",
+          "offset": 96,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "count",
+          "type": "u32",
+          "offset": 104,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 108,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 1
+        },
+        {
+          "name": "end_reason",
+          "type": "u32",
+          "offset": 112,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 116,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "caps",
+          "type": "f64[16]",
+          "offset": 120,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "samples",
+          "type": "f64[256]",
+          "offset": 248,
+          "size": 2048,
+          "alignment": 8,
+          "array_bound": 256
+        }
+      ]
+    },
+    "path_observation": {
+      "size": 184,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "conn_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 16,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "config_epoch",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "clock_mapping_generation",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "chunk_sequence_seen",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "chunk_result",
+          "type": "u32",
+          "offset": 80,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 84,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 31
+        },
+        {
+          "name": "received",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "playable_end_index",
+          "type": "u64",
+          "offset": 96,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "consumed_index",
+          "type": "u64",
+          "offset": 104,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "path_s",
+          "type": "f64",
+          "offset": 112,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "path_speed",
+          "type": "f64",
+          "offset": 120,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "path_acceleration",
+          "type": "f64",
+          "offset": 128,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "underruns",
+          "type": "u64",
+          "offset": 136,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "speed_sequence",
+          "type": "u64",
+          "offset": 144,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "speed_deadline_host_ns",
+          "type": "u64",
+          "offset": 152,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "now_host_ns",
+          "type": "u64",
+          "offset": 160,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "governing",
+          "type": "u32",
+          "offset": 168,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "stop_reason",
+          "type": "u32",
+          "offset": 172,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "end_reason",
+          "type": "u32",
+          "offset": 176,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 180,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    "fast_header": {
+      "size": 96,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "version_major",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "version_minor",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "region_bytes",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "daemon_incarnation",
+          "type": "u8[16]",
+          "offset": 24,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "connection_id",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configuration_digest_lo",
+          "type": "u8[16]",
+          "offset": 48,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "configuration_digest_hi",
+          "type": "u8[16]",
+          "offset": 64,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "cycle_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configured_mask",
+          "type": "u32",
+          "offset": 88,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 92,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    "grant_request": {
+      "size": 80,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "ticket",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "connection_id",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 24,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "origin_host_ns",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "deadline_host_ns",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 64,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "operation",
+          "type": "u32",
+          "offset": 68,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        }
+      ]
+    },
+    "grant_observation": {
+      "size": 128,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "ticket",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "connection_id",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "capability_id",
+          "type": "u8[16]",
+          "offset": 32,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "deadline_host_ns",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "now_host_ns",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configuration_epoch",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "stop_ack_id",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "grant_reason",
+          "type": "u32",
+          "offset": 88,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "grant_active",
+          "type": "u32",
+          "offset": 92,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 96,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 100,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "reserved1",
+          "type": "u64",
+          "offset": 104,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        },
+        {
+          "name": "reserved2",
+          "type": "u64",
+          "offset": 112,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        },
+        {
+          "name": "reserved3",
+          "type": "u64",
+          "offset": 120,
+          "size": 8,
+          "alignment": 8,
+          "reserved": true
+        }
+      ]
+    },
+    "io_request": {
+      "size": 16,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "application_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    "io_test": {
+      "size": 40,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "native_generation",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "application_generation",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "source_sequence",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "deadline_ns",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "index",
+          "type": "u32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "value",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4
+        }
+      ]
+    }
+  },
+  "native_constants": [
+    {
+      "name": "TelemetryDumpMinBytes",
+      "type": "u64",
+      "value": 529680,
+      "comment": "Measured V2 envelope: two 262144-byte headers plus one 5392-byte maximum-axis capture record."
+    },
+    {
+      "name": "TelemetryDumpMaxBytes",
+      "type": "u64",
+      "value": 9007199254740991,
+      "comment": "Measured binary64 exact integer ceiling: 2^53 - 1 bytes, preserving JSON admission precision."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_FRAME_EPOCH_EXHAUSTED",
+      "type": "u32",
+      "value": 4043309058,
+      "comment": "Unverified host abort code: refresh_truth cannot advance the absolute frame epoch."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_REFRESH_SAMPLE_INVALID",
+      "type": "u32",
+      "value": 4043309059,
+      "comment": "Unverified host abort code: refresh_truth absolute sample is invalid; log names SampleInvalidity."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_PERMISSION_LOST",
+      "type": "u32",
+      "value": 4043309060,
+      "comment": "Unverified host abort code: native Home lost its grant, epoch, bus or worker permission."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_RELEASE_FAILED",
+      "type": "u32",
+      "value": 4043309061,
+      "comment": "Unverified host abort code: service override release was refused; log names CommissioningReason."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_COMPLETE_REFUSED",
+      "type": "u32",
+      "value": 4043309062,
+      "comment": "Unverified host abort code: CompleteHome was refused; log names CommissioningReason."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_FINAL_SAMPLE_INVALID",
+      "type": "u32",
+      "value": 4043309063,
+      "comment": "Unverified host abort code: final absolute sample is invalid; log names SampleInvalidity."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_TRUTH_REFRESH_FAILED",
+      "type": "u32",
+      "value": 4043309064,
+      "comment": "Unverified host abort code: transaction refresh_truth upload or signed offset conversion failed."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_FINAL_TRUTH_FAILED",
+      "type": "u32",
+      "value": 4043309065,
+      "comment": "Unverified host abort code: fallback final truth upload or signed offset conversion failed."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_DESCRIPTOR_INVALID",
+      "type": "u32",
+      "value": 4043309066,
+      "comment": "Unverified host abort code: native-home descriptor, operation or controlword sequence is invalid."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_MASTER_UNAVAILABLE",
+      "type": "u32",
+      "value": 4043309067,
+      "comment": "Unverified host abort code: native Home has no mailbox master."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_SERVICE_REFUSED",
+      "type": "u32",
+      "value": 4043309068,
+      "comment": "Unverified host abort code: cyclic service publication was refused; log names CommissioningReason."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_SDO_WRITE_FAILED",
+      "type": "u32",
+      "value": 4043309070,
+      "comment": "Unverified host abort code: SDO write failed without a drive-supplied abort code."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_STATUS_TIMEOUT",
+      "type": "u32",
+      "value": 4043309071,
+      "comment": "Unverified host abort code: statusword wait ended without the requested drive state."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_SDO_TIMEOUT",
+      "type": "u32",
+      "value": 4043309072,
+      "comment": "Unverified host abort code: SDO wait ended without the requested value or a drive abort code."
+    },
+    {
+      "name": "NATIVE_HOME_ABORT_BACKEND_UNAVAILABLE",
+      "type": "u32",
+      "value": 4043309073,
+      "comment": "Unverified host abort code: native Home is unavailable in this backend."
+    },
+    {
+      "name": "kMagicGipc",
+      "type": "u32",
+      "value": 1129335111,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kMagicGshm",
+      "type": "u32",
+      "value": 1296585543,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kMagicRing",
+      "type": "u32",
+      "value": 1196312914,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kVerMajor",
+      "type": "u16",
+      "value": 1,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kVerMinor",
+      "type": "u16",
+      "value": 15,
+      "comment": "Measured schema 1.8: WELCOME carries 16 daemon incarnation bytes at offset 64."
+    },
+    {
+      "name": "kRoleController",
+      "type": "u32",
+      "value": 1,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kRoleObserver",
+      "type": "u32",
+      "value": 2,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kRoleAdapter",
+      "type": "u32",
+      "value": 3,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kShmKindCmd",
+      "type": "u32",
+      "value": 1,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "kShmKindStatus",
+      "type": "u32",
+      "value": 2,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "GRADIENT_MAX_AXES",
+      "type": "u32",
+      "value": 16,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "GRADIENT_MAX_IO_DEVICES",
+      "type": "u32",
+      "value": 8,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "GRADIENT_RING_MSG_BYTES",
+      "type": "u32",
+      "value": 4096,
+      "comment": "3400-byte status snapshot plus 24-byte message header fits 4096 bytes."
+    },
+    {
+      "name": "GRADIENT_CMD_RING_CAPACITY",
+      "type": "u32",
+      "value": 128,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "GRADIENT_STATUS_RING_CAPACITY",
+      "type": "u32",
+      "value": 1024,
+      "comment": "Measured existing native 1.6 wire contract."
+    },
+    {
+      "name": "IO_MARKER_MASK_SHIFT",
+      "type": "u32",
+      "value": 8,
+      "comment": "Unverified marker encoding: eight output selectors in flags bits 8..15."
+    },
+    {
+      "name": "IO_MARKER_VALUE_SHIFT",
+      "type": "u32",
+      "value": 16,
+      "comment": "Unverified marker encoding: eight output intents in flags bits 16..23."
+    },
+    {
+      "name": "PATH_JOG_MAX_SAMPLES",
+      "type": "u32",
+      "value": 1024,
+      "comment": "Path jog ring capacity in samples: generic buffer sizing, equal to engine/path_jog.hpp path_jog_capacity (1024 samples x 16 axes x 8 bytes = 128 KiB; 1 m of look-ahead at 1 mm spacing, ten times the 100 mm design look-ahead). Not a machine number."
+    },
+    {
+      "name": "PATH_JOG_MAX_CHUNK",
+      "type": "u32",
+      "value": 16,
+      "comment": "Samples per path_samples chunk: generic record sizing (16 samples x 16 axes x 8 bytes = 2048 bytes keeps the slot inside the 4096-byte fast_control region). Not a machine number."
+    },
+    {
+      "name": "PATH_JOG_MAX_SAMPLE_STEP_NS",
+      "type": "u64",
+      "value": 20000000,
+      "comment": "Unverified: a path sample step above axis max velocity x 20 ms is refused. At a Rosie 1430 arm's 1.396 rad/s that is 0.028 rad per 1 mm sample, about 10x the largest normal per-mm joint step, so a branch flip or near-singular jump is refused while ordinary paths pass."
+    }
+  ],
+  "native_enums": [
+    {
+      "type": "u8",
+      "values": {
+        "SERVICE_SDO_VALUE_NONE": 0,
+        "SERVICE_SDO_VALUE_U16": 1
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "TRAJ_POINTF_HAS_VELOCITY": 1,
+        "TRAJ_POINTF_LAST_POINT": 2
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "JOG_FLAG_ACTIVE": 1,
+        "JOG_FLAG_STOP": 2,
+        "JOG_FLAG_QUICK_STOP": 4
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "JOG_STOP_REASON_NONE": 0,
+        "JOG_STOP_REASON_CMD_STOP": 1,
+        "JOG_STOP_REASON_TIMEOUT": 2,
+        "JOG_STOP_REASON_TRAJECTORY_PREEMPT": 3
+      }
+    },
+    {
+      "type": "u16",
+      "values": {
+        "MSG_CMD_ARM": 257,
+        "MSG_CMD_AXIS_ENABLE": 258,
+        "MSG_CMD_AXIS_DISABLE": 259,
+        "MSG_CMD_FAULT_RESET": 260,
+        "MSG_CMD_SET_SOFT_LIMITS": 261,
+        "MSG_CMD_SET_MODE": 262,
+        "MSG_CMD_REQUEST_BUNDLE": 263,
+        "MSG_CMD_NATIVE_HOME": 264,
+        "MSG_CMD_SERVICE_SDO_WRITE": 265,
+        "MSG_CMD_IO_WRITE": 272,
+        "MSG_CMD_TRAJECTORY_BEGIN": 288,
+        "MSG_CMD_TRAJECTORY_POINT": 289,
+        "MSG_CMD_TRAJECTORY_COMMIT": 290,
+        "MSG_CMD_TRAJECTORY_ABORT": 291,
+        "MSG_CMD_TRAJECTORY_START": 292,
+        "MSG_CMD_JOG": 304,
+        "MSG_STATUS_HELLO": 513,
+        "MSG_STATUS_AXIS_CONFIG": 515,
+        "MSG_STATUS_SNAPSHOT": 514,
+        "MSG_STATUS_MOTION_STATE": 516,
+        "MSG_STATUS_JOG_DEBUG": 517,
+        "MSG_STATUS_EXTENDED_SNAPSHOT": 518,
+        "MSG_STATUS_IO_SNAPSHOT": 528,
+        "MSG_EVENT": 767,
+        "MSG_CMD_RESTORE_REFERENCE_VERIFIED_DELTA": 267
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "MOTION_MODE_IDLE": 0,
+        "MOTION_MODE_TRAJECTORY": 2,
+        "MOTION_MODE_JOG": 3
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "EXEC_STATE_IDLE": 0,
+        "EXEC_STATE_ACCEPTED": 1,
+        "EXEC_STATE_QUEUED": 2,
+        "EXEC_STATE_EXECUTING": 3,
+        "EXEC_STATE_COMPLETED": 4,
+        "EXEC_STATE_ABORTED": 5,
+        "EXEC_STATE_FAULTED": 6,
+        "EXEC_STATE_UNDERRUN": 7
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "MOTION_CAP_TRAJECTORY_UPLOAD": 2,
+        "MOTION_CAP_JOG_COMMAND": 4
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "MASTER_UNKNOWN": 0,
+        "MASTER_INIT": 1,
+        "MASTER_PREOP": 2,
+        "MASTER_SAFEOP": 3,
+        "MASTER_OP": 4,
+        "MASTER_ERROR": 5
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "DRIVE_PROFILE_UNKNOWN": 0
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "BRAKE_UNKNOWN": 0,
+        "BRAKE_RELEASED": 1,
+        "BRAKE_APPLIED": 2,
+        "BRAKE_WAIT_RELEASE_DELAY": 3,
+        "BRAKE_WAIT_HOLD_DELAY": 4
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "NATIVE_HOME_STATE_IDLE": 0,
+        "NATIVE_HOME_STATE_REQUESTED": 1,
+        "NATIVE_HOME_STATE_SUCCEEDED": 2,
+        "NATIVE_HOME_STATE_FAILED": 3
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "NATIVE_HOME_ABORT_DISARM_PRECONDITION_TIMEOUT": 4043309057
+      }
+    },
+    {
+      "type": "u8",
+      "values": {
+        "AXIS_TYPE_UNKNOWN": 0,
+        "AXIS_TYPE_ROTARY": 1,
+        "AXIS_TYPE_LINEAR": 2
+      }
+    },
+    {
+      "type": "u8",
+      "values": {
+        "DS402_UNKNOWN": 0,
+        "DS402_NOT_READY": 1,
+        "DS402_SWITCH_ON_DISABLED": 2,
+        "DS402_READY_TO_SWITCH_ON": 3,
+        "DS402_SWITCHED_ON": 4,
+        "DS402_OPERATION_ENABLED": 5,
+        "DS402_QUICK_STOP_ACTIVE": 6,
+        "DS402_FAULT_REACTION_ACTIVE": 7,
+        "DS402_FAULT": 8
+      }
+    },
+    {
+      "type": "u32",
+      "values": {
+        "EVT_INFO": 1,
+        "EVT_WARN": 2,
+        "EVT_ERROR": 3,
+        "EVT_TOPOLOGY_MISMATCH": 256,
+        "EVT_SLAVE_NOT_OP": 257,
+        "EVT_WKC_MISMATCH": 258,
+        "EVT_DC_UNSTABLE": 259,
+        "EVT_CMD_RING_OVERFLOW": 261,
+        "EVT_DISARMED": 262,
+        "EVT_ARMED": 263,
+        "EVT_TRAJECTORY_ACCEPTED": 288,
+        "EVT_TRAJECTORY_QUEUED": 289,
+        "EVT_TRAJECTORY_EXECUTING": 290,
+        "EVT_TRAJECTORY_COMPLETED": 291,
+        "EVT_TRAJECTORY_ABORTED": 292,
+        "EVT_TRAJECTORY_FAULTED": 293,
+        "EVT_TRAJECTORY_UNDERRUN": 294,
+        "EVT_JOG_TIMEOUT": 304,
+        "EVT_IO_FAULT": 272
+      }
+    }
+  ],
+  "native_records": [
+    {
+      "name": "HelloV1",
+      "size": 56,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ver_major",
+          "type": "u16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ver_minor",
+          "type": "u16",
+          "offset": 6,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "bytes",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "role",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "pid",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "reserved",
+          "type": "u64[4]",
+          "offset": 24,
+          "size": 32,
+          "alignment": 8,
+          "reserved": true
+        }
+      ],
+      "major_field": "ver_major"
+    },
+    {
+      "name": "WelcomeV1",
+      "size": 96,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ver_major",
+          "type": "u16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ver_minor",
+          "type": "u16",
+          "offset": 6,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "bytes",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "reserved_padding20",
+          "type": "u8[4]",
+          "offset": 20,
+          "size": 4,
+          "alignment": 1,
+          "padding": true,
+          "reserved": true
+        },
+        {
+          "name": "cycle_ns",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "topology_hash",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "cmd_ring_capacity",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "cmd_msg_bytes",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "status_ring_capacity",
+          "type": "u32",
+          "offset": 48,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "status_msg_bytes",
+          "type": "u32",
+          "offset": 52,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "build_id_hash",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "daemon_incarnation",
+          "type": "u8[16]",
+          "offset": 64,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "reserved1",
+          "type": "u64[2]",
+          "offset": 80,
+          "size": 16,
+          "alignment": 8,
+          "reserved": true
+        }
+      ],
+      "major_field": "ver_major"
+    },
+    {
+      "name": "ShmHeaderV1",
+      "size": 128,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ver_major",
+          "type": "u16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ver_minor",
+          "type": "u16",
+          "offset": 6,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "bytes",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "kind",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "cycle_ns",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "topology_hash",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "ring_offset",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ring_capacity",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ring_msg_bytes",
+          "type": "u32",
+          "offset": 48,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "setpoint_offset",
+          "type": "u32",
+          "offset": 52,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "reserved1",
+          "type": "u32",
+          "offset": 56,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "reserved_padding60",
+          "type": "u8[4]",
+          "offset": 60,
+          "size": 4,
+          "alignment": 1,
+          "padding": true,
+          "reserved": true
+        },
+        {
+          "name": "reserved2",
+          "type": "u64[8]",
+          "offset": 64,
+          "size": 64,
+          "alignment": 8,
+          "reserved": true
+        }
+      ],
+      "major_field": "ver_major"
+    },
+    {
+      "name": "RingHeaderV1",
+      "size": 28,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "capacity",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "msg_bytes",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "write_idx",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "read_idx",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "dropped",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "MsgHeader",
+      "size": 24,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "type",
+          "type": "u16",
+          "offset": 0,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "flags",
+          "type": "u16",
+          "offset": 2,
+          "size": 2,
+          "alignment": 2,
+          "allowed_bits": 0
+        },
+        {
+          "name": "bytes",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "seq",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "time_ns",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "AxisStatusV1",
+      "size": 56,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "pos_counts",
+          "type": "i32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "torque_raw",
+          "type": "i16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "statusword",
+          "type": "u16",
+          "offset": 6,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "error_code",
+          "type": "u16",
+          "offset": 8,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "mode_display",
+          "type": "u8",
+          "offset": 10,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "ds402_state",
+          "type": "u8",
+          "offset": 11,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "manufacturer_error_code",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "di_bits",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "axis_fault_flags",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "brake_state",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "velocity_actual_counts_per_s",
+          "type": "i32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "following_error_counts",
+          "type": "i32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "velocity_actual_valid",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "following_error_valid",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "max_abs_velocity_actual_counts_per_s",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "max_abs_following_error_counts",
+          "type": "u32",
+          "offset": 48,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "di_valid",
+          "type": "u8",
+          "offset": 52,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "external_enable_active",
+          "type": "u8",
+          "offset": 53,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "external_enable_valid",
+          "type": "u8",
+          "offset": 54,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "reserved_inputs",
+          "type": "u8",
+          "offset": 55,
+          "size": 1,
+          "alignment": 1,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "IoInputV1",
+      "size": 56,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "name",
+          "type": "u8[32]",
+          "offset": 0,
+          "size": 32,
+          "alignment": 1
+        },
+        {
+          "name": "observed_ns",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "value",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "valid",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "bit",
+          "type": "u32",
+          "offset": 48,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "fast",
+          "type": "u32",
+          "offset": 52,
+          "size": 4,
+          "alignment": 4
+        }
+      ]
+    },
+    {
+      "name": "IoOutputV1",
+      "size": 96,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "name",
+          "type": "u8[32]",
+          "offset": 0,
+          "size": 32,
+          "alignment": 1
+        },
+        {
+          "name": "expiry_ns",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "observed_ns",
+          "type": "u64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "intent",
+          "type": "u32",
+          "offset": 48,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "commanded",
+          "type": "u32",
+          "offset": 52,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "readback",
+          "type": "u32",
+          "offset": 56,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "valid",
+          "type": "u32",
+          "offset": 60,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "bit",
+          "type": "u32",
+          "offset": 64,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "torch",
+          "type": "u32",
+          "offset": 68,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "changed_ns",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "marker_sample_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "marker_cycle",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "IoStateV1",
+      "size": 2464,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "time_ns",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "cycle",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "armed",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reason",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "input_count",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "output_count",
+          "type": "u32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "inputs",
+          "type": "IoInputV1[16]",
+          "offset": 32,
+          "size": 896,
+          "alignment": 8
+        },
+        {
+          "name": "outputs",
+          "type": "IoOutputV1[16]",
+          "offset": 928,
+          "size": 1536,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "StatusSnapshotV1",
+      "size": 3400,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wkc_expected",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wkc_actual",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "master_state",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "dc_offset_ns",
+          "type": "i64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "cycle_jitter_ns",
+          "type": "i64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "topology_hash",
+          "type": "u64",
+          "offset": 32,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axes",
+          "type": "AxisStatusV1[16]",
+          "offset": 40,
+          "size": 896,
+          "alignment": 4
+        },
+        {
+          "name": "io",
+          "type": "IoStateV1",
+          "offset": 936,
+          "size": 2464,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "EventV1",
+      "size": 24,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "code",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "axis",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "value0",
+          "type": "i64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "value1",
+          "type": "i64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "StatusHelloV1",
+      "size": 40,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "build_id_hash",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "topology_hash",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "cycle_ns",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "drive_profile_id",
+          "type": "u32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wkc_expected",
+          "type": "u32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "StatusAxisConfigV1",
+      "size": 424,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "counts_per_rev",
+          "type": "u32[16]",
+          "offset": 8,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "gear_ratio",
+          "type": "f64[16]",
+          "offset": 72,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "sign",
+          "type": "i32[16]",
+          "offset": 200,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "axis_type",
+          "type": "u8[16]",
+          "offset": 264,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "reserved1",
+          "type": "u8[16]",
+          "offset": 280,
+          "size": 16,
+          "alignment": 1,
+          "reserved": true
+        },
+        {
+          "name": "counts_per_unit",
+          "type": "f64[16]",
+          "offset": 296,
+          "size": 128,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "StatusMotionStateV1",
+      "size": 64,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "active_mode",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "state",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "active_traj_id",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "current_point_index",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "queue_depth",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "queue_capacity",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "last_event_code",
+          "type": "u32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "underrun_count",
+          "type": "u32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "stale_command_flag",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "motion_done",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "capability_flags",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 6
+        },
+        {
+          "name": "active_command_seq",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "last_update_ns",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "StatusJogDebugV1",
+      "size": 360,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "active_jog",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "active_jog_axis_mask",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "command_sp_mask",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "have_hold_mask",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "have_jog_target_mask",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "snap_hold_mask",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "latest_cmd_axis_mask",
+          "type": "u32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "latest_cmd_flags",
+          "type": "u32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "last_stop_reason",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "last_stop_axis_mask",
+          "type": "u32",
+          "offset": 40,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "stop_arrest_mask",
+          "type": "u32",
+          "offset": 44,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "sample_time_ns",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "active_jog_cmd_seq",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "latest_jog_seq_seen",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "active_jog_deadline_ns",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "latest_cmd_timeout_ns",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "last_stop_time_ns",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "last_stop_cmd_seq",
+          "type": "u64",
+          "offset": 96,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "feedback_pos_counts",
+          "type": "i32[16]",
+          "offset": 104,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "hold_target_counts",
+          "type": "i32[16]",
+          "offset": 168,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "output_target_counts",
+          "type": "i32[16]",
+          "offset": 232,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "output_target_velocity_counts_per_s",
+          "type": "i32[16]",
+          "offset": 296,
+          "size": 64,
+          "alignment": 4
+        }
+      ]
+    },
+    {
+      "name": "AxisStatusExtV1",
+      "size": 24,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "position_error_counts",
+          "type": "i32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "multi_turn_lo",
+          "type": "i32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "multi_turn_hi",
+          "type": "i32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "bus_voltage_raw",
+          "type": "u16",
+          "offset": 12,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "load_rate_raw",
+          "type": "u16",
+          "offset": 14,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "igbt_temp_raw",
+          "type": "i16",
+          "offset": 16,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "motor_temp_raw",
+          "type": "i16",
+          "offset": 18,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "drive_not_ready_bits",
+          "type": "u16",
+          "offset": 20,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "motor_not_rotating_code",
+          "type": "u16",
+          "offset": 22,
+          "size": 2,
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "StatusExtendedSnapshotV1",
+      "size": 400,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "num_axes",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "valid_axis_mask",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "sample_time_ns",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axes",
+          "type": "AxisStatusExtV1[16]",
+          "offset": 16,
+          "size": 384,
+          "alignment": 4
+        }
+      ]
+    },
+    {
+      "name": "CmdArmV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "arm",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "CmdAxisMaskV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "CmdFaultResetV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "CmdNativeHomeV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 0
+        }
+      ]
+    },
+    {
+      "name": "CmdRestoreReferenceVerifiedDeltaV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 0
+        }
+      ]
+    },
+    {
+      "name": "CmdServiceSdoWriteV1",
+      "size": 16,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "index",
+          "type": "u16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "subindex",
+          "type": "u8",
+          "offset": 6,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "value_type",
+          "type": "u8",
+          "offset": 7,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "value_u32",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 0
+        }
+      ]
+    },
+    {
+      "name": "CmdSetModeV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "mode",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        }
+      ]
+    },
+    {
+      "name": "CmdSoftLimitsV1",
+      "size": 264,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "min_q",
+          "type": "f64[16]",
+          "offset": 8,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "max_q",
+          "type": "f64[16]",
+          "offset": 136,
+          "size": 128,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "CmdRequestBundleV1",
+      "size": 8,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "reason",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "CmdIoWriteV1",
+      "size": 32,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "io_id",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "do_mask",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "do_value",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "apply_time_ns",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "CmdTrajectoryBeginV1",
+      "size": 24,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "traj_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 0
+        },
+        {
+          "name": "expected_points",
+          "type": "u32",
+          "offset": 16,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 20,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "TrajectoryPointV1",
+      "size": 320,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "traj_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "point_index",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 16776963
+        },
+        {
+          "name": "t_from_start_ns",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "q",
+          "type": "f64[16]",
+          "offset": 24,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "qd",
+          "type": "f64[16]",
+          "offset": 152,
+          "size": 128,
+          "alignment": 8
+        },
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 280,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_high",
+          "type": "u32",
+          "offset": 284,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 65535
+        },
+        {
+          "name": "wait_timeout_ns",
+          "type": "u64",
+          "offset": 288,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "wait_stable_ns",
+          "type": "u64",
+          "offset": 296,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "wait_input",
+          "type": "u32",
+          "offset": 304,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wait_value",
+          "type": "u32",
+          "offset": 308,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "monitor_mask",
+          "type": "u32",
+          "offset": 312,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "monitor_values",
+          "type": "u32",
+          "offset": 316,
+          "size": 4,
+          "alignment": 4
+        }
+      ]
+    },
+    {
+      "name": "CmdTrajectoryControlV1",
+      "size": 16,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "traj_id",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 8,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 0
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "CmdJogV1",
+      "size": 144,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "axis_mask",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "flags",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "allowed_bits": 7
+        },
+        {
+          "name": "timeout_ns",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "qd",
+          "type": "f64[16]",
+          "offset": 16,
+          "size": 128,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "IoDevStatusV1",
+      "size": 32,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "io_id",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "width_bits",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "di_bits",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "do_bits",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "fault_flags",
+          "type": "u32",
+          "offset": 24,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 28,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        }
+      ]
+    },
+    {
+      "name": "IoSnapshotV1",
+      "size": 264,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "num_devices",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved0",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "dev",
+          "type": "IoDevStatusV1[8]",
+          "offset": 8,
+          "size": 256,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "TelemetryMarkV1",
+      "size": 136,
+      "alignment": 4,
+      "fields": [
+        {
+          "name": "length",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "label",
+          "type": "u8[128]",
+          "array_bound": 128,
+          "offset": 8,
+          "size": 128,
+          "alignment": 1
+        }
+      ]
+    },
+    {
+      "name": "CycleCaptureAxisV2",
+      "size": 320,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "position",
+          "type": "i32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "target",
+          "type": "i32",
+          "offset": 4,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "statusword",
+          "type": "u16",
+          "offset": 8,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "error_code",
+          "type": "u16",
+          "offset": 10,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "manufacturer_error_code",
+          "type": "u32",
+          "offset": 12,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "absolute_value",
+          "type": "i32[16]",
+          "offset": 16,
+          "size": 64,
+          "alignment": 4
+        },
+        {
+          "name": "absolute_valid",
+          "type": "u8[16]",
+          "offset": 80,
+          "size": 16,
+          "alignment": 1
+        },
+        {
+          "name": "velocity_actual_counts_per_s",
+          "type": "i32",
+          "offset": 96,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "following_error_counts",
+          "type": "i32",
+          "offset": 100,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "velocity_actual_valid",
+          "type": "u32",
+          "offset": 104,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "following_error_valid",
+          "type": "u32",
+          "offset": 108,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "di_bits",
+          "type": "u32",
+          "offset": 112,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "di_valid",
+          "type": "u32",
+          "offset": 116,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "external_enable_active",
+          "type": "u32",
+          "offset": 120,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "external_enable_valid",
+          "type": "u32",
+          "offset": 124,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "coordinate_counts",
+          "type": "i64",
+          "offset": 128,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "coordinate_epoch",
+          "type": "u64",
+          "offset": 136,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "pdo_observed_time_ns",
+          "type": "u64",
+          "offset": 144,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "collision_peak_following_error_counts",
+          "type": "u64",
+          "offset": 152,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "collision_trip_count",
+          "type": "u64",
+          "offset": 160,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "collision_samples",
+          "type": "u64",
+          "offset": 168,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "collision_last_trip_peak_following_error_counts",
+          "type": "u64",
+          "offset": 176,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "absolute_source_counts",
+          "type": "i32",
+          "offset": 184,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "coordinate_reason",
+          "type": "u32",
+          "offset": 188,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "target_velocity_counts_per_s",
+          "type": "i32",
+          "offset": 192,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_armed",
+          "type": "u32",
+          "offset": 196,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_torque_cycles",
+          "type": "u32",
+          "offset": 200,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_following_error_cycles",
+          "type": "u32",
+          "offset": 204,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_peak_torque_raw",
+          "type": "u32",
+          "offset": 208,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_last_trip_quantity",
+          "type": "u32",
+          "offset": 212,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_trip_sustained_cycles",
+          "type": "u32",
+          "offset": 216,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "collision_last_trip_peak_torque_raw",
+          "type": "u32",
+          "offset": 220,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "brake_state",
+          "type": "u32",
+          "offset": 224,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "native_home_position_offset",
+          "type": "i32",
+          "offset": 228,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "native_home_last_abort_code",
+          "type": "u32",
+          "offset": 232,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ext_position_error_counts",
+          "type": "i32",
+          "offset": 236,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ext_multi_turn_lo",
+          "type": "i32",
+          "offset": 240,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ext_multi_turn_hi",
+          "type": "i32",
+          "offset": 244,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "max_abs_velocity_actual_counts_per_s",
+          "type": "u32",
+          "offset": 248,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "max_abs_following_error_counts",
+          "type": "u32",
+          "offset": 252,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "torque_raw",
+          "type": "i16",
+          "offset": 256,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_bus_voltage_raw",
+          "type": "u16",
+          "offset": 258,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_load_rate_raw",
+          "type": "u16",
+          "offset": 260,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_igbt_temp_raw",
+          "type": "i16",
+          "offset": 262,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_motor_temp_raw",
+          "type": "i16",
+          "offset": 264,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_drive_not_ready_bits",
+          "type": "u16",
+          "offset": 266,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_motor_not_rotating_code",
+          "type": "u16",
+          "offset": 268,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "ext_valid_mask",
+          "type": "u16",
+          "offset": 270,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "mode_display",
+          "type": "i8",
+          "offset": 272,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "ds402_state",
+          "type": "u8",
+          "offset": 273,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "torque_valid",
+          "type": "u8",
+          "offset": 274,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "coordinate_valid",
+          "type": "u8",
+          "offset": 275,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "coordinate_source_valid",
+          "type": "u8",
+          "offset": 276,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "native_home_state",
+          "type": "u8",
+          "offset": 277,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "slave_al_state",
+          "type": "u8",
+          "offset": 278,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "slave_online",
+          "type": "u8",
+          "offset": 279,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "slave_operational",
+          "type": "u8",
+          "offset": 280,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "pdo_fresh",
+          "type": "u8",
+          "offset": 281,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "target_velocity_valid",
+          "type": "u8",
+          "offset": 282,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "ext_valid",
+          "type": "u8",
+          "offset": 283,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "calibration_valid",
+          "type": "u8",
+          "offset": 284,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "position_state",
+          "type": "u8",
+          "offset": 285,
+          "size": 1,
+          "alignment": 1
+        },
+        {
+          "name": "audit_reason",
+          "type": "u16",
+          "offset": 286,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "audit_last_verified_ns",
+          "type": "u64",
+          "offset": 288,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "audit_started_ns",
+          "type": "u64",
+          "offset": 296,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "audit_completed_ns",
+          "type": "u64",
+          "offset": 304,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "audit_coherence_error_counts",
+          "type": "u64",
+          "offset": 312,
+          "size": 8,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "CycleCaptureRecordV2",
+      "size": 5392,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "t_ns",
+          "type": "u64",
+          "offset": 0,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "seq",
+          "type": "u64",
+          "offset": 8,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "cycle",
+          "type": "u64",
+          "offset": 16,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "work_ns",
+          "type": "u64",
+          "offset": 24,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axes",
+          "type": "u32",
+          "offset": 32,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 36,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "cycle_jitter_ns",
+          "type": "i64",
+          "offset": 40,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "active_traj_id",
+          "type": "u64",
+          "offset": 48,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "active_command_seq",
+          "type": "u64",
+          "offset": 56,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_generation",
+          "type": "u64",
+          "offset": 64,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "app_grant_generation",
+          "type": "u64",
+          "offset": 72,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "control_generation",
+          "type": "u64",
+          "offset": 80,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "configuration_epoch",
+          "type": "u64",
+          "offset": 88,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "home_epoch",
+          "type": "u64",
+          "offset": 96,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "grant_deadline_host_ns",
+          "type": "u64",
+          "offset": 104,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_input_deadline_host_ns",
+          "type": "u64",
+          "offset": 112,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "jog_source_sequence",
+          "type": "u64",
+          "offset": 120,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "bus_submission_return_code",
+          "type": "i64",
+          "offset": 128,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "armed",
+          "type": "u32",
+          "offset": 136,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "axis_enable_mask",
+          "type": "u32",
+          "offset": 140,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "active_mode",
+          "type": "u32",
+          "offset": 144,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "state",
+          "type": "u32",
+          "offset": 148,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "current_point_index",
+          "type": "u32",
+          "offset": 152,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "queue_depth",
+          "type": "u32",
+          "offset": 156,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "last_event_code",
+          "type": "u32",
+          "offset": 160,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "underrun_count",
+          "type": "u32",
+          "offset": 164,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "stale_command_flag",
+          "type": "u32",
+          "offset": 168,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "motion_done",
+          "type": "u32",
+          "offset": 172,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "capability_flags",
+          "type": "u32",
+          "offset": 176,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "jog_session_open",
+          "type": "u32",
+          "offset": 180,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "jog_has_input",
+          "type": "u32",
+          "offset": 184,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "jog_axis_mask",
+          "type": "u32",
+          "offset": 188,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "jog_ramping",
+          "type": "u32",
+          "offset": 192,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "grant_active",
+          "type": "u32",
+          "offset": 196,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "grant_axis_mask",
+          "type": "u32",
+          "offset": 200,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "safety_fault_mask",
+          "type": "u32",
+          "offset": 204,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "execution_fault_reasons",
+          "type": "u32",
+          "offset": 208,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "submitted_axis_mask",
+          "type": "u32",
+          "offset": 212,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "bus_submission_operation",
+          "type": "u32",
+          "offset": 216,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "pdo_fresh_axis_mask",
+          "type": "u32",
+          "offset": 220,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "config_verified_mask",
+          "type": "u32",
+          "offset": 224,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "home_valid_mask",
+          "type": "u32",
+          "offset": 228,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "service_mode_axis_mask",
+          "type": "u32",
+          "offset": 232,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wkc_actual",
+          "type": "u32",
+          "offset": 236,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "wkc_expected",
+          "type": "u32",
+          "offset": 240,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "master_state",
+          "type": "u32",
+          "offset": 244,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_configured",
+          "type": "u32",
+          "offset": 248,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_input_word",
+          "type": "u32",
+          "offset": 252,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_output_word",
+          "type": "u32",
+          "offset": 256,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_input_valid",
+          "type": "u32",
+          "offset": 260,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_armed",
+          "type": "u32",
+          "offset": 264,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "io_reason",
+          "type": "u32",
+          "offset": 268,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "ax",
+          "type": "CycleCaptureAxisV2[16]",
+          "offset": 272,
+          "size": 5120,
+          "alignment": 8
+        }
+      ]
+    },
+    {
+      "name": "TelemetryBatchHeaderV1",
+      "size": 312,
+      "alignment": 8,
+      "fields": [
+        {
+          "name": "magic",
+          "type": "u32",
+          "offset": 0,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "version",
+          "type": "u16",
+          "offset": 4,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "header_bytes",
+          "type": "u16",
+          "offset": 6,
+          "size": 2,
+          "alignment": 2
+        },
+        {
+          "name": "adapter_incarnation",
+          "type": "u8[32]",
+          "offset": 8,
+          "size": 32,
+          "alignment": 1
+        },
+        {
+          "name": "machine_sha256",
+          "type": "u8[64]",
+          "offset": 40,
+          "size": 64,
+          "alignment": 1,
+          "array_bound": 64
+        },
+        {
+          "name": "deployment_sha256",
+          "type": "u8[64]",
+          "offset": 104,
+          "size": 64,
+          "alignment": 1,
+          "array_bound": 64
+        },
+        {
+          "name": "record_layout_digest",
+          "type": "u8[64]",
+          "offset": 168,
+          "size": 64,
+          "alignment": 1,
+          "array_bound": 64
+        },
+        {
+          "name": "cycle_period_ns",
+          "type": "u64",
+          "offset": 232,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "first_sequence",
+          "type": "u64",
+          "offset": 240,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "last_sequence",
+          "type": "u64",
+          "offset": 248,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "dropped",
+          "type": "u64",
+          "offset": 256,
+          "size": 8,
+          "alignment": 8
+        },
+        {
+          "name": "axis_count",
+          "type": "u32",
+          "offset": 264,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "record_count",
+          "type": "u32",
+          "offset": 268,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "record_bytes",
+          "type": "u32",
+          "offset": 272,
+          "size": 4,
+          "alignment": 4
+        },
+        {
+          "name": "reserved",
+          "type": "u32",
+          "offset": 276,
+          "size": 4,
+          "alignment": 4,
+          "reserved": true
+        },
+        {
+          "name": "daemon_incarnation",
+          "type": "u8[32]",
+          "offset": 280,
+          "size": 32,
+          "alignment": 1
+        }
+      ]
+    }
+  ]
+}

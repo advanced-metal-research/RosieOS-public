@@ -1,0 +1,8 @@
+exec "/catalog/start.sh"
+exec "/bin/nats-server" -a 127.0.0.1 -p 14222 -m 18222
+exec bash /repo/motion-server/v1/local-rt-core.sh sim
+exec bash /repo/motion-server/v1/local-rt-core.sh control
+mkdir -p /plans && exec /bin/dense/joint_trajectory_daemon --backend rt_core --config /build/daemon-rt-core.json --dense-ingest-listen 127.0.0.1:8797 --plan-store-dir /plans --ready-file /stack/daemon-ready.json --nats-url nats://127.0.0.1:14222 --robot-cell dev-cell --robot-command-subject robot/v4/robot.dev-cell.command --status-publish-subject robot/v4/robot.dev-cell.status
+cd "/repo/weld_planner/v1" && exec pixi run -e motion motion-serve
+cd "/repo/offline-programming/v1" && DEV_STACK_BACKEND=rt_core OFFLINE_PROGRAMMING_EXECUTION_BACKEND=rt_core OFFLINE_PROGRAMMING_JOG_BACKEND=rt_core OFFLINE_PROGRAMMING_PROGRAM_CATALOG_ORIGIN="http://127.0.0.1:8787" OFFLINE_PROGRAMMING_WELD_PLANNER_MOTION_ORIGIN="http://127.0.0.1:8796" OLP_RESTART_SERVE=1 exec bash ./start-offline-programming.sh
+cd "/repo/offline-programming/v1/ui" && exec npm run dev -- --host 127.0.0.1 --port 5189

@@ -1,0 +1,103 @@
+{
+  "result": "PASS",
+  "appUrl": "http://127.0.0.1:8796/offline-programming/v1/ui/?home-movej-proof=1785493181591",
+  "program": "Accepted trajectory motion proof",
+  "stopHeldPose": true,
+  "startJointsRad": [
+    1.1392754956414662e-7,
+    -0.19568671694394094,
+    0.24892746248735065,
+    -8.18594318467478e-7,
+    -0.6259749999880787,
+    -5.971439632450077e-7,
+    0,
+    0,
+    0
+  ],
+  "immediatelyAfterHomeClickJointsRad": [
+    1.1392754956414662e-7,
+    -0.19568671694394094,
+    0.24892746248735065,
+    -8.18594318467478e-7,
+    -0.6259749999880787,
+    -5.971439632450077e-7,
+    0,
+    0,
+    0
+  ],
+  "finalJointsRad": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "wallTimeFromClickMs": 34815,
+  "wallTimeMovingMs": 2491,
+  "observedFrames": 33,
+  "distinctIntermediateJointVectors": 33,
+  "maxObservedStepRad": 0.09805709314123501,
+  "plannerRequest": {
+    "rowCount": 2,
+    "moveTypes": [
+      "joint_ptp",
+      "joint_ptp"
+    ],
+    "targetJointsRad": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "acceptedPlan": {
+    "planId": "offline-programming-local/viewer-motion-5653695e-6394-4db1-81bd-443c341fa48b:local:33:2/4",
+    "planner": {
+      "owner": "motion-server",
+      "backend": "motion_server_tesseract_trajectory_v1",
+      "trajectory_method": "linear-tcp-dense-csp",
+      "build_digest": "sha256:e546709339962cdd07a7737556b28ce1afb1a6a83d1be491fb7c2b007aeb9c2a"
+    },
+    "sampleCount": 15,
+    "durationS": 2.5048999999523147,
+    "startJointsRad": [
+      1.1392754956414662e-7,
+      -0.19568671694394094,
+      0.24892746248735065,
+      -8.18594318467478e-7,
+      -0.6259749999880787,
+      -5.971439632450077e-7,
+      0,
+      0,
+      0
+    ],
+    "endJointsRad": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "acceptedProgramUnchanged": true,
+  "noPhysicalRobotOutputSent": true,
+  "screenshots": {
+    "start": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-movej-start.png",
+    "middle": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-movej-middle.png",
+    "complete": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-movej-complete.png",
+    "visibleApplication": "C:\\Users\\operator\\Desktop\\projects\\gradient-cli\\offline-programming\\v1\\proof\\home-movej-visible-app.png"
+  }
+}

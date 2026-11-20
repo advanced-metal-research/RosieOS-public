@@ -1,0 +1,164 @@
+{
+  "control": {
+    "link_profile": "internet"
+  },
+  "_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+  "bus": {
+    "unknown_slaves": "hold",
+    "unknown_slaves_note": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "hold_on_robot_acknowledged": true,
+    "hold_on_robot_note": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+  },
+  "axes": [
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.006108652381980153,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J1",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 0,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    },
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.006108652381980153,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J2",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 1,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    },
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.006108652381980153,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J3",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 2,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    },
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.008726646259971648,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J4",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 3,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    },
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.011344640137963142,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J5",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 4,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    },
+    {
+      "limits": {
+        "completion_timeout_ms": 1000,
+        "completion_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "completion_tolerance": 0.0001,
+        "completion_tolerance_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error": 0.020000000000000004,
+        "following_error_timeout_ms": 100,
+        "following_error_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "following_error_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+        "max_target_lead": 0.013962634015954637,
+        "max_target_lead_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+      },
+      "robot_joint": "J6",
+      "robot_joint_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "startup": {
+        "a6ec_speed_feedforward_percentage": 500,
+        "a6ec_speed_feedforward_source": 1
+      },
+      "startup_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+      "slave_position": 5,
+      "slave_position_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+    }
+  ],
+  "backend": "live",
+  "backend_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+  "bus_bringup": {
+    "disable_output_watchdog": false,
+    "disable_output_watchdog_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "explicit_pdo_config": false,
+    "explicit_pdo_config_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "no_dc": false,
+    "no_dc_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "preop_safeop_timeout_ms": 5000,
+    "preop_safeop_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "safeop_op_timeout_ms": 5000,
+    "safeop_op_timeout_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "startup_passive_ms": 0,
+    "startup_passive_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "wait_before_safeop_ms": 250,
+    "wait_before_safeop_ms_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+  },
+  "cycle_ns": 1000000,
+  "cycle_ns_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+  "max_cycle_lateness_ns": 1000000,
+  "max_cycle_lateness_ns_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+  "robot": {
+    "robot_description": {
+      "path": "robot_description/robots/rosie_1420_v1",
+      "sha256": "sha256:198f759144aaf29c6013dba8e1bbc4d6e180a9fc362194c95decb09138dcb0ad",
+      "source": "Pinned Rosie 1420 V1 robot description: joint limits and velocity ratings from robot.urdf, gearing, encoder mode, battery facts and Home policy from rtcore_definition.json. Recompute the digest with robot_description/go/cmd/identity after any edit to the description."
+    }
+  },
+  "runtime": {
+    "cpu": 0,
+    "cpu_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it.",
+    "priority": 90,
+    "priority_unverified": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+  },
+  "schema_version": 1,
+  "schema_version_source": "Example value for the public placeholder cell example-arm-1420 (Rosie 1420 V1, six A6-EC axes), copied from a six-motor Rosie 1420 bench configuration. Not a measurement of any arm; never deploy it."
+}

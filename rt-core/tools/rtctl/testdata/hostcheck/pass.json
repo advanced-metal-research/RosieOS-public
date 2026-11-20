@@ -1,0 +1,162 @@
+{
+  "schema": "rosie-rt-core.hostcheck.v1",
+  "checks": [
+    {
+      "id": "rt_cpu",
+      "status": "pass",
+      "observed": "2",
+      "expected": "configured nonnegative runtime.cpu (or deployed --rt-cpu)"
+    },
+    {
+      "id": "kernel_version",
+      "status": "pass",
+      "observed": "6.12.0-rt1",
+      "expected": "nonempty kernel release"
+    },
+    {
+      "id": "kernel_build",
+      "status": "pass",
+      "observed": "#1 SMP PREEMPT_RT test",
+      "expected": "uname -v kernel build string"
+    },
+    {
+      "id": "preempt_rt",
+      "status": "pass",
+      "observed": "realtime=1; version=#1 SMP PREEMPT_RT test",
+      "expected": "/sys/kernel/realtime=1 or uname -v contains PREEMPT_RT"
+    },
+    {
+      "id": "igh_master",
+      "status": "pass",
+      "observed": "1.6.9",
+      "expected": "1.6.9"
+    },
+    {
+      "id": "ethercat_device",
+      "status": "pass",
+      "observed": "group=ethercat mode=0660",
+      "expected": "group=ethercat mode=0660"
+    },
+    {
+      "id": "master_nic",
+      "status": "pass",
+      "observed": "interface=eth0 address=02:00:00:00:00:01 MASTER0_DEVICE=02:00:00:00:00:01",
+      "expected": "MASTER0_DEVICE MAC matches the configured NIC address"
+    },
+    {
+      "id": "isolated",
+      "status": "pass",
+      "observed": "2-3",
+      "expected": "includes RT CPU 2"
+    },
+    {
+      "id": "nohz_full",
+      "status": "pass",
+      "observed": "2-3",
+      "expected": "includes RT CPU 2"
+    },
+    {
+      "id": "cpufreq_governor",
+      "status": "pass",
+      "observed": "performance",
+      "expected": "performance"
+    },
+    {
+      "id": "nic_irq_42",
+      "status": "pass",
+      "observed": "IRQ 42 mask=0-1 in_interrupts=true",
+      "expected": "nonempty NIC IRQ masks exclude RT CPU 2"
+    },
+    {
+      "id": "timer_slack",
+      "status": "pass",
+      "observed": "50000 ns (hostcheck thread)",
+      "expected": "0..50000 ns (unverified inspection ceiling)"
+    },
+    {
+      "id": "timer_resolution",
+      "status": "pass",
+      "observed": "1 ns",
+      "expected": "1..1000 ns (unverified inspection ceiling)"
+    },
+    {
+      "id": "clocksource",
+      "status": "pass",
+      "observed": "current=tsc available=tsc hpet acpi_pm",
+      "expected": "current source is listed as available; stability needs hardware evidence"
+    },
+    {
+      "id": "group_rosie-rt",
+      "status": "pass",
+      "observed": "rosie-rt present=true",
+      "expected": "group exists with numeric GID"
+    },
+    {
+      "id": "group_rosie-ctl",
+      "status": "pass",
+      "observed": "rosie-ctl present=true",
+      "expected": "group exists with numeric GID"
+    },
+    {
+      "id": "group_rosie-rt-clients",
+      "status": "pass",
+      "observed": "rosie-rt-clients present=true",
+      "expected": "group exists with numeric GID"
+    },
+    {
+      "id": "group_ethercat",
+      "status": "pass",
+      "observed": "ethercat present=true",
+      "expected": "group exists with numeric GID"
+    },
+    {
+      "id": "user_rosie-rt",
+      "status": "pass",
+      "observed": "rosie-rt present=true non_root=true primary_matches=true home=/nonexistent shell=/usr/sbin/nologin memberships=true",
+      "expected": "non-root service user; primary=rosie-rt home=/nonexistent shell=/usr/sbin/nologin; required supplementary groups"
+    },
+    {
+      "id": "user_rosie-ctl",
+      "status": "pass",
+      "observed": "rosie-ctl present=true non_root=true primary_matches=true home=/nonexistent shell=/usr/sbin/nologin memberships=true",
+      "expected": "non-root service user; primary=rosie-ctl home=/nonexistent shell=/usr/sbin/nologin; required supplementary groups"
+    },
+    {
+      "id": "memlock_rosie-rt-core",
+      "status": "pass",
+      "observed": "template LimitMEMLOCK=infinity",
+      "expected": "infinity in core unit template; effective service overrides require separate inspection"
+    },
+    {
+      "id": "memlock_rosie-rt-control",
+      "status": "not_applicable",
+      "observed": "LimitMEMLOCK absent in control unit template",
+      "expected": "control adapter does not lock RT memory"
+    },
+    {
+      "id": "runtime_directory",
+      "status": "pass",
+      "observed": "owner=rosie-rt group=rosie-rt-clients mode=2770",
+      "expected": "owner=rosie-rt group=rosie-rt-clients mode=2770"
+    },
+    {
+      "id": "native_directory",
+      "status": "pass",
+      "observed": "owner=rosie-rt group=rosie-ctl mode=2750",
+      "expected": "owner=rosie-rt group=rosie-ctl mode=2750"
+    },
+    {
+      "id": "public_directory",
+      "status": "pass",
+      "observed": "owner=rosie-ctl group=rosie-rt-clients mode=2750",
+      "expected": "owner=rosie-ctl group=rosie-rt-clients mode=2750"
+    },
+    {
+      "id": "timing_qualification",
+      "status": "not_applicable",
+      "observed": "read-only prerequisite inspection; no cycle latency measurement",
+      "expected": "separate PREEMPT_RT hardware timing evidence before G1"
+    }
+  ],
+  "exit_code": 0
+}

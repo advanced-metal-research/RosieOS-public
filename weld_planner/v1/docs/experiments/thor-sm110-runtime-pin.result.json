@@ -1,0 +1,48 @@
+{
+  "schema": "amr.rosie-thor-runtime-result.v1",
+  "verdict": "passed",
+  "verdict_scope": "source_owned_thor_runtime_capability_only",
+  "source": {
+    "base_revision": "2b04cb8bae870968e8e5774cc9ec3d576270816d",
+    "candidate_revision": "f352f7913fba570ccebdb4781e0b93fd4e802cd1",
+    "source_archive_sha256": "c30a40481b693d38bbef4a7908d225f127b72aa7cdb4f906eb573e669c08b312"
+  },
+  "runtime": {
+    "image": "nvcr.io/nvidia/pytorch@sha256:edbbf7492e7a9111974a0e58debbc51371b131e19acf4aa033577cc39d4399a5",
+    "torch": "2.12.0a0+0291f960b6.nv26.04.48445190",
+    "built_for_cuda": "13.2",
+    "device": "NVIDIA Thor",
+    "capability": "sm_110",
+    "real_cuda_kernel": "passed",
+    "pixi_environment": "motion-thor",
+    "lock_sha256": "f179060d289cd7f1812a96d628b506860dd0d253162ae1f44ea89c010bd6b4e2",
+    "container_pull_policy": "never"
+  },
+  "static_gates": {
+    "runner_contract_tests": "2 passed",
+    "ruff": "passed",
+    "shell_syntax": "passed",
+    "pixi_lock_check": "passed"
+  },
+  "source_diagnosis_after_runtime_repair": {
+    "test": "tests/motion_planner/test_freespace.py",
+    "result": "6 failed, 14 passed",
+    "failures": [
+      "test_every_handover_is_a_held_stop",
+      "test_every_link_is_solved_and_certified",
+      "test_no_link_carries_motion_nobody_asked_for",
+      "test_no_link_is_flown_at_half_the_rate_the_cell_allows",
+      "test_the_screen_that_ranks_seeds_can_see_the_arm_hitting_itself",
+      "test_the_nearest_winding_is_not_always_the_reachable_one"
+    ],
+    "interpretation": "The runtime is now capable. Five failures are M6 control-solver contract violations; the winding failure is separate known determinism debt. They are not repaired or weakened here."
+  },
+  "removed_unsafe_behavior": "setup-fleet no longer overwrites locked Torch with an unpinned pip wheel",
+  "execution_authority": "none",
+  "forbidden_claims": [
+    "planner or M6 correctness",
+    "full-suite pass",
+    "Motion Server acceptance",
+    "hardware motion or physical readiness"
+  ]
+}

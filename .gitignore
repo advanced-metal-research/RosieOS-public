@@ -1,0 +1,73 @@
+# Build artifacts
+/build/go-cache/
+/build/go-mod-cache/
+/build/go-tmp/
+/rosie
+/rosie.exe
+bin/
+node_modules/
+**/.vite/
+*.exe
+*.test
+*.out
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Local runs / secrets
+**/.run/
+**/.pixi
+**/.pixi/
+**/.env
+.env
+serve.env
+_private/
+_tmp_*
+**/.tmp-*
+
+# UI / package builds
+**/dist/
+**/ui/node_modules/
+**/ui/dist/
+
+# Robot v4 local
+/steamdeck/real/v4/build/
+/steamdeck/real/v4/test/artifacts/
+/steamdeck/real/v4/test.log*
+/steamdeck/real/v4/setup/revpi-credentials.local.json
+/steamdeck/real/v4/evidence/
+
+# URDF generated exports (checked-in cell meshes stay tracked)
+
+# Robot descriptions: same rule, for the models that live there now. The
+# CAD exports sit under each model's provenance/.
+/robot_description/**/*.stl
+!/robot_description/robots/rosie_1420_v1/meshes/*.stl
+!/robot_description/robots/rosie_1420_v1/provenance/fusion_part_export/meshes/*.stl
+!/robot_description/robots/rosie_1400_v3/provenance/fusion_part_export/meshes/*.stl
+
+# CadQuery / OLP
+/cadquery/v1/.pixi/
+/cadquery/v1/exports/
+/offline-programming/v1/bin/
+/offline-programming/v1/deploy/
+/offline-programming/v1/ui/dist/
+/offline-programming/v1/ui/node_modules/
+
+# Steam Deck local
+steamdeck/real/v4-2/_setup_snapshot/
+steamdeck/real/v4-2/runtime/RobotV4SteamDeck
+steamdeck/real/v4-2/virtual-robot/node_modules/
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Evidence / video dumps
+*.mp4
+# 13 MB compiled server binary once committed on main (bloat review item 9); build outputs live under bin/.
+/offline-programming/v1/v1

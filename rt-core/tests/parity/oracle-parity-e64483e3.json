@@ -1,0 +1,320 @@
+{
+  "R07_difference": "The legacy SDK serialized renewal and Stop. The Go port keeps independent renewal active and checks the daemon-visible generation fence and stale-handle rejection.",
+  "base_commit": "e64483e3c9183079804834482a3d93ff0b187d9d",
+  "compiled_configurations": "Both harnesses use the same checked-in machines/profiles and daemon binary. The final TestParity session compared all six complete compiled trees byte-for-byte.",
+  "completed_utc": "2026-09-12T05:42:15.81336335Z",
+  "go_command": "go test -race -count=1 -json ./ipcclient/oracle ./adapters/rosie/control/oracle",
+  "go_output_sha256": "e68964a3504e35b5d8ab27a3b1f5432265b1331e64e6bc54648235cd0ab1a00d",
+  "inputs_sha256": {
+    "adapters/rosie/control/oracle/control_test.go": "d304749c30d1b659c1d2dd91ff7059771b42685a4b43c3b11ee6fded4d5bf1b5",
+    "adapters/rosie/control/oracle/harness_test.go": "b57498716d4d5814542c68314c64810861fb00f1c7c7703652ff4602581641d3",
+    "build/rosie-rt-core-sim": "8244c2d4ed8a12ae89f4aac0da5030a485ec70f05c958e4fe658137cc34f85cd",
+    "build/rt-control": "f2e2007338aedcfcfbc2d35c06042da31ec9a69cb7e38439b2344eeaa0614734",
+    "build/rtctl": "9da6a826e7d0df5cfbb99c14a47189f626fe16ca89a2de97e9ab83095c018141",
+    "config/a6ec-bench.example.json": "45e040cd64c168f38ccf0a8cea2460e55d08b81ed49aeadc99565ca5961e6a73",
+    "config/simulation-home.json": "37570d3edde38d745609a7f24d6f4c20535e047965a56ec313a6505240b9673a",
+    "config/simulation-linear.json": "33561b75b30131e04a314846334928d57238b495685fcc299d86b509da413038",
+    "config/simulation-program.json": "c30154faba0c1d7002c9c5735e30deab1b050cdfed12640ee92d07650651d0fd",
+    "config/simulation-scalars.json": "f65d76c7b889829a4ffe00206ad447778030be1fcb7766db82604aab9631a892",
+    "config/simulation.json": "8d98fa69d82c12d9ce73bd0eb37778547cf2a390c070c7aaef1bfe420500a61a",
+    "ipcclient/oracle/config_test.go": "48c2c307a01b0ffea67088def1154bc9a93d8e65bc2bebbf82111a8874f441f7",
+    "ipcclient/oracle/harness_test.go": "72627ac9ed85f96386fcf2a5c272f6e62e38fbda5edfc7141b015e3bd07ce1df",
+    "ipcclient/oracle/raw_test.go": "03a30d6f3ac1e9f60171bdeed968af2454bf146f50b7c6cf72a716f15c8e8ab5",
+    "ipcclient/oracle/runtime_test.go": "ba089314be92b0e76b3cc582236c891cb654691c50d3d11272e7300e1805aef3",
+    "profiles/a6ec.json": "bd6f90b102991ab80a2b408051f5d6c68bb9a279ada56d3cb8d4f91db0fa0e9d",
+    "profiles/cia402_sim.json": "72d5de73cb61e0a040ef41b3ccaf66bbc067cf19b2982e188606cd3ddf3fff15",
+    "profiles/cia402_sim_home.json": "7b78c941ed7066f6479798a55a498022fd28d57d575aa87b906a4c146170759a",
+    "profiles/cia402_sim_other.json": "c2a02776d26be5e4b46017e405e86ba51965fe59d7be1421c5250cffd28b66ee",
+    "profiles/cia402_sim_scalars.json": "7935b9e3f38dcdd6d5bf223a4c6276008285bf5340b1a7ea7951b069eeda5474",
+    "python/rtcore/__init__.py": "d8bdde0b868868e8544cb80f4365ded9e4fc6d651d6a750808a70e825acb532c",
+    "python/rtcore/__main__.py": "0e91ff80f2a5149e526bd7c40fee640769d3a9fc52eb2d86dba07ea7ef4ab828",
+    "python/rtcore/client.py": "fd55d9b11e38c579852ccb740e126c8b70bb96725300472a809e73796133db03",
+    "python/rtcore/config.py": "d978a0d8572f3550fa5d6fecc661031041424efff7ce29a5bc27fa4a1aff20b8",
+    "python/rtcore/control.py": "ba7e25c8196da638e9ac3440f6083cde588fa93e5bc786b97ea86d05f03cc7a7",
+    "python/rtcore/control_cli.py": "bc50d937adc9d8f3c3b6d10e4167106470ea49c871d7a4b4da023ad0ee67cc66",
+    "python/rtcore/protocol.py": "e935406362b5ba7921f1df514784fdacc8db0a2b71cd884115d328240d0017ff",
+    "tests/test_config.py": "791c97ac3dff63f8fadcb7e574342abd0ac07bb75e394d9fe0e2274b7ef794bc",
+    "tests/test_control.py": "99cedf12979ce807c79817766a3cb9d56bfa1a5741f6c9629231b215ed59cd96",
+    "tests/test_runtime.py": "e8840965a41bee9dcc1eb62aad0e2d703a7ceaa157e88a52d8a0cc94f7a464b5"
+  },
+  "inputs_unchanged": true,
+  "legacy_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=python python3 -m unittest discover -s tests -v",
+  "legacy_output": [
+    "test_a6_settings_are_explicit_and_scoped (test_config.ConfigurationTests) ... ok",
+    "test_daemon_rejects_invalid_compiled_profile (test_config.ConfigurationTests) ... ok",
+    "test_mixed_profiles_compile_independently (test_config.ConfigurationTests) ... ok",
+    "test_no_live_use_of_simulated_identity (test_config.ConfigurationTests) ... ok",
+    "test_reject_invalid_machine_before_runtime (test_config.ConfigurationTests) ... ok",
+    "test_startup_scalar_overflow_is_rejected_before_runtime (test_config.ConfigurationTests) ... ok",
+    "test_dense_program_native_execution_and_identity (test_control.ControlTests) ... ok",
+    "test_lease_expiry_fences_owner_and_inhibits_outputs (test_control.ControlTests) ... ok",
+    "test_motion_server_sdk_executes_current_format (test_control.ControlTests) ... ok",
+    "test_process_markers_are_preserved_and_cannot_be_silently_ignored (test_control.ControlTests) ... ok",
+    "test_stop_fences_stale_commands_and_prepared_handles (test_control.ControlTests) ... ok",
+    "test_arbitrary_setting_change_revokes_readback_evidence (test_runtime.HomingTests) ... ok",
+    "test_config_readback_and_home_gate (test_runtime.HomingTests) ... ok",
+    "test_disarm_cancels_home_without_waiting_for_command_helper (test_runtime.HomingTests) ... ok",
+    "test_disconnect_during_home_never_publishes_success (test_runtime.HomingTests) ... ok",
+    "test_stop_cancels_home_without_commissioning_completion (test_runtime.HomingTests) ... ok",
+    "test_linear_and_rotary_axes_use_independent_units (test_runtime.LinearTests) ... ok",
+    "test_continuous_nonzero_start_is_accepted (test_runtime.RuntimeTests) ... ok",
+    "test_disarm_aborts_buffer_and_arm_does_not_resume (test_runtime.RuntimeTests) ... ok",
+    "test_disconnect_stops_and_reconnect_does_not_resume (test_runtime.RuntimeTests) ... ok",
+    "test_discontinuous_first_point_is_rejected_before_movement (test_runtime.RuntimeTests) ... ok",
+    "test_excessive_cycle_lateness_revokes_motion_without_replay (test_runtime.RuntimeTests) ... ok",
+    "test_full_dense_plan_capacity_without_cyclic_copy (test_runtime.RuntimeTests) ... ok",
+    "test_implicit_segment_speed_is_checked_without_velocity_feedforward (test_runtime.RuntimeTests) ... ok",
+    "test_jog_timeout_stops_motion (test_runtime.RuntimeTests) ... ok",
+    "test_lease_expires_even_with_socket_open (test_runtime.RuntimeTests) ... ok",
+    "test_mixed_drives_and_buffered_position_velocity (test_runtime.RuntimeTests) ... ok",
+    "test_mode_conflicts_preserve_active_owner (test_runtime.RuntimeTests) ... ok",
+    "test_nan_velocity_revokes_outputs (test_runtime.RuntimeTests) ... ok",
+    "test_prepare_is_inert_and_start_is_correlated (test_runtime.RuntimeTests) ... ok",
+    "test_prepared_handle_invalidated_by_stop_and_storage_is_bounded (test_runtime.RuntimeTests) ... ok",
+    "test_quantized_motion_at_axis_velocity_limit_is_accepted (test_runtime.RuntimeTests) ... ok",
+    "test_stale_command_revokes_outputs (test_runtime.RuntimeTests) ... ok",
+    "test_stop_cancels_trajectory_and_rearm_does_not_replay (test_runtime.RuntimeTests) ... ok",
+    "test_stop_interrupts_a_backpressured_writer (test_runtime.RuntimeTests) ... ok",
+    "test_stop_invalidates_an_uncommitted_upload (test_runtime.RuntimeTests) ... ok",
+    "test_trajectory_limits_reject_entire_upload_before_motion (test_runtime.RuntimeTests) ... ok",
+    "test_signed_and_unsigned_startup_values_read_back_exactly_per_axis (test_runtime.ScalarTests) ... ok",
+    "",
+    "----------------------------------------------------------------------",
+    "Ran 38 tests in 44.971s",
+    "",
+    "OK"
+  ],
+  "pair_count": 38,
+  "pairs": [
+    {
+      "origin": "test_config.ConfigurationTests.test_a6_settings_are_explicit_and_scoped",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestA6SettingsAreExplicitAndScoped",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_config.ConfigurationTests.test_daemon_rejects_invalid_compiled_profile",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDaemonRejectsInvalidCompiledProfile",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_config.ConfigurationTests.test_mixed_profiles_compile_independently",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestMixedProfilesCompileIndependently",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_config.ConfigurationTests.test_no_live_use_of_simulated_identity",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestNoLiveUseOfSimulatedIdentity",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_config.ConfigurationTests.test_reject_invalid_machine_before_runtime",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestRejectInvalidMachineBeforeRuntime",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_config.ConfigurationTests.test_startup_scalar_overflow_is_rejected_before_runtime",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStartupScalarOverflowIsRejectedBeforeRuntime",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_control.ControlTests.test_dense_program_native_execution_and_identity",
+      "counterpart": "rosieos/rt-core/adapters/rosie/control/oracle.TestDenseProgramNativeExecutionAndIdentity",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_control.ControlTests.test_lease_expiry_fences_owner_and_inhibits_outputs",
+      "counterpart": "rosieos/rt-core/adapters/rosie/control/oracle.TestLeaseExpiryFencesOwnerAndInhibitsOutputs",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_control.ControlTests.test_motion_server_sdk_executes_current_format",
+      "counterpart": "rosieos/rt-core/adapters/rosie/control/oracle.TestMotionServerSDKExecutesCurrentFormat",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_control.ControlTests.test_process_markers_are_preserved_and_cannot_be_silently_ignored",
+      "counterpart": "rosieos/rt-core/adapters/rosie/control/oracle.TestProcessMarkersArePreservedAndCannotBeSilentlyIgnored",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_control.ControlTests.test_stop_fences_stale_commands_and_prepared_handles",
+      "counterpart": "rosieos/rt-core/adapters/rosie/control/oracle.TestStopFencesStaleCommandsAndPreparedHandles",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.HomingTests.test_arbitrary_setting_change_revokes_readback_evidence",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestArbitrarySettingChangeRevokesReadbackEvidence",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.HomingTests.test_config_readback_and_home_gate",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestConfigReadbackAndHomeGate",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.HomingTests.test_disarm_cancels_home_without_waiting_for_command_helper",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDisarmCancelsHomeWithoutWaitingForCommandHelper",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.HomingTests.test_disconnect_during_home_never_publishes_success",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDisconnectDuringHomeNeverPublishesSuccess",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.HomingTests.test_stop_cancels_home_without_commissioning_completion",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStopCancelsHomeWithoutCommissioningCompletion",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.LinearTests.test_linear_and_rotary_axes_use_independent_units",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestLinearAndRotaryAxesUseIndependentUnits",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_continuous_nonzero_start_is_accepted",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestContinuousNonzeroStartIsAccepted",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_disarm_aborts_buffer_and_arm_does_not_resume",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDisarmAbortsBufferAndArmDoesNotResume",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_disconnect_stops_and_reconnect_does_not_resume",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDisconnectStopsAndReconnectDoesNotResume",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_discontinuous_first_point_is_rejected_before_movement",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestDiscontinuousFirstPointIsRejectedBeforeMovement",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_excessive_cycle_lateness_revokes_motion_without_replay",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestExcessiveCycleLatenessRevokesMotionWithoutReplay",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_full_dense_plan_capacity_without_cyclic_copy",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestFullDensePlanCapacityWithoutCyclicCopy",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_implicit_segment_speed_is_checked_without_velocity_feedforward",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestImplicitSegmentSpeedIsCheckedWithoutVelocityFeedforward",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_jog_timeout_stops_motion",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestJogTimeoutStopsMotion",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_lease_expires_even_with_socket_open",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestLeaseExpiresEvenWithSocketOpen",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_mixed_drives_and_buffered_position_velocity",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestMixedDrivesAndBufferedPositionVelocity",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_mode_conflicts_preserve_active_owner",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestModeConflictsPreserveActiveOwner",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_nan_velocity_revokes_outputs",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestNaNVelocityRevokesOutputs",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_prepare_is_inert_and_start_is_correlated",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestPrepareIsInertAndStartIsCorrelated",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_prepared_handle_invalidated_by_stop_and_storage_is_bounded",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestPreparedHandleInvalidatedByStopAndStorageIsBounded",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_quantized_motion_at_axis_velocity_limit_is_accepted",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestQuantizedMotionAtAxisVelocityLimitIsAccepted",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_stale_command_revokes_outputs",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStaleCommandRevokesOutputs",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_stop_cancels_trajectory_and_rearm_does_not_replay",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStopCancelsTrajectoryAndRearmDoesNotReplay",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_stop_interrupts_a_backpressured_writer",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStopInterruptsABackpressuredWriter",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_stop_invalidates_an_uncommitted_upload",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestStopInvalidatesAnUncommittedUpload",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.RuntimeTests.test_trajectory_limits_reject_entire_upload_before_motion",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestTrajectoryLimitsRejectEntireUploadBeforeMotion",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    },
+    {
+      "origin": "test_runtime.ScalarTests.test_signed_and_unsigned_startup_values_read_back_exactly_per_axis",
+      "counterpart": "rosieos/rt-core/ipcclient/oracle.TestSignedAndUnsignedStartupValuesReadBackExactlyPerAxis",
+      "legacy_result": "ok",
+      "go_result": "pass"
+    }
+  ],
+  "schema": "rosie.oracle-parity.v1",
+  "started_utc": "2026-09-12T05:40:43.182733891Z"
+}

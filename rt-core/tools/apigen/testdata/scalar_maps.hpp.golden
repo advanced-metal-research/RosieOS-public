@@ -1,0 +1,20 @@
+struct ScalarMaps {
+  std::map<std::string, bool> Flags{};
+  std::map<std::string, std::string> Labels{};
+  std::map<std::string, std::uint64_t> Counts{};
+};
+inline Json to_json(const ScalarMaps& value) {
+  Json out = Json::object_value();
+  out.object.emplace_back("flags", to_json(value.Flags));
+  if (!::rosie::rt_control::empty(value.Labels))  out.object.emplace_back("labels", to_json(value.Labels));
+  out.object.emplace_back("counts", to_json(value.Counts));
+  return out;
+}
+inline void from_json(const Json& json, ScalarMaps& value) {
+  require_object(json);
+  ScalarMaps next{};
+  field(json, "flags", next.Flags, true);
+  field(json, "labels", next.Labels, false);
+  field(json, "counts", next.Counts, true);
+  value = std::move(next);
+}

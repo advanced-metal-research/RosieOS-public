@@ -1,0 +1,88 @@
+﻿{
+    "result":  "FAIL",
+    "clicked":  true,
+    "acceptedTrajectorySeen":  false,
+    "robotJointMotionSeen":  false,
+    "initial":  {
+                    "observedAt":  "2026-07-31T13:14:21.982Z",
+                    "readyState":  "complete",
+                    "buttonText":  "Plan \u0026 simulate",
+                    "buttonDisabled":  false,
+                    "planState":  "MISSING",
+                    "planSource":  "not generated",
+                    "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                    "planEvidence":  "Planner evidence unavailable",
+                    "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                    "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                    "storageStatus":  "IndexedDB project revisions active",
+                    "playbackTime":  "0.0 / 0.0 s",
+                    "visiblePlanButtons":  [
+                                               "Plan \u0026 simulate"
+                                           ],
+                    "duplicateLocalPlanButtonPresent":  false,
+                    "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                    "poseMode":  "home"
+                },
+    "observations":  [
+                         {
+                             "observedAt":  "2026-07-31T13:14:22.478Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Planning \u0026 preparing simulation…",
+                             "buttonDisabled":  true,
+                             "planState":  "MISSING",
+                             "planSource":  "not generated",
+                             "planDetail":  "Create a timed Tesseract J1–J9 trajectory before robot playback.",
+                             "planEvidence":  "Planner evidence unavailable",
+                             "plannerStatus":  "PLANNER: LOCAL READY · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "Ready · PC-native · loopback only · simulation · no real movement · EtherCAT/motion outputs off",
+                             "storageStatus":  "Autosave queued",
+                             "playbackTime":  "0.0 / 0.0 s",
+                             "visiblePlanButtons":  [
+                                                        "Planning \u0026 preparing simulation…"
+                                                    ],
+                             "duplicateLocalPlanButtonPresent":  false,
+                             "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                             "poseMode":  "home"
+                         },
+                         {
+                             "observedAt":  "2026-07-31T13:14:50.317Z",
+                             "readyState":  "complete",
+                             "buttonText":  "Plan \u0026 simulate",
+                             "buttonDisabled":  false,
+                             "planState":  "REJECTED",
+                             "planSource":  "canonical rejected",
+                             "planDetail":  "Canonical planner evidence rejected this plan. Physical execution remains disabled.",
+                             "planEvidence":  "Collisionblocked · 3Singularityclear · 0Limitsclear · 0Runtimeblocked · 180Correlationrevision matchedAccepted artifactnot mintedPlanner buildunavailable",
+                             "plannerStatus":  "PLANNER: AVAILABLE · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                             "localStatus":  "ready · Plan \u0026 simulate will recover and start it automatically · runtime restart required",
+                             "storageStatus":  "Canonical plan rejected: canonical_plan_evidence_invalid, collision_evidence_not_clear, runtime_not_playable, simulation_accepted_plan_invalid",
+                             "playbackTime":  "0.0 / 0.0 s",
+                             "visiblePlanButtons":  [
+                                                        "Plan \u0026 simulate"
+                                                    ],
+                             "duplicateLocalPlanButtonPresent":  false,
+                             "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                             "poseMode":  "home"
+                         }
+                     ],
+    "final":  {
+                  "observedAt":  "2026-07-31T13:18:22.426Z",
+                  "readyState":  "complete",
+                  "buttonText":  "Plan \u0026 simulate",
+                  "buttonDisabled":  false,
+                  "planState":  "REJECTED",
+                  "planSource":  "canonical rejected",
+                  "planDetail":  "Canonical planner evidence rejected this plan. Physical execution remains disabled.",
+                  "planEvidence":  "Collisionblocked · 3Singularityclear · 0Limitsclear · 0Runtimeblocked · 180Correlationrevision matchedAccepted artifactnot mintedPlanner buildunavailable",
+                  "plannerStatus":  "PLANNER: AVAILABLE · TARGET PLAN: NO TARGET · PHYSICAL PLAY: DISABLED",
+                  "localStatus":  "ready · Plan \u0026 simulate will recover and start it automatically · runtime restart required",
+                  "storageStatus":  "Canonical plan rejected: canonical_plan_evidence_invalid, collision_evidence_not_clear, runtime_not_playable, simulation_accepted_plan_invalid",
+                  "playbackTime":  "0.0 / 0.0 s",
+                  "visiblePlanButtons":  [
+                                             "Plan \u0026 simulate"
+                                         ],
+                  "duplicateLocalPlanButtonPresent":  false,
+                  "poseJointsRad":  "0,0,0,0,0,0,0,0,0",
+                  "poseMode":  "home"
+              }
+}

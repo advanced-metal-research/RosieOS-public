@@ -1,0 +1,45 @@
+[Unit]
+Description=Rosie native motion control adapter
+Requires=rosie-rt-core.service
+After=rosie-rt-core.service
+PartOf=rosie-rt-core.service
+Conflicts=robot-v4-rtcore-nats-bridge.service
+# Its remote CRL lapses after 7 days unless re-signed: the timer starts with
+# the adapter (rosie-rt-crl.service; a host without a remote PKI skips it).
+Wants=rosie-rt-crl.timer
+ConditionPathExists=/etc/rosie-rt-core/control.env
+
+[Service]
+Type=simple
+# unverified deployment identities: native access is private to the adapter group.
+User=rosie-ctl
+Group=rosie-rt-clients
+SupplementaryGroups=rosie-ctl
+# unverified capability policy: Unix IPC and HTTP serving require no capabilities.
+AmbientCapabilities=
+CapabilityBoundingSet=
+NoNewPrivileges=yes
+EnvironmentFile=/etc/rosie-rt-core/control.env
+# Home anchors: the adapter writes axis-N.anchor after every Home. Refuse to
+# start without a writable store rather than lose Home at the next restart.
+# The test reads the variable, so a cell whose own drop-in names another
+# directory (install.sh leaves those hosts alone) checks that one.
+Environment=ROSIE_RT_ANCHOR_DIR=/var/lib/rosie-rt-anchors
+ExecStartPre=/usr/bin/test -w ${ROSIE_RT_ANCHOR_DIR}
+ExecStart=/opt/rosie/rt-core/build/rt-control --core-socket /run/rosie-rt-core/native/ipc.sock --socket /run/rosie-rt-core/public/control.sock --configuration-sha256 ${ROSIE_RT_CONFIGURATION_SHA256} --pair-id ${ROSIE_RT_PAIR_ID} --pair-revision ${ROSIE_RT_PAIR_REVISION} $ROSIE_RT_REMOTE_ARGS
+WorkingDirectory=/opt/rosie/rt-core
+# Only this child belongs to the adapter lifecycle; native/ survives adapter crashes.
+RuntimeDirectory=rosie-rt-core/public
+# unverified permission policy: clients traverse; only rosie-ctl creates socket entries.
+RuntimeDirectoryMode=2750
+# systemd removes stale sockets on every stop/restart; the adapter never unlinks another owner's socket.
+RuntimeDirectoryPreserve=no
+Restart=on-failure
+RestartSec=2
+KillSignal=SIGTERM
+TimeoutStopSec=10
+# unverified permission policy: sockets inherit rosie-rt-clients; rt-control sets control.sock to 0660.
+UMask=0007
+
+[Install]
+WantedBy=multi-user.target

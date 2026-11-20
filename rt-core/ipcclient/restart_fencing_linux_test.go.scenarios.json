@@ -1,0 +1,19 @@
+{
+  "schema": "rosie.qualification-scenarios.v1",
+  "scenarios": [
+    {
+      "id": "native-runtime-restart",
+      "claim": "runtime-restart",
+      "environment": "simulation",
+      "test": "rt-core/ipcclient/restart_fencing_linux_test.go",
+      "runner": "native-runtime-restart",
+      "deterministic": true,
+      "motionAllowed": false,
+      "requiredCapabilities": ["linux", "simulated-rt-core"],
+      "timeoutSeconds": 900,
+      "evidenceOutputs": ["go-test-result", "runner-log"],
+      "finalSafe": "simulator-exit",
+      "owner": "rt-core"
+    }
+  ]
+}

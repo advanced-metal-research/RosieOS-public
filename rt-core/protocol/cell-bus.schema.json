@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rosie.cell-bus.v1",
+  "title": "Cell bus policy (the optional cell.bus block)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "unknown_slaves": {"enum": ["refuse", "hold"], "default": "refuse"},
+    "unknown_slaves_note": {"type": "string", "pattern": "\\S"},
+    "hold_on_robot_acknowledged": {"type": "boolean", "default": false},
+    "hold_on_robot_note": {"type": "string", "pattern": "\\S"},
+    "unused_slaves": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slave_position", "vendor_id", "product_code", "note"],
+        "properties": {
+          "slave_position": {"type": "integer", "minimum": 0, "maximum": 65535},
+          "vendor_id": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+          "product_code": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+          "revision": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+          "note": {"type": "string", "pattern": "\\S"}
+        },
+        "patternProperties": {
+          "^(slave_position|vendor_id|product_code|revision|note)_(source|unverified)$": {"type": "string", "pattern": "\\S"}
+        }
+      }
+    }
+  },
+  "patternProperties": {
+    "^(unknown_slaves|unknown_slaves_note|hold_on_robot_acknowledged|hold_on_robot_note|unused_slaves)_(source|unverified)$": {"type": "string", "pattern": "\\S"}
+  },
+  "allOf": [
+    {"if": {"properties": {"unknown_slaves": {"const": "hold"}}, "required": ["unknown_slaves"]}, "then": {"required": ["unknown_slaves_note"]}},
+    {"if": {"properties": {"hold_on_robot_acknowledged": {"const": true}}, "required": ["hold_on_robot_acknowledged"]}, "then": {"required": ["hold_on_robot_note"]}}
+  ]
+}

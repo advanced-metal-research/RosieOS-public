@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#cfd2d5" />
+    <meta name="description" content="Offline-first CAD-to-weld authoring and preview for Rosie." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+    <title>Offline Programming V1</title>
+    <script>
+      // The resolved theme before the stylesheet paints (src/ui/theme.ts
+      // keeps it current afterwards): no light flash for a dark window.
+      try {
+        var stored = localStorage.getItem("olp.theme");
+        var dark = stored === "dark" || (stored !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="./boot-recovery.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+

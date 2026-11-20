@@ -1,0 +1,23 @@
+[workspace]
+name = "cadquery"
+description = "CadQuery STEP to URDF-ready STL conversion tools."
+authors = ["Gradient Industrial Robotics"]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "linux-aarch64", "osx-arm64", "osx-64"]
+version = "0.1.0"
+
+[tasks]
+convert = { cmd = "python python/step_to_urdf.py", description = "Convert STEP/STP CAD into STL meshes plus a simple URDF." }
+measure = { cmd = "python python/measure_alignment.py", description = "Measure exported Fusion STL meshes for alignment reports." }
+subassembly-svg = { cmd = "python python/subassembly_svg.py", description = "Export CadQuery SVG bbox comparison for a URDF v2 subassembly." }
+parts-image = { cmd = "python python/render_part_images.py", description = "Render technical line-drawing PNG part images from STEP files and write a browseable parts index." }
+analyze-mount-faces = { cmd = "python python/analyze_mount_faces.py", description = "Analyze STEP faces for likely bolt-pattern mounting faces." }
+smoke = { cmd = "python python/step_to_urdf.py --self-test", description = "Run converter argument and sanitizer smoke checks." }
+lint = { cmd = "ruff check python", description = "Lint Python converter scripts." }
+
+[dependencies]
+python = ">=3.10,<3.12"
+cadquery = "*"
+
+[pypi-dependencies]
+ruff = "*"

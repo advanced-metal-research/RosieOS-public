@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "program_id": "robot-v4-tour-calibration-box",
+  "revision": 2,
+  "execution_mode": "dry_run",
+  "samples_per_segment": 5
+}

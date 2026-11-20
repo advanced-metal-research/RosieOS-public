@@ -1,0 +1,111 @@
+name: Weld planner verifier
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/weld-planner-verifier.yml"
+      - "weld_planner/v1/python/weld_motion_planner/verifier/**"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/freespace.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/taught.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/weld_trajopt.py"
+      - "weld_planner/v1/tests/motion_planner/test_m6_verifier_contract.py"
+      - "weld_planner/v1/tests/motion_planner/test_freespace*.py"
+      - "weld_planner/v1/tests/programmer/test_dense_joint_trajectory.py"
+      - "weld_planner/v1/python/weldplan/**"
+      - "tools/sphere_tool/**"
+      - "weld_planner/v1/pixi.toml"
+      - "weld_planner/v1/pixi.lock"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/weld-planner-verifier.yml"
+      - "weld_planner/v1/python/weld_motion_planner/verifier/**"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/freespace.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/taught.py"
+      - "weld_planner/v1/python/weld_motion_planner/planner/trajectory_optimization/engine/weld_trajopt.py"
+      - "weld_planner/v1/tests/motion_planner/test_m6_verifier_contract.py"
+      - "weld_planner/v1/tests/motion_planner/test_freespace*.py"
+      - "weld_planner/v1/tests/programmer/test_dense_joint_trajectory.py"
+      - "weld_planner/v1/python/weldplan/**"
+      - "tools/sphere_tool/**"
+      - "weld_planner/v1/pixi.toml"
+      - "weld_planner/v1/pixi.lock"
+
+permissions:
+  contents: read
+
+jobs:
+  export-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.77.0
+          manifest-path: weld_planner/v1/pixi.toml
+          frozen: true
+          cache: true
+      # `test_native_motion_admission.py` and `test_export_robot_v4.py` were
+      # named here until D24 deleted them with the authoring server's exporter,
+      # and this job went red on a file that no longer exists. Their claims are
+      # recorded in `weld_planner/v1/tests/PARKED.md`, which says of the first:
+      # "the dense arm's claim survives in test_dense_joint_trajectory.py".
+      - name: Verify the dense joint trajectory contract
+        working-directory: weld_planner/v1
+        run: >-
+          pixi run --locked -e default pytest -q
+          tests/programmer/test_dense_joint_trajectory.py
+
+  verifier-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: "0.12.1"
+          enable-cache: false
+      - name: Check emitted Hermite verdict contract
+        env:
+          PYTHONPATH: weld_planner/v1/python
+        run: >-
+          uv run --with numpy==2.4.6 --with pytest==9.1.1
+          --with scipy==1.17.1 --with torch==2.13.0+cpu
+          --index https://download.pytorch.org/whl/cpu
+          --no-project --python 3.11 --
+          python -m pytest -q
+          weld_planner/v1/tests/motion_planner/test_m6_verifier_contract.py
+
+  # This was `ui-contract`, over `weld_planner/v1/ui`: `npm ci` there, then
+  # `motion-verdict-check`, one of five cross-language parity harnesses. D24
+  # deletes that whole directory with the authoring server it was the front end
+  # of, and the harnesses' claims are recorded in
+  # `weld_planner/v1/tests/PARKED.md`. A job whose working-directory does not
+  # exist fails at checkout, so it cannot stay pointed there.
+  #
+  # What survived the deletion is the sphere tool, which moved to
+  # `tools/sphere_tool` because it authors committed assets rather than
+  # serving that application. It has checks of its own and nothing was running
+  # them: `npm run build` typechecks, runs `limits-check.mts`, and bundles.
+  sphere-tool:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/sphere_tool
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: tools/sphere_tool/package-lock.json
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Typecheck, check limit editing, and build
+        run: npm run build

@@ -1,0 +1,59 @@
+name: Leak check
+# Every PR: no new site- or person-specific pattern in a file the public mirror
+# would publish (quality/leak-check.mjs, allowlist quality/leak-allowlist.txt).
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: leak-check-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  leak-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - run: node --test quality/leak-check.test.mjs
+      - run: node quality/leak-check.mjs
+  public-tree-compiles:
+    # The export leaves out private site files and the tests that read them;
+    # a public test that starts depending on one fails here, not in the mirror.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.26.2"
+          cache: false
+      - name: Export the public tree
+        # The checkout keeps no credentials, so LFS objects stay pointers; the
+        # scans skip binaries and go vet does not read them.
+        env:
+          GIT_LFS_SKIP_SMUDGE: "1"
+        # --allowlisted: a PR fails on any hit the allowlist does not record,
+        # while the known site-name hits wait for the public example cell
+        # (#149). publish.mjs exports strictly and refuses until they are gone.
+        run: node tools/public-mirror/export.mjs "$RUNNER_TEMP/public" --allowlisted
+      - name: Scan it for secrets (the scanner publish.mjs runs)
+        run: |
+          go install github.com/zricethezav/gitleaks/v8@v8.28.0
+          "$(go env GOPATH)/bin/gitleaks" dir "$RUNNER_TEMP/public" --config tools/public-mirror/gitleaks.toml --no-banner --redact
+      - name: Vet every Go module in it
+        run: |
+          for module in rt-core offline-programming/v1 steamdeck/real/v4 robot_description/go; do
+            echo "::group::$module"
+            (cd "$RUNNER_TEMP/public/$module" && go vet ./...)
+            echo "::endgroup::"
+          done

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "backend": "simulation",
+  "cycle_ns": 1000000,
+  "robot": {
+    "robot_description": {
+      "path": "robot_description/robots/rosie_1400_v3",
+      "sha256": "sha256:f8a4ad62c695e1b3cf5f2c77589af23ac5c3c322e97166bf6d8c017590d68f84",
+      "source": "cited: robot_description/robots/rosie_1400_v3, the model the local OLP plans for; the simulated bus plays its A6-EC drives and serves the description to the OLP (docs/PLANNING-CONTEXT.md)"
+    }
+  },
+  "axes": [
+    {
+      "robot_joint": "J1",
+      "slave_position": 0,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J2",
+      "slave_position": 1,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J3",
+      "slave_position": 2,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J4",
+      "slave_position": 3,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J5",
+      "slave_position": 4,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J6",
+      "slave_position": 5,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J7",
+      "slave_position": 6,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J8",
+      "slave_position": 7,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    },
+    {
+      "robot_joint": "J9",
+      "slave_position": 8,
+      "limits": {
+        "max_target_lead": 0.020000000000000004,
+        "following_error": 0.04000000000000001,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0002,
+        "completion_timeout_ms": 500
+      }
+    }
+  ],
+  "max_cycle_lateness_ns": 20000000,
+  "runtime": {
+    "cpu": 2,
+    "priority": 90
+  }
+}
