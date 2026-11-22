@@ -11,6 +11,17 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels that PR's superseded run (31% of PR runs kept
+# running after one, 2026-08-26..11-18). Every other event gets its own
+# run_id group, so a main push, which the release publisher needs green at
+# its exact SHA, never queues behind or cancels another run. Under
+# workflow_call, github.workflow is the caller's name: the literal prefix
+# keeps this group apart from a caller's own group, and the name keeps two
+# callers in one PR from cancelling each other.
+concurrency:
+  group: rt-core-consumers-${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   cartesian:
     runs-on: ubuntu-22.04

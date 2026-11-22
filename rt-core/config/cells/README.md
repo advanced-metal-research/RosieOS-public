@@ -46,11 +46,13 @@ warnings. Watchdog thresholds require separate qualification; this move does not
 invent thresholds, disable diagnostics or alter machine configuration.
 
 `linear-rail-1axis.json` (machine `config/machines/linear-rail-1axis.json`,
-one axis) and `example-arm-1420.json` (machine
-`config/machines/example-arm-1420.json`, a Rosie 1420 V1 arm on six axes) are
-the patterns to copy for a new cell. Both use documentation addresses
-(192.0.2.x), the login `changeme` and `activate: false`, so neither can reach or
-drive real hardware; tests use them where they need a cell;
+one axis), `example-arm-1420.json` (machine
+`config/machines/example-arm-1420.json`, a Rosie 1420 V1 arm on six axes) and
+`example-arm-1430.json` (machine `config/machines/example-arm-1430.json`, a
+Rosie 1430 V1 arm on six axes with the values the 1430 arms in service run,
+less their per-joint drive tuning) are the patterns to copy for a new cell.
+All three use documentation addresses (192.0.2.x), the login `changeme` and
+`activate: false`, so none can reach or drive real hardware; tests use them where they need a cell;
 `config/templates/cell.json` is the template. The configs of real cells and
 benches are site configuration: each one's pin, axis count and recorded
 watchdog findings live with it, and the compatibility test checks every cell

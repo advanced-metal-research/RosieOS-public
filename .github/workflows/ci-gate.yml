@@ -1,0 +1,68 @@
+name: CI gate
+# The verdict half of the CI gate (quality/ci-gate.mjs). Each time a watched
+# pull_request run completes, it recomputes that head's verdict from the
+# latest attempt of every run and posts it as the `CI gate` commit status.
+# A re-run therefore moves the gate, and no runner idles through the tests.
+#
+# workflow_run always runs this file and its checkout from the default
+# branch, so a PR cannot change its own verdict, and a change to this file or
+# to quality/ci-gate.mjs takes effect only after merge (ci-gate-start.yml
+# runs the unit tests on the PR). Only the workflows listed below are
+# judged, so every judged run's completion wakes the verdict. The list names
+# every pull_request workflow except the build host's release worker, which
+# is release automation, not a test workflow, and is out of the gate's scope.
+# quality/ci-gate.test.mjs fails when the list drifts.
+# Report-only: no ruleset requires the status yet. Push runs on main are
+# skipped by the job condition, so the runs the release publisher reads are
+# untouched.
+on:
+  workflow_run:
+    workflows:
+      - "Advisory · Deployment surface"
+      - "Boundary triage"
+      - "Candidate simulation qualification"
+      - "CI gate start"
+      - "Leak check"
+      - "Medium risk · Robot runtime contracts"
+      - "Medium risk · Steam Deck client authority"
+      - "Native rt-core consumers"
+      - "PR admission"
+      - "Preflight package"
+      - "Quality pilot"
+      - "RosieOS MCP server"
+      - "Standalone RT core"
+      - "Weld planner verifier"
+      - "Weld Preflight adapter"
+    types: [completed]
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  statuses: write
+# One verdict at a time per head. A newer event replaces a queued one; it
+# recomputes everything anyway.
+concurrency:
+  group: ci-gate-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+jobs:
+  verdict:
+    if: github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github/workflows
+            quality
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - name: Recompute and post the verdict
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+        run: node quality/ci-gate.mjs verdict

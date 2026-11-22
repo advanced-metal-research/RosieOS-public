@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "backend": "live",
+  "cycle_ns": 1000000,
+  "brake_transition_guard": {
+    "max_displacement_rad": 0.0008726646259971648,
+    "max_velocity_rad_per_s": 0.05235987755982989,
+    "target_stationary_ms": 100,
+    "settling_ms": 100,
+    "timeout_ms": 500
+  },
+  "brake_opening_guard": {
+    "max_displacement_rad": 0.0008726646259971648,
+    "max_velocity_rad_per_s": 0.13962634015954636,
+    "timeout_ms": 500
+  },
+  "_brake_guard_source": "One joint-level value set for all six joints, converted per axis by gear ratio (counts per joint radian = 131072 x gear / 2pi, floored): closing displacement 0.050 degrees, closing speed 3.0 degrees/s, opening displacement 0.050 degrees, opening speed 8.0 degrees/s; stationary 100 ms, settling 100 ms, timeout 500 ms, opening timeout 500 ms. Per axis: J1-J3/J5/J6 (100:1) 1820 counts, 109226 and 291271 counts/s; J4 (18:1) 327, 19660 and 52428. Brake detections are warning-only. The values the Rosie 1430 arms in service run; unverified, not measured on a loaded arm (issue #158).",
+  "joint_unit_tolerances": {
+    "hold_displacement_tolerance_rad": 0.000042611,
+    "maximum_feedback_error_rad": 0.000042611,
+    "maximum_anchor_error_rad": 0.000042611,
+    "start_alignment_floor_rad": 0.0001332
+  },
+  "_joint_unit_tolerances_source": "One joint-level value set for all six joints, replacing the shared A6 drive profile's count values (the 1:1 bench declarations) and converted per axis by gear ratio (131072 x gear / 2pi counts/rad, floored). Held tolerance and encoder/PDO agreement 16 counts at 18:1 = 4.26106e-5 rad, rounded up to 4.2611e-5 rad (88 counts at 100:1; the 16 counts are a measured rest spread plus margin); independent-encoder Start floor 50 counts at 18:1 = 1.33162e-4 rad, rounded up to 1.332e-4 rad (277 at 100:1). Anchors saved under another agreement are refused until Home is re-established by HM35. Unverified, not measured on a loaded arm (issue #158).",
+  "drive_supervision": {
+    "enable_timeout_ms": 1000,
+    "release_slack_ms": 500,
+    "disarm_motion_tolerance": 0.02
+  },
+  "_drive_supervision_source": "One value per bound for all six joints; the motion bound in rad, floored per axis by gear (131072 x gear / 2pi counts/rad). enable_timeout_ms 1000 (owner decision 2026-11-13): measured on a Rosie 1430 arm in linear mode (C00.07 = 1), CW15 to Operation Enabled 604-674 ms on the 1.0 kW drives J1-J3 and 217 ms on the 400 W/200 W drives J4-J6; 1000 is the slowest joint plus about 1.5x margin, one value for every joint. 500 ended every Arm attempt on that arm with J1-J3 at statusword 0x9633. 1.0 kW drives in rotation mode (C00.07 = 4, firmware 0x5611) enable in 277 ms; the measured arm's J1-J3 run firmware 0x5612, and which of the two slows them is not measured. brake_opening_guard.timeout_ms stays 500 (the compiler caps it there). release_slack_ms 500, from the same enable bound, is added to each axis's brake release_delay_ms. disarm_motion_tolerance 0.02 rad, the following-error bound (7509 counts at 18:1, 41721 at 100:1). Home acquisition stationarity uses joint_unit_tolerances.hold_displacement_tolerance_rad. Unverified, not measured on a loaded arm (issue #158).",
+  "tracking_lag_allowance": {
+    "lag_allowance_ms": 50
+  },
+  "_tracking_lag_allowance_source": "One time for all six joints: each axis's max_target_lead (warning) and following_error (fault, 100 ms persistence) bound becomes its static value plus |commanded velocity| x 50 ms, in that axis's own counts and counts/s, so no joint carries its own number. Measured ~27 ms command-to-feedback lag on every axis of a Rosie 1430 arm from stop dumps, 2026-10-06 (error ~= speed x 0.027 s: J3's 0.35 degree lead crossed at ~13 deg/s, the 0.02 rad following error at ~42 deg/s; J6 tripped at ~60 deg/s with 0.0289 rad). 50 ms is the owner's chosen margin, unverified (issue #158).",
+  "verify_parameter_storage": true,
+  "_verify_parameter_storage_source": "Owner decision 2026-10-09 (rt-core/docs/CONTRACTS.md 'Startup write on change and RAM-only trials'): every start reads C13.10 (0x2013:0x11) on all six drives, writes 1 only if a drive holds another value, and refuses configuration verification until it reads 1, because 607C and the HM35 result persist only with 1. A6-EC drives read 1 from the factory, so on a new arm this records and guards the drives' setting.",
+  "jog_jerk": {
+    "jerk_rad_s3": 150
+  },
+  "_jog_jerk_source": "One jerk for all six joints: rtctl sizes one smoothing window N = ceil(2 x a_max / jerk / cycle) = ceil(2 x 4*pi / 150 / 0.001) = 168 cycles (a_max = the description's 4*pi rad/s^2 jog/trajectory acceleration on every joint), so every jog start, EndJog, input expiry and Halt ramp keeps acceleration <= 4*pi rad/s^2 and jerk <= 150 rad/s^3 (75 rad/s^3 for a start or stop from steady speed). 168 ms spans one period of the ~5.9 Hz J4 ringing measured on a Rosie 1430 stop dump, 2026-10-06, where jog acceleration was 720 deg/s^2 reached in one 1 ms cycle. Cost: a stop from v takes 168 ms longer and travels v x 0.084 s further (0.07 rad at 0.8 rad/s). Unverified (issue #158): measure J4 ringing and stopping distance before changing it.",
+  "robot": {
+    "robot_description": {
+      "path": "robot_description/robots/rosie_1430_v1",
+      "sha256": "sha256:78aa269e288a4aa38c1e5365d90391d10309142c571ca895e1fc85119a57aa13",
+      "source": "Public Rosie 1430 V1 robot description: joint limits and velocity ratings from robot.urdf, gearing, encoder mode, battery facts and Home policy from rtcore_definition.json. Signs and encoder batteries are per arm (robot_description/robots/rosie_1430_v1/README.md). Recompute the digest with robot_description/go/cmd/identity after any edit to the description."
+    }
+  },
+  "axes": [
+    {
+      "robot_joint": "J1",
+      "slave_position": 0,
+      "limits": {
+        "max_target_lead": 0.006108652381980153,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    },
+    {
+      "robot_joint": "J2",
+      "slave_position": 1,
+      "limits": {
+        "max_target_lead": 0.006108652381980153,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    },
+    {
+      "robot_joint": "J3",
+      "slave_position": 2,
+      "limits": {
+        "max_target_lead": 0.006108652381980153,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    },
+    {
+      "robot_joint": "J4",
+      "slave_position": 3,
+      "limits": {
+        "max_target_lead": 0.008726646259971648,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    },
+    {
+      "robot_joint": "J5",
+      "slave_position": 4,
+      "limits": {
+        "max_target_lead": 0.011344640137963142,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    },
+    {
+      "robot_joint": "J6",
+      "slave_position": 5,
+      "limits": {
+        "max_target_lead": 0.013962634015954637,
+        "following_error": 0.02,
+        "following_error_timeout_ms": 100,
+        "completion_tolerance": 0.0006,
+        "completion_timeout_ms": 1000,
+        "completion_tolerance_unverified": "Uniform joint-angle value for all joints (largest previously required by any axis: J6); converted to counts per joint by gear ratio; unverified - not a measurement of settling on this robot (GitHub issue #158).",
+        "max_target_lead_source": "The per-axis lead floor the Rosie 1430 arms in service run; not measured on a loaded arm (issue #158). Measure it and set one value for every joint before release. Not a powered-motion qualification.",
+        "following_error_unverified": "Native default tracking bound, not yet measured for this assembled robot. Keep disarmed pending commissioning."
+      }
+    }
+  ],
+  "observe": [
+    "a6ec_gain_tuning_mode",
+    "a6ec_stiffness_level",
+    "a6ec_load_inertia_ratio",
+    "a6ec_position_loop_gain_1",
+    "a6ec_speed_loop_gain_1",
+    "a6ec_speed_loop_integral_time_1",
+    "a6ec_torque_reference_filter_1",
+    "a6ec_position_loop_gain_2",
+    "a6ec_speed_loop_gain_2",
+    "a6ec_speed_loop_integral_time_2",
+    "a6ec_torque_reference_filter_2",
+    "a6ec_speed_feedback_filter",
+    "a6ec_torque_feedforward_source",
+    "a6ec_position_reference_notch_1_frequency",
+    "a6ec_position_reference_notch_1_width",
+    "a6ec_position_reference_notch_1_depth",
+    "a6ec_position_reference_notch_2_frequency",
+    "a6ec_position_reference_notch_2_width",
+    "a6ec_position_reference_notch_2_depth",
+    "a6ec_adaptive_notch_mode",
+    "a6ec_adaptive_notch_test_times",
+    "a6ec_gain_switchover_mode",
+    "a6ec_gain_switchover_time",
+    "a6ec_gain_switchover_threshold",
+    "a6ec_gain_switchover_hysteresis",
+    "a6ec_notch_1_frequency",
+    "a6ec_notch_1_width",
+    "a6ec_notch_1_depth",
+    "a6ec_notch_2_frequency",
+    "a6ec_notch_2_width",
+    "a6ec_notch_2_depth",
+    "a6ec_notch_3_frequency",
+    "a6ec_notch_3_width",
+    "a6ec_notch_3_depth",
+    "a6ec_notch_4_frequency",
+    "a6ec_notch_4_width",
+    "a6ec_notch_4_depth",
+    "a6ec_notch_5_frequency",
+    "a6ec_notch_5_width",
+    "a6ec_notch_5_depth",
+    "a6ec_model_tracking",
+    "a6ec_model_tracking_gain",
+    "a6ec_model_tracking_inertia_correction",
+    "a6ec_vibration_suppression_1_frequency",
+    "a6ec_vibration_suppression_1_inertia_correction",
+    "a6ec_vibration_suppression_1_lowpass_correction",
+    "a6ec_vibration_suppression_1_highpass_1_correction",
+    "a6ec_vibration_suppression_1_highpass_2_frequency",
+    "a6ec_vibration_suppression_1_compensation_1",
+    "a6ec_vibration_suppression_1_compensation_2",
+    "a6ec_vibration_suppression_2_frequency",
+    "a6ec_vibration_suppression_2_inertia_correction",
+    "a6ec_vibration_suppression_2_lowpass_correction",
+    "a6ec_vibration_suppression_2_highpass_1_correction",
+    "a6ec_vibration_suppression_2_highpass_2_frequency",
+    "a6ec_vibration_suppression_2_compensation_1",
+    "a6ec_vibration_suppression_2_compensation_2",
+    "a6ec_vibration_suppression_3_frequency",
+    "a6ec_vibration_suppression_3_inertia_correction",
+    "a6ec_vibration_suppression_3_lowpass_correction",
+    "a6ec_vibration_suppression_3_highpass_1_correction",
+    "a6ec_vibration_suppression_3_highpass_2_frequency",
+    "a6ec_vibration_suppression_3_compensation_1",
+    "a6ec_vibration_suppression_3_compensation_2"
+  ],
+  "_observe_source": "Read-only baseline before per-joint tuning (owner decision 2026-10-07): rt-core reads these A6-EC tuning objects once per startup, disarmed, after the startup readback, and journals 'EtherCAT startup observe axis=... key=... value=...'; nothing is written and config_verified_mask is unaffected. One list, observed on every joint: C00.04 tuning mode, C00.05 stiffness, C00.06 inertia ratio, the 1st and 2nd gain sets C01.00..C01.03 and C01.08..C01.0B, C01.10 speed feedback filter, C01.16 torque feedforward source, position-reference notches C01.24..C01.29, adaptive notch C01.30/C01.31, gain switchover C01.38..C01.3B, torque notches C01.40..C01.4E, model tracking C02.00..C02.02 and vibration suppression 1-3 C02.38..C02.4E (config/drives/a6ec.tuning.json). Tuning values are set per joint in startup only after these readbacks and a measurement (rt-core/docs/drives/a6ec/README.md, 'Tuning a joint').",
+  "max_cycle_lateness_ns": 1000000,
+  "runtime": {
+    "cpu": 0,
+    "priority": 80
+  },
+  "bus": {
+    "unknown_slaves": "refuse"
+  },
+  "runtime_source": "CPU0 at FIFO priority 80, as on the Rosie 1430 servo hosts in service. Check your servo host's CPU isolation and priorities. Starts disarmed; new runtime timing requires qualification.",
+  "max_cycle_lateness_ns_unverified": "Native conservative 1ms deadline; not a measured physical qualification.",
+  "control": {
+    "link_profile": "lan"
+  },
+  "bus_bringup": {
+    "explicit_pdo_config": false,
+    "disable_output_watchdog": false,
+    "no_dc": false
+  },
+  "_deployment": "Public example machine for a Rosie 1430 arm on six A6-EC drives (placeholder cell rt-core/config/cells/example-arm-1430.json): the values the Rosie 1430 arms in service run, without their per-joint drive tuning. Tuning (load inertia ratio, speed feedforward, stiffness) is per-arm commissioning data: no axis writes any here, so each drive keeps the values it holds. Add an arm's own tuning to each axis's startup only after its readbacks and a measurement. Disarmed installation only until native Home and motion qualification. No cell I/O: add an io block from your cell's own confirmed wiring (E-stop, drive enable, indicators)."
+}

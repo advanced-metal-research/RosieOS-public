@@ -6,7 +6,7 @@ import (
 	"context"
 	"math"
 	"reflect"
-	"slices"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -416,9 +416,10 @@ func TestJointMoveStopDisarmGrantLossAndLatePrepare(t *testing.T) {
 				if !reflect.DeepEqual(got, []string{"prepare_trajectory", "stop", "release", "discard_trajectory"}) {
 					t.Fatal(got)
 				}
-			} else if len(got) != 5 || got[0] != "prepare_trajectory" || got[1] != "start_trajectory" ||
-				slices.Index(got, "stop") < 2 || slices.Index(got, "release") != slices.Index(got, "stop")+1 ||
-				slices.Index(got, "discard_trajectory") < 2 {
+			} else if !reflect.DeepEqual(got, []string{"prepare_trajectory", "start_trajectory", "stop", "release", "discard_trajectory"}) {
+				// Stop first, then say done (JointMove): the discard follows Stop
+				// and Release, whether another goroutine's Stop or the move's own
+				// (request_cancel) ended it.
 				t.Fatal(got)
 			}
 			if r.JointJogState().Move.State == "done" {
@@ -426,6 +427,90 @@ func TestJointMoveStopDisarmGrantLossAndLatePrepare(t *testing.T) {
 			}
 			if f.fences[len(f.fences)-1].Generation != 1 {
 				t.Fatal("discard adopted new authority")
+			}
+		})
+	}
+}
+
+// The losing order of TestJointMoveStopDisarmGrantLossAndLatePrepare, forced:
+// the Stop owner has cancelled the move and is parked before the Stop lane
+// while the move reaches its cleanup. Stop first, then say done (JointMove):
+// the move must wait for that Stop, never take the lane ahead of it and return
+// with Stop unsent (the CI grant_loss failure, discard alone after start).
+func TestJointMoveReturnsAfterTheStopThatEndedIt(t *testing.T) {
+	for _, action := range []string{"stop", "disarm", "grant_loss", "stop_unconfirmed"} {
+		t.Run(action, func(t *testing.T) {
+			r, f, in := moveFake(t)
+			f.autoComplete = false
+			if action == "stop_unconfirmed" {
+				// A transport failure is not a typed answer: no observation can
+				// confirm it, so the Stop outcome stays unconfirmed.
+				f.stopErr = control.ErrTransport
+			}
+			parked, release, awaiting := make(chan struct{}), make(chan struct{}), make(chan struct{})
+			var parkOnce, awaitOnce sync.Once
+			r.mu.Lock()
+			r.testStopLane = func() { parkOnce.Do(func() { close(parked); <-release }) }
+			r.testMoveAwaitsStop = func() { awaitOnce.Do(func() { close(awaiting) }) }
+			r.mu.Unlock()
+			type outcome struct {
+				state JointMoveState
+				err   error
+			}
+			result := make(chan outcome, 1)
+			go func() { state, err := r.JointMove(context.Background(), in); result <- outcome{state, err} }()
+			select {
+			case <-f.started:
+			case <-time.After(3000 * time.Millisecond):
+				t.Fatal("move never started")
+			}
+			switch action {
+			case "disarm":
+				go func() { _, _ = r.Arm(context.Background(), false) }()
+			case "grant_loss":
+				f.updates <- control.Renewal{Err: rtRefused("no_grant")}
+			default:
+				go func() { _, _ = r.Stop(context.Background()) }()
+			}
+			select {
+			case <-parked:
+			case <-time.After(3000 * time.Millisecond):
+				t.Fatal("Stop never reached its lane seam")
+			}
+			select {
+			case got := <-result:
+				close(release)
+				t.Fatalf("JointMove returned %v before the Stop that ended it was sent: %v", got.err, moveCalls(f))
+			case <-awaiting:
+			case <-time.After(3000 * time.Millisecond):
+				close(release)
+				t.Fatal("ended move neither returned nor waited for its Stop")
+			}
+			if got := moveCalls(f); !reflect.DeepEqual(got, []string{"prepare_trajectory", "start_trajectory"}) {
+				t.Fatalf("sent %v while the Stop waited for its lane", got)
+			}
+			close(release)
+			var got outcome
+			select {
+			case got = <-result:
+			case <-time.After(3000 * time.Millisecond):
+				t.Fatal("JointMove never returned after its Stop settled")
+			}
+			want := []string{"prepare_trajectory", "start_trajectory", "stop", "release", "discard_trajectory"}
+			code := got.state.Reason
+			if action == "stop_unconfirmed" {
+				// A failed Stop sends no Release.
+				want, code = []string{"prepare_trajectory", "start_trajectory", "stop", "discard_trajectory"}, "rt_core_inhibited"
+			}
+			if calls := moveCalls(f); !reflect.DeepEqual(calls, want) {
+				t.Fatalf("calls at return %v; want %v", calls, want)
+			}
+			if got.state.State != "stopped" {
+				t.Fatalf("returned state %+v; want stopped", got.state)
+			}
+			jointCode(t, got.err, strings.SplitN(code, ":", 2)[0])
+			if action == "stop_unconfirmed" && !r.Status(context.Background()).RTCore.StopUncertain {
+				t.Fatal("unconfirmed Stop reported as settled")
 			}
 		})
 	}

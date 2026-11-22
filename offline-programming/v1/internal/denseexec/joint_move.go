@@ -348,8 +348,42 @@ func jointMovesProfileAtRate(d control.Description, axes []JointMoveAxis, fracti
 // JointMove reserves the existing armed grant without queueing another motion.
 // Stop cancels it independently of preparation/observation; late handles are
 // discarded with their original fence and can never adopt replacement authority.
+//
+// Stop first, then say done (owner decision 2026-11-20): when a Stop, Disarm
+// or grant loss on another goroutine ends the move, JointMove returns only
+// after that Stop and its Release have been sent and their outcome is
+// recorded, and the late-handle discard goes out after them. The returned
+// state is read after that outcome; the error is rt_core_inhibited when the
+// Stop left the controller inhibited or its outcome unconfirmed, otherwise
+// the Stop's reason. Before this, the cancelled move could take the Stop lane
+// first and return (discard sent, Stop not yet sent) while the Stop owner
+// still waited for the lane: 1 of 500 -race runs of the grant-loss test
+// (linux/arm64 container, 2026-11-20), 8 times in CI. The wait holds no lock
+// and lasts until every Stop in flight has settled, not only the one that
+// ended the move. It is finite: each overlapping Stop takes at most its call
+// budget plus the 500 ms observation of stopConfirmedByObservation, and a
+// later Stop finds nothing held and returns quickly.
 func (r *RTCoreController) JointMove(parent context.Context, in JointMoveIntent) (JointMoveState, error) {
 	return r.boundedMove(parent, in, nil)
+}
+
+// awaitStopOutcome is the wait JointMove's contract names: holding no lock, it
+// waits until every Stop in flight (one of them ended this move) has recorded
+// its outcome, then returns the error the move reports for it.
+func (r *RTCoreController) awaitStopOutcome() error {
+	r.mu.Lock()
+	settled, awaiting := r.stopSettledLocked(), r.testMoveAwaitsStop
+	r.mu.Unlock()
+	if awaiting != nil {
+		awaiting()
+	}
+	<-settled
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.inhibited || r.stopUncertain {
+		return httpError(409, "rt_core_inhibited", "%s Cause: %s", r.recoveryActionLocked(), r.reason)
+	}
+	return rtRefused("%s", r.moveState.Reason)
 }
 
 func (r *RTCoreController) boundedMove(parent context.Context, in JointMoveIntent, cartesian *CartesianMoveIntent) (JointMoveState, error) {
@@ -413,12 +447,15 @@ func (r *RTCoreController) boundedMove(parent context.Context, in JointMoveInten
 	r.mu.Lock()
 	current := r.epoch == m.epoch && r.move == m
 	r.opCancel = nil
-	if !current {
-		err = rtRefused("%s", r.moveState.Reason)
-	} else if errors.Is(err, context.Canceled) {
+	if current && errors.Is(err, context.Canceled) {
 		err = rtRefused("client_disconnected")
 	}
 	r.mu.Unlock()
+	if !current {
+		// Only Stop moves the epoch or clears r.move, so a Stop is in flight or
+		// done; its Stop and Release go out before this move's discard.
+		err = r.awaitStopOutcome()
+	}
 	if err != nil {
 		requestSlow := slowRequest(err)
 		if current && !m.preflightRefusal {
@@ -431,15 +468,26 @@ func (r *RTCoreController) boundedMove(parent context.Context, in JointMoveInten
 		if m.handle != 0 && !requestSlow {
 			r.stopMu.Lock()
 			cleanup, done := context.WithTimeout(context.Background(), r.callBudget())
-			// Stop has already retired live handles. The explicit discard also
-			// covers a late Prepare receipt; a stale fence cannot name a new grant.
+			// A Stop that ended this move, or the move's own Stop above, has
+			// already sent Stop and Release, which retire live handles
+			// (awaitStopOutcome). The explicit discard also covers a late
+			// Prepare receipt; a stale fence cannot name a new grant.
 			_, _ = r.c.Command(cleanup, &control.Request{Operation: "discard_trajectory", Fence: m.fence, Handle: m.handle})
 			done()
 			r.stopMu.Unlock()
 		}
 	}
 	r.mu.Lock()
-	current = current && r.epoch == m.epoch
+	if current && r.epoch != m.epoch {
+		// A Stop arrived after the move finished, or the move's own Stop above
+		// ran: report only that Stop's recorded outcome.
+		current = false
+		r.mu.Unlock()
+		if stopErr := r.awaitStopOutcome(); err == nil {
+			err = stopErr
+		}
+		r.mu.Lock()
+	}
 	if r.move == m {
 		r.move = nil
 		if m.cartesian != nil {

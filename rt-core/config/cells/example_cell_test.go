@@ -9,17 +9,27 @@ import (
 	"testing"
 )
 
-// TestExampleArmCellCompilesAndCannotReachAHost keeps example-arm-1420, the
-// public placeholder arm cell, a working binding of the Rosie 1420 V1
-// description on six axes while its hosts stay documentation addresses
-// (RFC 5737, 192.0.2.0/24) and its login a placeholder, so tests and new cells
-// can copy it and nobody can deploy it to hardware by mistake.
+// TestExampleArmCellCompilesAndCannotReachAHost keeps the public placeholder
+// arm cells, example-arm-1420 and example-arm-1430, working bindings of the
+// Rosie 1420 V1 and Rosie 1430 V1 descriptions on six axes while their hosts
+// stay documentation addresses (RFC 5737, 192.0.2.0/24) and their login a
+// placeholder, so tests and new cells can copy them and nobody can deploy one
+// to hardware by mistake.
 func TestExampleArmCellCompilesAndCannotReachAHost(t *testing.T) {
 	root, err := filepath.Abs("../../..")
 	if err != nil {
 		t.Fatal(err)
 	}
-	raw, err := os.ReadFile(filepath.Join(root, "rt-core/config/cells/example-arm-1420.json"))
+	for cell, pin := range map[string]string{
+		"example-arm-1420.json": "02da32195876513916a142d18250458778089a03c60dfbdf266a4405d651d89b",
+		"example-arm-1430.json": "95f304fd2b2fcc6598c86afd77d9e5489d4388717c20c444fccda42e8b76c3b3",
+	} {
+		t.Run(cell, func(t *testing.T) { checkExampleArmCell(t, root, cell, pin) })
+	}
+}
+
+func checkExampleArmCell(t *testing.T, root, cell, pin string) {
+	raw, err := os.ReadFile(filepath.Join(root, "rt-core/config/cells", cell))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -27,7 +37,7 @@ func TestExampleArmCellCompilesAndCannotReachAHost(t *testing.T) {
 	if err != nil && !errors.Is(err, ErrCompilerWarnings) {
 		t.Fatal(err)
 	}
-	if len(results) != 1 || results[0].AxisCount != 6 || results[0].SHA256 != "02da32195876513916a142d18250458778089a03c60dfbdf266a4405d651d89b" {
+	if len(results) != 1 || results[0].AxisCount != 6 || results[0].SHA256 != pin {
 		t.Fatalf("example arm binding: %+v", results)
 	}
 	var manifest struct {

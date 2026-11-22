@@ -155,7 +155,12 @@ export const meshFile = /\.(?:dae|stl|obj|ply|glb|gltf|fbx|3mf)$/i;
 // Reviewed files the CAD and copy rules admit: the one STEP part the public
 // app bundles (the Dog Box, offline-programming/v1/ui/scripts/step-examples.mjs)
 // and the pedestal mesh every robot description shares, the private cells' too.
-const reviewedCadOrMesh = new Set(['cadquery/v1/step/dog_box.step', 'robot_description/robots/rosie_1420_v1/meshes/pedestal.dae']);
+// The Rosie 1430 model's meshes are the ones the real 1430 arms' descriptions
+// carry (owner decision 2026-11-22: publish the 1430 model); its detailed
+// pendant meshes stay private.
+const rosie1430Meshes = ['base', 'link_1', 'link_2', 'link_3', 'link_4', 'link_5', 'link_6', 'pedestal']
+  .map((link) => `robot_description/robots/rosie_1430_v1/meshes/${link}.dae`);
+const reviewedCadOrMesh = new Set(['cadquery/v1/step/dog_box.step', 'robot_description/robots/rosie_1420_v1/meshes/pedestal.dae', ...rosie1430Meshes]);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 // archiveMembers lists a ZIP's or a gzip file's members as { name, bytes },

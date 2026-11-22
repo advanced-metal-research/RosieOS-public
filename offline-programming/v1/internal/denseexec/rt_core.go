@@ -132,6 +132,15 @@ type RTCoreController struct {
 	events               []control.Event
 	cursor               uint64
 	adapter, daemon      string
+	// stopSettled is closed when stopping returns to zero: every Stop in
+	// flight has sent its Stop and Release and recorded its outcome. Nil
+	// while no one waits (stopSettledLocked).
+	stopSettled chan struct{}
+	// Test seams, nil in production, set and read under mu. testStopLane
+	// runs after Stop has cancelled the operation and before it waits for
+	// the Stop lane; testMoveAwaitsStop runs when an ended move starts
+	// waiting for the outcome of the Stop that ended it.
+	testStopLane, testMoveAwaitsStop func()
 	// One (sequence, time) anchor into the telemetry ring per daemon
 	// incarnation, so a window read starts near the head (rt_core_telemetry.go).
 	telemetryAnchor *telemetryAnchor
@@ -1636,8 +1645,22 @@ func (r *RTCoreController) stopObserved(reason string, owner *observedAuthority,
 	if r.opCancel != nil {
 		r.opCancel()
 	}
+	parkBeforeLane := r.testStopLane
 	r.mu.Unlock()
-	defer func() { r.mu.Lock(); r.stopping--; r.mu.Unlock() }()
+	// Deferred before the lane unlock, so it runs after it: a waiter woken
+	// here finds the outcome recorded and the Stop lane free.
+	defer func() {
+		r.mu.Lock()
+		r.stopping--
+		if r.stopping == 0 && r.stopSettled != nil {
+			close(r.stopSettled)
+			r.stopSettled = nil
+		}
+		r.mu.Unlock()
+	}()
+	if parkBeforeLane != nil {
+		parkBeforeLane()
+	}
 	if err := r.stopMu.LockContext(ctx); err != nil {
 		return &StopResult{Status: r.statusSnapshot()}, err
 	}
@@ -1699,6 +1722,22 @@ func (r *RTCoreController) stopObserved(reason string, owner *observedAuthority,
 	}
 	r.mu.Unlock()
 	return &StopResult{OK: err == nil, Stopped: stopped, Attempts: attempts, Note: note, Status: r.statusSnapshot()}, err
+}
+
+// stopSettledLocked returns a channel closed once no Stop is in flight; it is
+// already closed when none is. Caller holds r.mu. A wait on it is finite but
+// spans every overlapping Stop: each takes at most its call budget plus the
+// 500 ms observation of stopConfirmedByObservation.
+func (r *RTCoreController) stopSettledLocked() <-chan struct{} {
+	if r.stopping == 0 {
+		settled := make(chan struct{})
+		close(settled)
+		return settled
+	}
+	if r.stopSettled == nil {
+		r.stopSettled = make(chan struct{})
+	}
+	return r.stopSettled
 }
 
 // stopConfirmedByObservation settles a Stop or Release the adapter refused

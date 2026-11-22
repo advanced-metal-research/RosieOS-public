@@ -10,7 +10,7 @@ old hash is refused by the cell that holds the new one.
 ```
 robot_description/
   robots/<model>/            one directory per robot (rosie_1400_v3, rosie_1420_v1,
-                             and the benches of bare motors)
+                             rosie_1430_v1, and the benches of bare motors)
     robot_description_manifest.json            the MANIFEST: which files this robot is made of
     robot.urdf               kinematics, meshes, design limits, the torch
     robot.srdf               the planning group and its named states

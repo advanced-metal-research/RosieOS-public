@@ -73,7 +73,7 @@ version of it.
 | --- | --- |
 | [`rt-core`](rt-core/README.md) | Native controller: `rosie-rt-core` (EtherCAT) and `rosie-rt-core-sim`, the `rt-control` adapter, Go SDK (`sdk/control`), header-only C++ client (`clients/cpp`), generated TS types (`clients/ts`), `rtctl`, `benchdrive`, `rt-natspublisher`, host install and systemd units |
 | [`rt-core/config`](rt-core/config/README.md) | Drive, robot-binding, machine and cell configuration: `drives/`, `machines/{bench,simulation}/`, `cells/`, `cell-io/`, `templates/` |
-| [`robot_description`](robot_description/README.md) | Robot models and their manifests (`rosie_1400_v3`, `rosie_1420_v1`, `bench_one_motor_1to1`, `bench_nine_motors_1to1`) and the `rosieos/robotdesc` Go module. Machine configs pin a description by path and SHA-256. Contract: [`docs/ROBOT-DESCRIPTION-CONTRACT.md`](docs/ROBOT-DESCRIPTION-CONTRACT.md) |
+| [`robot_description`](robot_description/README.md) | Robot models and their manifests (`rosie_1400_v3`, `rosie_1420_v1`, `rosie_1430_v1`, `bench_one_motor_1to1`, `bench_nine_motors_1to1`) and the `rosieos/robotdesc` Go module. Machine configs pin a description by path and SHA-256. Contract: [`docs/ROBOT-DESCRIPTION-CONTRACT.md`](docs/ROBOT-DESCRIPTION-CONTRACT.md) |
 | [`motion-server/v1`](motion-server/v1/README.md) | `robot-v4-cartesiand`: rt-core Cartesian jog, Tesseract planning, accepted-plan playback, position/GoHome execution, and `--resolve-only` for OLP's Cartesian holds |
 | [`motion-server/joint-trajectory/v1`](motion-server/joint-trajectory/v1/README.md) | `joint_trajectory_daemon`: dense precomputed trajectory playback (TCP ingest `:8797`) |
 | [`tesseract/v1`](tesseract/v1/README.md) | Tesseract / TrajOpt collision environment (pixi). Missing it, classic planning is refused rather than run without collision checks |
@@ -319,6 +319,7 @@ A new cell needs a `cell_deploy` block in its manifest first:
 | `quality-pilot.yml` | `quality.mjs check` and actionlint |
 | `pr-admission.yml` | Always-running, path-aware pull request admission result |
 | `deployment-surface.yml` | Advisory deployment-surface diff (non-blocking) |
+| `ci-gate-start.yml`, `ci-gate.yml` | `CI gate` commit status, recomputed as each PR run completes: fails when a run failed, or a path-filtered workflow matched the change but did not start or skipped every job; warns on code no test workflow covers (report-only) |
 
 No workflow builds or tests `steamdeck/real/v5` yet. Linters and CI do not
 prove installation, controller admission or physical execution.

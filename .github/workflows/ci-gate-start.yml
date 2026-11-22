@@ -1,0 +1,38 @@
+name: CI gate start
+# The pull_request half of the CI gate (quality/ci-gate.mjs). It tests the
+# gate's code as this PR changes it, checks that every workflow whose path
+# filter matches the change has started, and warns about changed code no
+# path-filtered workflow covers. It exits within about 90 s; it never waits
+# for the test runs. Its completion, like every watched run's, wakes
+# ci-gate.yml, which posts the `CI gate` commit status.
+on:
+  pull_request:
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+concurrency:
+  group: ci-gate-start-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  start:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github/workflows
+            quality
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.13.1"
+      - run: node --test quality/ci-gate.test.mjs
+      - name: Check that every matched workflow started
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: node quality/ci-gate.mjs start

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="rosie_1430_v1">
+  <group name="manipulator">
+    <joint name="J1" />
+    <joint name="J2" />
+    <joint name="J3" />
+    <joint name="J4" />
+    <joint name="J5" />
+    <joint name="J6" />
+  </group>
+  <group_state name="home" group="manipulator">
+    <joint name="J1" value="0" />
+    <joint name="J2" value="0" />
+    <joint name="J3" value="0" />
+    <joint name="J4" value="0" />
+    <joint name="J5" value="0" />
+    <joint name="J6" value="0" />
+  </group_state>
+</robot>

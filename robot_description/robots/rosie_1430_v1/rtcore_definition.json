@@ -1,0 +1,138 @@
+{
+  "schema": "rosie.robot-definition.v1",
+  "robot_id": "rosie_1430_v1",
+  "name": "Rosie 1430 V1",
+  "revision": 1,
+  "revision_source": "Public Rosie 1430 model, 2026-11-22: the geometry, limits and gearing of the Rosie 1430 arms in service. Reductions 100/100/100/18/100/100 with J6 at 100:1 (owner, 2026-11-13). Signs and encoder batteries are per arm; see README.md.",
+  "defaults": {
+    "drive_profile": "a6ec",
+    "home_policy": "required",
+    "coordinate_evidence_mode": "multi_turn"
+  },
+  "calibration": {
+    "identity": "home_calibration",
+    "note": "No anchors are embedded. Legacy Home records must not be imported as native Home evidence."
+  },
+  "joints": [
+    {
+      "name": "J1",
+      "urdf_joint": "J1",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    },
+    {
+      "name": "J2",
+      "urdf_joint": "J2",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    },
+    {
+      "name": "J3",
+      "urdf_joint": "J3",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    },
+    {
+      "name": "J4",
+      "urdf_joint": "J4",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 18,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    },
+    {
+      "name": "J5",
+      "urdf_joint": "J5",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    },
+    {
+      "name": "J6",
+      "urdf_joint": "J6",
+      "kind": "arm",
+      "cartesian_participates": true,
+      "drive_profile": null,
+      "gear_ratio": {
+        "numerator": 100,
+        "denominator": 1,
+        "numerator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "denominator_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+        "source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md."
+      },
+      "motor_encoder_counts_per_rev": 131072,
+      "motor_encoder_counts_per_rev_source": "Reductions 100/100/100/18/100/100 with J6 at 100:1, the current Rosie 1430 gearbox (owner, 2026-11-13); a software ratio, not read back from a drive. 131072 motor counts/rev, the A6-EC (AS715N) encoder. See README.md.",
+      "encoder_battery": "present",
+      "encoder_battery_source": "Recorded present, as on the Rosie 1430 arms in service. Confirm each arm's encoder batteries and cables before relying on multi-turn Home across a power cycle.",
+      "sign": -1,
+      "sign_source": "All -1, as on the Rosie 1430 arms in service; a sign belongs to an arm's drive wiring, not to the model. Check each joint's direction with a slow joint jog before any Cartesian work on a new arm. See README.md."
+    }
+  ]
+}

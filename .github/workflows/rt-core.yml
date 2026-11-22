@@ -10,6 +10,14 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels that PR's superseded run (36% of PR runs kept
+# running after one, 2026-08-26..11-18). Every other event gets its own
+# run_id group, so a main push, which the release publisher needs green at
+# its exact SHA, never queues behind or cancels another run.
+concurrency:
+  group: rt-core-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   standalone:
     name: standalone (${{ matrix.lane }})

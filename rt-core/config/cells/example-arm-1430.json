@@ -1,0 +1,131 @@
+{
+  "schema_version": "robot_v4_deployment_manifest_v1",
+  "_note": "Public placeholder cell: a Rosie 1430 V1 arm on six A6-EC drives, binding robot_description/robots/rosie_1430_v1 and rt-core/config/machines/example-arm-1430.json, for tests and as the pattern for a Rosie 1430 cell. Hosts are RFC 5737 documentation addresses and the login is 'changeme', so nothing can reach a real host; activate is false. Never deploy it as is: copy it, give it your hosts, logins and pin, and confirm the per-arm values in the description's README. Real cells are site configuration and stay private.",
+  "name": "example-relay",
+  "leader_controller_roles": [
+    "offline-programming"
+  ],
+  "connections": {
+    "example-relay": {
+      "transport": "ssh",
+      "network": "lan",
+      "host": "192.0.2.20",
+      "ssh_user": "changeme",
+      "working_directory": "/home/changeme"
+    },
+    "example-servo": {
+      "transport": "ssh",
+      "network": "lan",
+      "host": "192.0.2.21",
+      "ssh_user": "changeme",
+      "working_directory": "/home/changeme"
+    }
+  },
+  "motion_policy": {
+    "automation_mode": "hardware-dark",
+    "fixture": "runtime-only",
+    "human_authorization": "none",
+    "automated_final_posture": "simulation-disarmed",
+    "live_transition_peer": "none"
+  },
+  "motion_policy_note": "An assembled Rosie 1430 arm, not a fixtured bench: automation never takes it live. A native deploy installs it disarmed; Home, Arm and motion stay explicit operator actions in OLP.",
+  "robot_axes": {
+    "axes": [
+      {
+        "index": 0,
+        "name": "J1",
+        "urdf_joint": "J1",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      },
+      {
+        "index": 1,
+        "name": "J2",
+        "urdf_joint": "J2",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      },
+      {
+        "index": 2,
+        "name": "J3",
+        "urdf_joint": "J3",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      },
+      {
+        "index": 3,
+        "name": "J4",
+        "urdf_joint": "J4",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      },
+      {
+        "index": 4,
+        "name": "J5",
+        "urdf_joint": "J5",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      },
+      {
+        "index": 5,
+        "name": "J6",
+        "urdf_joint": "J6",
+        "kind": "arm",
+        "sign": -1.0,
+        "cartesian_participates": true
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "node": "motion-server",
+      "peer": "example-relay",
+      "role": "motion-server",
+      "host_role": "relay",
+      "host": "example-relay",
+      "ssh_host": "192.0.2.20",
+      "remote_user": "changeme",
+      "platform_os": "linux",
+      "platform_arch": "aarch64"
+    },
+    {
+      "node": "realtime-core",
+      "peer": "example-servo",
+      "role": "realtime-core",
+      "host_role": "servo-authority",
+      "host": "example-servo",
+      "ssh_host": "192.0.2.21",
+      "remote_user": "changeme",
+      "platform_os": "linux",
+      "platform_arch": "aarch64",
+      "build_cache_policy": {
+        "mode": "remote-cache-required",
+        "runtime_peer_build": false,
+        "install_only_after_hash_verified": true
+      },
+      "runtime_paths": [
+        "/opt/rosie-rt-core/current/bin/rosie-rt-core",
+        "/opt/rosie-rt-core/current/bin/rt-control",
+        "/opt/rosie-rt-core/current/bin/rtctl",
+        "/opt/rosie-rt-core/current/bin/rt-natspublisher"
+      ],
+      "runtime": "rt-core",
+      "rt_core": {
+        "package_artifact": "rosie-rt-core",
+        "machine_config": "rt-core/config/machines/example-arm-1430.json",
+        "configuration_sha256": "95f304fd2b2fcc6598c86afd77d9e5489d4388717c20c444fccda42e8b76c3b3",
+        "pair_id": "example-arm-1430",
+        "pair_revision": 1,
+        "remote_listen": "192.0.2.21:8443",
+        "ethercat_device_group": "changeme",
+        "activate": false
+      },
+      "parent_node": "motion-server"
+    }
+  ]
+}
